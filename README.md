@@ -1,3 +1,7 @@
-# sauron-microservice-core
+# microservice-core
 
-![Package Build / Publish](https://github.com/mfrener/sauron-microservice-core/actions/workflows/publish.yml/badge.svg)
+![Package Build / Publish](https://github.com/waytrade/microservice-core/actions/workflows/publish.yml/badge.svg)
+
+## Installation
+
+    $ yarn add @waytrade/microservice-core
