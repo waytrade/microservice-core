@@ -1,6 +1,6 @@
 # microservice-core
 
-![](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml/badge.svg)
+[![Test and Publish](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml/badge.svg)](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml)
 
 ## Installation
 
