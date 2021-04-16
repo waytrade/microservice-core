@@ -1,6 +1,6 @@
 # microservice-core
 
-![Package Build / Publish](https://github.com/waytrade/microservice-core/actions/workflows/publish.yml/badge.svg)
+![](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml/badge.svg)
 
 ## Installation
 
