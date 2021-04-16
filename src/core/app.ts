@@ -66,27 +66,29 @@ export abstract class MicroserviceApp {
     this.server = new MicroserviceServer();
     new OpenApi(this.server);
 
-    await this.onBoot();
-
-    MicroserviceContext.services.forEach(c => {
-      if (c.target?.boot) {
-        c.target?.boot();
-      }
-    });
-
-    MicroserviceContext.controllers.forEach(c => {
-      if (c.target?.boot) {
-        c.target?.boot();
-      }
-    });
-
-    await this._start();
     if (this.exportOpenApi) {
+      await this.startServer();
       this.writeOpenapi().finally(() => {
         this.shutdown();
         process.exit(0);
       });
     } else {
+      await this.onBoot();
+
+      MicroserviceContext.services.forEach(c => {
+        if (c.target?.boot) {
+          c.target?.boot();
+        }
+      });
+
+      MicroserviceContext.controllers.forEach(c => {
+        if (c.target?.boot) {
+          c.target?.boot();
+        }
+      });
+
+      await this.startServer();
+
       this.onStarted();
     }
   }
@@ -148,8 +150,8 @@ export abstract class MicroserviceApp {
     });
   }
 
-  /** Start the microservice. */
-  private _start(): Promise<void> {
+  /** Start the API server. */
+  private startServer(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       // verify config
 
