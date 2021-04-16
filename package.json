@@ -1,0 +1,66 @@
+{
+  "name": "@waytrade/microservice-core",
+  "version": "0.1.1",
+  "description": "Microservice Core Library",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "author": "Matthias Frener <matthias.frener@gmx.net>",
+  "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/waytrade/microservice-core.git"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/@waytrade"
+  },
+  "files": [
+    "dist/"
+  ],
+  "scripts": {
+    "clean": "rm -rf dist *.tsbuildinfo .eslintcache",
+    "build": "yarn clean && yarn tsc",
+    "build:watch": "tsc --watch",
+    "lint": "yarn eslint && yarn prettier:check",
+    "lint:fix": "yarn eslint:fix && yarn prettier:fix",
+    "test": "jest --reporters=default --useStderr --detectOpenHandles --runInBand --verbose",
+    "prettier:cli": "prettier \"**/*.ts\"",
+    "prettier:check": "yarn prettier:cli -l",
+    "prettier:fix": "yarn prettier:cli --write",
+    "eslint": "eslint --report-unused-disable-directives .",
+    "eslint:fix": "yarn eslint --fix"
+  },
+  "engines": {
+    "node": ">=14.15.4"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "dotenv": "^8.2.0",
+    "http-status": "^1.5.0",
+    "openapi3-ts": "^2.0.1",
+    "pino": "^6.11.2",
+    "pino-pretty": "^4.7.1",
+    "rxjs": "^6.6.7",
+    "swagger-ui-dist": "^3.45.1",
+    "tslib": "^2.0.0",
+    "uWebSockets.js": "uNetworking/uWebSockets.js#v18.14.0"
+  },
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.2.5",
+    "@types/jest": "^26.0.21",
+    "@types/node": "^10.17.55",
+    "@types/pino": "^6.3.6",
+    "@types/swagger-ui-dist": "^3.30.0",
+    "@typescript-eslint/eslint-plugin": "^4.18.0",
+    "@typescript-eslint/parser": "^4.18.0",
+    "eslint": "^7.22.0",
+    "eslint-plugin-rxjs": "^3.1.2",
+    "jest": "^26.6.3",
+    "jest-junit": "^12.0.0",
+    "prettier": "^2.2.1",
+    "reflect-metadata": "^0.1.13",
+    "source-map-support": "^0.5.19",
+    "ts-jest": "^26.5.4",
+    "ts-node-dev": "^1.1.6",
+    "typescript": "~4.2.3"
+  }
+}

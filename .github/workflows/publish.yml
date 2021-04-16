@@ -1,0 +1,54 @@
+name: "CI"
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  build-test-publish:
+    name: "Build, Test and Publish"
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Checkout source code"
+        uses: "actions/checkout@v2"
+        with:
+          ref: ${{ github.ref }}
+
+      # Setup Node.js
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v2"
+        with:
+          node-version: "14.x"
+          registry-url: https://npm.pkg.github.com/
+          scope: "@waytrade"
+          always-auth: true
+
+      # Install packages with yarn
+      - name: "Install"
+        run: yarn install
+
+      # Build
+      - name: "Build"
+        run: yarn build
+
+      # Tests
+      - name: "Test"
+        run: yarn test
+
+      # Automated Version Bump
+      - name: "Automated Version Bump"
+        uses: "phips28/gh-action-bump-version@master"
+        with:
+          tag-prefix: ""
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Publish the package
+      - name: "Publish Package"
+        run: |
+          npm config set //npm.pkg.github.com//:_authToken=$NPM_AUTH_TOKEN
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
