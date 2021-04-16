@@ -46,6 +46,11 @@ export class MicroserviceRequest {
 
   /** The IP address of the remote peer  */
   readonly remoteAddress: string;
+
+  /** Write a header to response. */
+  writeResponseHeader(key: string, value: string): void {
+    this.res.writeHeader(key, value);
+  }
 }
 
 /**
