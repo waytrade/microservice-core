@@ -62,34 +62,44 @@ export abstract class MicroserviceApp {
 
   /** Start the service. */
   async run(): Promise<void> {
-    MicroserviceApp._context = await MicroserviceContext.boot(this.rootFolder);
-    this.server = new MicroserviceServer();
-    new OpenApi(this.server);
+    try {
+      MicroserviceApp._context = await MicroserviceContext.boot(
+        this.rootFolder,
+      );
 
-    if (this.exportOpenApi) {
-      await this.startServer();
-      this.writeOpenapi().finally(() => {
-        this.shutdown();
-        process.exit(0);
-      });
-    } else {
-      await this.onBoot();
+      this.server = new MicroserviceServer();
+      new OpenApi(this.server);
 
-      MicroserviceContext.services.forEach(c => {
-        if (c.target?.boot) {
-          c.target?.boot();
+      if (this.exportOpenApi) {
+        await this.startServer();
+        this.writeOpenapi().finally(() => {
+          this.shutdown();
+          process.exit(0);
+        });
+      } else {
+        await this.onBoot();
+
+        const services = Array.from(MicroserviceContext.services.values());
+        for (let i = 0; i < services.length; i++) {
+          await (services[0].target?.boot() as Promise<void>);
         }
-      });
 
-      MicroserviceContext.controllers.forEach(c => {
-        if (c.target?.boot) {
-          c.target?.boot();
+        const controllers = Array.from(
+          MicroserviceContext.controllers.values(),
+        );
+        for (let i = 0; i < services.length; i++) {
+          await (controllers[0].target?.boot() as Promise<void>);
         }
-      });
 
-      await this.startServer();
+        await this.startServer();
 
-      this.onStarted();
+        this.onStarted();
+      }
+    } catch (error) {
+      console.error("Service boot failed. ");
+      console.error(error);
+      console.error("Terminating process");
+      process.exit(1);
     }
   }
 
