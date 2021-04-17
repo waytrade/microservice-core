@@ -93,6 +93,7 @@ export class OpenApi {
 
     // collect paths
 
+    let usesBearerAuth = false;
     const paths = new MapExt<string, PathItemObject>();
 
     MicroserviceContext.controllers.forEach(ctrl => {
@@ -195,6 +196,15 @@ export class OpenApi {
             pathItem[methodType].callbacks = callbacks;
           }
 
+          if (method.bearerAuthScopes) {
+            usesBearerAuth = true;
+            pathItem[methodType]["security"] = [
+              {
+                bearerAuth: method.bearerAuthScopes,
+              },
+            ];
+          }
+
           pathItem[methodType].parameters = [];
 
           method.queryParams.forEach(param => {
@@ -217,6 +227,16 @@ export class OpenApi {
     paths.forEach((item, url) => {
       builder.addPath(url, item);
     });
+
+    // add components
+
+    if (usesBearerAuth) {
+      builder.addSecurityScheme("bearerAuth", {
+        type: "http",
+        scheme: "bearer",
+        bearerFormat: "JTW",
+      });
+    }
 
     // return spec
 

@@ -37,6 +37,7 @@ export class MethodMetadata {
   readonly responses = new MapExt<number, ResponseMetadata>();
   requestBodyRef?: string;
   readonly callbackRefs = new MapExt<string, string>();
+  bearerAuthScopes?: string[];
 }
 
 /**

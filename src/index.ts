@@ -3,6 +3,7 @@ export {MicroserviceConfig, readConfiguration} from "./core/config";
 export {MicroserviceContext} from "./core/context";
 export {HttpError} from "./core/http-error";
 export {MicroserviceRequest} from "./core/server";
+export {bearerAuth} from "./decorators/bearer-auth.decorator";
 export {callback} from "./decorators/callback.decorator";
 export {controller} from "./decorators/controller.decorator";
 export {description} from "./decorators/description.decorator";

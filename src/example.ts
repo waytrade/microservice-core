@@ -1,6 +1,7 @@
 import path from "path";
 import {
   arrayProperty,
+  bearerAuth,
   callback,
   controller,
   get,
@@ -82,6 +83,7 @@ export class TestAppController {
   }
 
   @get("/")
+  @bearerAuth([])
   @summary("This is the Summary.")
   @queryParameter("id", String, true, "A dummy id")
   @description("This the description.")
