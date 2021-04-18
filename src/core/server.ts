@@ -157,6 +157,7 @@ export class MicroserviceServer {
           const url = req.getUrl();
           MicroserviceApp.debug(url + " not found.");
           res.writeStatus("404 Not Found");
+          this.addCORSResponseHeaders(res);
           res.end();
         });
       });
@@ -183,6 +184,21 @@ export class MicroserviceServer {
 
   /** Setup the routes to controllers.  */
   private setupControllerRoutes(): void {
+    this.wsApp.options("/*", (res: uWS.HttpResponse, req: uWS.HttpRequest) => {
+      res.writeStatus("204 No Content");
+      res.writeHeader("Access-Control-Allow-Origin", "*");
+      res.writeHeader(
+        "Access-Control-Allow-Methods",
+        "GET, PUT, PATCH, POST, DELETE",
+      );
+      res.writeHeader(
+        "Access-Control-Allow-Headers",
+        req.getHeader("access-control-request-headers"),
+      );
+      res.writeHeader("Access-Control-Max-Age", "86400");
+      res.end();
+    });
+
     MicroserviceContext.controllers.forEach(controller => {
       controller.methods.forEach(method => {
         if (method?.method && method?.contentType) {
@@ -269,6 +285,7 @@ export class MicroserviceServer {
           } catch (error) {
             res.cork(() => {
               res.writeStatus("400 Bad Request");
+              this.addCORSResponseHeaders(res);
               res.end();
             });
             return;
@@ -312,6 +329,7 @@ export class MicroserviceServer {
   ): void {
     res.cork(() => {
       contentType = contentType ?? "application/json";
+      this.addCORSResponseHeaders(res);
       res.writeHeader("content-type", contentType);
       if (data) {
         if (contentType === "application/json") {
@@ -330,6 +348,7 @@ export class MicroserviceServer {
     res.cork(() => {
       const code = error.code ?? 500;
       res.writeStatus(`${code} ${HttpStatus[code]}`);
+      this.addCORSResponseHeaders(res);
       res.writeHeader("content-type", "application/json");
       if (error.code === undefined) {
         res.end(
@@ -386,5 +405,11 @@ export class MicroserviceServer {
         reject(error);
       }
     });
+  }
+
+  /** Add CORS response headers. */
+  private addCORSResponseHeaders(res: uWS.HttpResponse): void {
+    res.writeHeader("Access-Control-Allow-Origin", "*");
+    res.writeHeader("Access-Control-Expose-Headers", "authorization");
   }
 }
