@@ -81,14 +81,18 @@ export abstract class MicroserviceApp {
 
         const services = Array.from(MicroserviceContext.services.values());
         for (let i = 0; i < services.length; i++) {
-          await (services[0].target?.boot() as Promise<void>);
+          if (services[0].target?.boot) {
+            await (services[0].target?.boot() as Promise<void>);
+          }
         }
 
         const controllers = Array.from(
           MicroserviceContext.controllers.values(),
         );
         for (let i = 0; i < services.length; i++) {
-          await (controllers[0].target?.boot() as Promise<void>);
+          if (controllers[0].target?.boot) {
+            await (controllers[0].target?.boot() as Promise<void>);
+          }
         }
 
         await this.startServer();
