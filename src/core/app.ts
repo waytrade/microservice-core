@@ -169,8 +169,8 @@ export abstract class MicroserviceApp {
     return new Promise<void>((resolve, reject) => {
       // verify config
 
-      const port = MicroserviceApp.context.config.SERVER_PORT;
-      if (!port) {
+      const port = Number(MicroserviceApp.context.config.SERVER_PORT);
+      if (isNaN(port)) {
         throw new Error("SERVER_PORT not configured.");
       }
 
