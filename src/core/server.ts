@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import HttpStatus from "http-status";
 import {ParsedUrlQuery} from "querystring";
+import {BehaviorSubject} from "rxjs";
 import URL from "url";
 import {TextDecoder} from "util";
 import * as uWS from "uWebSockets.js";
@@ -9,6 +10,10 @@ import {HttpError} from "..";
 import {MicroserviceApp} from "./app";
 import {MicroserviceContext} from "./context";
 
+/** Max amount of bytes on websocket back-pressure before dropping the connection. */
+const MAX_WEBSOCKET_BACKPRESSURE_SIZE = 512 * 1024; // 512Kb
+
+/** URL query parameters. */
 export interface QueryParams {
   [name: string]: string;
 }
@@ -50,6 +55,43 @@ export class MicroserviceRequest {
   /** Write a header to response. */
   writeResponseHeader(key: string, value: string): void {
     this.res.writeHeader(key, value);
+  }
+}
+
+/** An stream on a microservice. */
+export class MicroserviceStream {
+  constructor(
+    private readonly ws: uWS.WebSocket,
+    public readonly requestHeader: Map<string, string>,
+  ) {}
+
+  /** Callback handler for received messages. */
+  onReceived?: (message: string) => void;
+
+  /** true if the stream has need closed, false otherwise. */
+  readonly closed = new BehaviorSubject<boolean>(false);
+
+  /** Send a message to the stream. */
+  send(msg: string): void {
+    if (this.closed.value || !this.ws) {
+      return;
+    }
+    if (!this.ws.send(msg)) {
+      const buffered = this.ws.getBufferedAmount();
+      if (this.ws.getBufferedAmount() >= MAX_WEBSOCKET_BACKPRESSURE_SIZE) {
+        MicroserviceApp.error(
+          `Dropped websocket stream because of too much back-pressure: ${
+            buffered / 1024
+          }kB`,
+        );
+        this.ws.close();
+      }
+    }
+  }
+
+  /** Close the stream- */
+  close(): void {
+    this.ws?.close();
   }
 }
 
@@ -149,6 +191,70 @@ export class MicroserviceServer {
     });
   }
 
+  /** Register a websocket route. */
+  registerWsRoute(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    target: any,
+    propertyKey: string,
+    path: string,
+  ): void {
+    const i = path.indexOf("{");
+    if (i !== -1) {
+      path = path.substr(0, i) + "*";
+    }
+
+    let stream: MicroserviceStream | undefined = undefined;
+    const headers = new Map<string, string>();
+
+    this.wsApp.ws(path, {
+      compression: uWS.SHARED_COMPRESSOR,
+      maxPayloadLength: 16 * 1024 * 1024,
+      idleTimeout: 30,
+
+      upgrade: (
+        res: uWS.HttpResponse,
+        req: uWS.HttpRequest,
+        context: uWS.us_socket_context_t,
+      ) => {
+        req.forEach((key, value) => {
+          headers.set(key, value);
+        });
+        res.upgrade(
+          {url: req.getUrl()},
+          req.getHeader("sec-websocket-key"),
+          req.getHeader("sec-websocket-protocol"),
+          req.getHeader("sec-websocket-extensions"),
+          context,
+        );
+      },
+
+      open: ws => {
+        stream = new MicroserviceStream(ws, headers);
+        this.handleWsOpen(target, propertyKey, stream);
+      },
+
+      message: (ws, message, isBinary) => {
+        if (isBinary) {
+          MicroserviceApp.error("Binary data on websocket not supported.");
+          return;
+        }
+        if (stream?.onReceived) {
+          stream?.onReceived(new TextDecoder().decode(message));
+        }
+      },
+
+      drain: ws => {
+        MicroserviceApp.debug(
+          "WebSocket backpressure: " + ws.getBufferedAmount(),
+        );
+      },
+
+      close: () => {
+        stream?.closed.next(true);
+      },
+    });
+  }
+
   /** Start the server. */
   start(port: number): Promise<void> {
     return new Promise<void>((resolve, reject) => {
@@ -205,12 +311,20 @@ export class MicroserviceServer {
           const url = (controller.baseUrl ?? "") + method.path;
           switch (method.method.toLowerCase()) {
             case "get":
-              this.registerGetRoute(
-                controller.target,
-                method.propertyKey,
-                url,
-                method.contentType,
-              );
+              if (method.websocket) {
+                this.registerWsRoute(
+                  controller.target,
+                  method.propertyKey,
+                  url,
+                );
+              } else {
+                this.registerGetRoute(
+                  controller.target,
+                  method.propertyKey,
+                  url,
+                  method.contentType,
+                );
+              }
               break;
             case "put":
               this.registerPutRoute(
@@ -319,6 +433,22 @@ export class MicroserviceServer {
           });
       }
     });
+  }
+
+  /** Handle a Websocket connection request. */
+  private handleWsOpen(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    target: any,
+    propertyKey: string,
+    stream: MicroserviceStream,
+  ): void {
+    if (target.prototype && target.prototype[propertyKey]) {
+      target.prototype[propertyKey](stream);
+    } else if (target[propertyKey] !== undefined) {
+      target[propertyKey](stream);
+    } else {
+      stream.close();
+    }
   }
 
   /** Write a success response the uWS.HttpResponse */

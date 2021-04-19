@@ -38,6 +38,7 @@ export class MethodMetadata {
   requestBodyRef?: string;
   readonly callbackRefs = new MapExt<string, string>();
   bearerAuthScopes?: string[];
+  websocket?: boolean;
 }
 
 /**

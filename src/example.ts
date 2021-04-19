@@ -16,8 +16,9 @@ import {
   response,
   responseBody,
   service,
+  websocket,
 } from ".";
-import {MicroserviceRequest} from "./core/server";
+import {MicroserviceRequest, MicroserviceStream} from "./core/server";
 import {description} from "./decorators/description.decorator";
 import {queryParameter} from "./decorators/query-parameter.decorator";
 import {summary} from "./decorators/summary.decorator";
@@ -132,6 +133,16 @@ export class TestAppController {
   @requestBody(TestAppRequest)
   put(args: TestAppRequest): void {
     console.log(args.command);
+  }
+
+  static n = 1;
+
+  @websocket("/stream")
+  streaming(stream: MicroserviceStream): void {
+    // eslint-disable-next-line rxjs/no-ignored-subscription
+    stream.onReceived = (message): void => {
+      stream.send(message);
+    };
   }
 }
 
