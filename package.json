@@ -11,6 +11,9 @@
     "type": "git",
     "url": "https://github.com/waytrade/microservice-core.git"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "files": [
     "dist/"
   ],
