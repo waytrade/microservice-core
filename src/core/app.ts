@@ -15,7 +15,7 @@ export abstract class MicroserviceApp {
   }
 
   /**
-   * If true, the openapi.json will be exported an app will terminate
+   * If true, the openapi.json will be exported and the app will terminate
    * afterwards. If false, the app will start normally.
    */
   private exportOpenApi: boolean;
@@ -29,12 +29,12 @@ export abstract class MicroserviceApp {
   /** The HTTP/REST API server. */
   private server!: MicroserviceServer;
 
-  /** Get the port number of API server. */
+  /** Get the port number of the API server. */
   get port(): number {
     return MicroserviceApp.context.config.SERVER_PORT ?? 0;
   }
 
-  /** Called the app shall boot up. */
+  /** Called when the app shall boot up. */
   abstract onBoot(): Promise<void>;
 
   /** Called when the microservice has been started. */
@@ -126,7 +126,7 @@ export abstract class MicroserviceApp {
     });
   }
 
-  /** The the openapi.json to root folder. */
+  /** Write the openapi.json to root folder. */
   writeOpenapi(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       axios

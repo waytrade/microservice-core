@@ -4,14 +4,12 @@
   "description": "Microservice Core Library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-  "author": "Matthias Frener <matthias.frener@gmx.net>",
-  "license": "UNLICENSED",
+  "author": "Matthias Frener <matthias.frener@gmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/waytrade/microservice-core",
   "repository": {
     "type": "git",
     "url": "https://github.com/waytrade/microservice-core.git"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/@waytrade"
   },
   "files": [
     "dist/"

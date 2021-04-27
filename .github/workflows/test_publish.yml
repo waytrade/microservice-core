@@ -21,9 +21,6 @@ jobs:
         uses: "actions/setup-node@v2"
         with:
           node-version: "14.x"
-          registry-url: https://npm.pkg.github.com/
-          scope: "@waytrade"
-          always-auth: true
 
       # Install packages with yarn
       - name: "Install"
@@ -46,9 +43,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # Publish the package
-      - name: "Publish Package"
+      - name: npm publish
         run: |
-          npm config set //npm.pkg.github.com//:_authToken=$NPM_AUTH_TOKEN
+          npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
           npm publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CI: true
+          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

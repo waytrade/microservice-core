@@ -24,21 +24,6 @@ export function property(description?: string): any {
       ),
     );
 
-    /*
-    console.log(
-      Reflect.getMetadata("design:type", target as Object, propertyKey),
-    );
-    // [Function: Function]
-    // Checks the types of all params
-    console.log(
-      Reflect.getMetadata("design:paramtypes", target as Object, propertyKey),
-    );
-    // [[Function: Number]]
-    // Checks the return type
-    console.log(
-      Reflect.getMetadata("design:returntype", target as Object, propertyKey),
-    );
-*/
     return descriptor;
   };
 }
