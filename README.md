@@ -15,6 +15,14 @@ Provides:
 - A SwaggerUI on /index.html to browse and test your REST API.
 - Decorators {@summary, @model, @attribute, ..} to describe your interfaces and model for the OpenApi Generator.
 
-## Installation
+## Preparation
 
-    $ yarn add @waytrade/microservice-core
+    $ yarn global add @openapitools/openapi-generator-cli
+
+## Usage
+
+    $ yarn add @waytrade/ib-api-service
+
+update:
+
+    $ yarn upgrade @waytrade/ib-api-service@^
