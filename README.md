@@ -6,6 +6,8 @@ Core-library for microservice implementations.
 
 We use this library as core of our microservice Apps and it is OSS so you don't need to write it again. No questions will be answered, no support will be given, no feature-request will be accepted. Use it - or fork it and roll your own :)
 
+See https://github.com/waytrade/ib-api-service for an App that uses it.
+
 Provides:
 
 - A an App base-class, that handles server, services and controllers boot and shutdown.
