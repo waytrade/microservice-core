@@ -281,6 +281,11 @@ export class OpenApi {
               },
             };
           }
+        } else if (typeLower === "object") {
+          res.properties[prop.propertyKey] = {
+            description: prop.description,
+            type: "object",
+          };
         } else {
           res.properties[prop.propertyKey] = {
             description: prop.description,
