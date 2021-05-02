@@ -18,20 +18,15 @@ export class WebhookCallbackSubscriptions<T> {
   private readonly callbacks = new Map<string, WebhookCallbackSubscription>();
 
   /**
-   * Add a new callback subscription.
+   * Add a webhook callback subscription.
    *
-   * @param callbackUrl The Webhook callback URL.
-   * @param instanceId An id that describes the subscription instance.
-   * This is to enure that after a reboot, when callback and port are still same,
-   * the subscription is required because of different instance id.
-   *
-   * @returns true if a new subscription was added, false if did already exist.
+   * If the subscription already exists, re-subscription on the up-stream
+   * observable will be triggered, causing a full-sync update.
    */
   add(
     remoteAddress: string,
     remotePort: number,
     callbackUrl: string,
-    instanceId: string,
     observable: Observable<T>,
   ): boolean {
     // format absolute url
@@ -43,10 +38,10 @@ export class WebhookCallbackSubscriptions<T> {
 
     // check if already registered
 
-    const id = `${instanceId}:${url}`;
-
-    if (this.callbacks.has(id)) {
-      return false;
+    const callback = this.callbacks.get(url);
+    if (callback) {
+      // already exists: stop previous and re-subscribe
+      callback.stopNotifier.next();
     }
 
     // subscribe on observable
@@ -66,7 +61,7 @@ export class WebhookCallbackSubscriptions<T> {
 
     // add to callbacks and return true
 
-    this.callbacks.set(id, {url, stopNotifier});
+    this.callbacks.set(url, {url, stopNotifier});
 
     return true;
   }
