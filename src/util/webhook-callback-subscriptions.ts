@@ -22,12 +22,17 @@ export class WebhookCallbackSubscriptions<T> {
    *
    * If the subscription already exists, re-subscription on the up-stream
    * observable will be triggered, causing a full-sync update.
+   *
+   * @param uuid A unique id of the subscription. Can be used to for e.g.
+   * registering multiple market data hooks for different assets, to same
+   * webhook callback.
    */
   add(
     remoteAddress: string,
     remotePort: number,
     callbackUrl: string,
     observable: Observable<T>,
+    uuid?: string,
   ): boolean {
     // format absolute url
 
@@ -38,7 +43,9 @@ export class WebhookCallbackSubscriptions<T> {
 
     // check if already registered
 
-    const callback = this.callbacks.get(url);
+    const id = `${url}:${uuid}`;
+
+    const callback = this.callbacks.get(id);
     if (callback) {
       // already exists: stop previous and re-subscribe
       callback.stopNotifier.next();
@@ -52,7 +59,7 @@ export class WebhookCallbackSubscriptions<T> {
     observable.pipe(takeUntil(stopNotifier)).subscribe({
       next: update => {
         this.invokeCallback(url, update).catch(error => {
-          this.callbacks.delete(url);
+          this.callbacks.delete(id);
           this.errorCallback(url, error);
           stopNotifier.next();
         });
@@ -61,7 +68,7 @@ export class WebhookCallbackSubscriptions<T> {
 
     // add to callbacks and return true
 
-    this.callbacks.set(url, {url, stopNotifier});
+    this.callbacks.set(id, {url, stopNotifier});
 
     return true;
   }
