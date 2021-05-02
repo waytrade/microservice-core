@@ -117,13 +117,23 @@ export class OpenApi {
               responseMeta.description ?? HttpStatus[responseMeta.code],
           };
           if (responseMeta.ref) {
-            responses[responseMeta.code].content = {
-              "application/json": {
-                schema: {
-                  $ref: `#/components/schemas/${responseMeta.ref}`,
+            if (responseMeta.ref.toLocaleLowerCase() === "object") {
+              responses[responseMeta.code].content = {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                  },
                 },
-              },
-            };
+              };
+            } else {
+              responses[responseMeta.code].content = {
+                "application/json": {
+                  schema: {
+                    $ref: `#/components/schemas/${responseMeta.ref}`,
+                  },
+                },
+              };
+            }
           }
         });
 
@@ -135,15 +145,27 @@ export class OpenApi {
 
         let requestBody: RequestBodyObject | undefined = undefined;
         if (method.requestBodyRef) {
-          requestBody = {
-            content: {
-              "application/json": {
-                schema: {
-                  $ref: `#/components/schemas/${method.requestBodyRef}`,
+          if (method.requestBodyRef.toLocaleLowerCase() === "object") {
+            requestBody = {
+              content: {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                  },
                 },
               },
-            },
-          };
+            };
+          } else {
+            requestBody = {
+              content: {
+                "application/json": {
+                  schema: {
+                    $ref: `#/components/schemas/${method.requestBodyRef}`,
+                  },
+                },
+              },
+            };
+          }
         }
 
         const callbacks: CallbacksObject = {
