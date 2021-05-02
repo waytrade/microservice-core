@@ -5,6 +5,7 @@ import {takeUntil} from "rxjs/operators";
 /** A Webhook callback subscription. */
 interface WebhookCallbackSubscription {
   url: string;
+  instanceId: string;
   stopNotifier: Subject<unknown>;
 }
 
@@ -43,10 +44,16 @@ export class WebhookCallbackSubscriptions<T> {
 
     // check if already registered
 
-    const id = `${instanceId}:${url}`;
-
-    if (this.callbacks.has(id)) {
+    const id = `${remoteAddress}:${remotePort}/callbackUrl`;
+    const callback = this.callbacks.get(id);
+    if (callback && callback.instanceId === instanceId) {
+      // already exists
       return false;
+    }
+
+    if (callback) {
+      // instance id changed: stop previous and re-subscribe
+      callback.stopNotifier.next();
     }
 
     // subscribe on observable
@@ -66,7 +73,7 @@ export class WebhookCallbackSubscriptions<T> {
 
     // add to callbacks and return true
 
-    this.callbacks.set(id, {url, stopNotifier});
+    this.callbacks.set(id, {url, instanceId, stopNotifier});
 
     return true;
   }
