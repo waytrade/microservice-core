@@ -44,6 +44,11 @@ export class WebhookCallbackSubscriptions<T> {
       callback.stopNotifier.next();
     }
 
+    if (callback) {
+      // instance id changed: stop previous and re-subscribe
+      callback.stopNotifier.next();
+    }
+
     // subscribe on observable
 
     const stopNotifier = new Subject();
