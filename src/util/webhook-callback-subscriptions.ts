@@ -64,6 +64,10 @@ export class WebhookCallbackSubscriptions<T> {
           stopNotifier.next();
         });
       },
+      error: error => {
+        this.callbacks.delete(id);
+        this.errorCallback(url, error);
+      },
     });
 
     // add to callbacks and return true
