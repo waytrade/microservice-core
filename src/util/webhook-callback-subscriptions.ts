@@ -5,7 +5,6 @@ import {takeUntil} from "rxjs/operators";
 /** A Webhook callback subscription. */
 interface WebhookCallbackSubscription {
   url: string;
-  instanceId: string;
   stopNotifier: Subject<unknown>;
 }
 
@@ -19,20 +18,15 @@ export class WebhookCallbackSubscriptions<T> {
   private readonly callbacks = new Map<string, WebhookCallbackSubscription>();
 
   /**
-   * Add a new callback subscription.
+   * Add a webhook callback subscription.
    *
-   * @param callbackUrl The Webhook callback URL.
-   * @param instanceId An id that describes the subscription instance.
-   * This is to enure that after a reboot, when callback and port are still same,
-   * the subscription is required because of different instance id.
-   *
-   * @returns true if a new subscription was added, false if did already exist.
+   * If the subscription already exists, re-subscription on the up-stream
+   * observable will be triggered, causing a full-sync update.
    */
   add(
     remoteAddress: string,
     remotePort: number,
     callbackUrl: string,
-    instanceId: string,
     observable: Observable<T>,
   ): boolean {
     // format absolute url
@@ -44,15 +38,9 @@ export class WebhookCallbackSubscriptions<T> {
 
     // check if already registered
 
-    const id = `${remoteAddress}:${remotePort}/callbackUrl`;
-    const callback = this.callbacks.get(id);
-    if (callback && callback.instanceId === instanceId) {
-      // already exists
-      return false;
-    }
-
+    const callback = this.callbacks.get(url);
     if (callback) {
-      // instance id changed: stop previous and re-subscribe
+      // already exists: stop previous and re-subscribe
       callback.stopNotifier.next();
     }
 
@@ -73,7 +61,7 @@ export class WebhookCallbackSubscriptions<T> {
 
     // add to callbacks and return true
 
-    this.callbacks.set(id, {url, instanceId, stopNotifier});
+    this.callbacks.set(url, {url, stopNotifier});
 
     return true;
   }
