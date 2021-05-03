@@ -54,16 +54,23 @@ export class MicroserviceRequest {
 
   /** Write a header to response. */
   writeResponseHeader(key: string, value: string): void {
-    this.res.writeHeader(key, value);
+    try {
+      this.res.writeHeader(key, value);
+    } catch (e) {}
   }
 }
 
 /** An stream on a microservice. */
 export class MicroserviceStream {
   constructor(
-    private readonly ws: uWS.WebSocket,
+    ws: uWS.WebSocket,
     public readonly requestHeader: Map<string, string>,
-  ) {}
+  ) {
+    this.ws = ws;
+  }
+
+  /** The underlying websocket. */
+  private ws?: uWS.WebSocket;
 
   /** Callback handler for received messages. */
   onReceived?: (message: string) => void;
@@ -76,22 +83,36 @@ export class MicroserviceStream {
     if (this.closed.value || !this.ws) {
       return;
     }
-    if (!this.ws.send(msg)) {
-      const buffered = this.ws.getBufferedAmount();
-      if (this.ws.getBufferedAmount() >= MAX_WEBSOCKET_BACKPRESSURE_SIZE) {
-        MicroserviceApp.error(
-          `Dropped websocket stream because of too much back-pressure: ${
-            buffered / 1024
-          }kB`,
-        );
-        this.ws.close();
+    try {
+      if (!this.ws.send(msg)) {
+        const buffered = this.ws.getBufferedAmount();
+        if (this.ws.getBufferedAmount() >= MAX_WEBSOCKET_BACKPRESSURE_SIZE) {
+          MicroserviceApp.error(
+            `Dropped websocket stream because of too much back-pressure: ${
+              buffered / 1024
+            }kB`,
+          );
+          this.close();
+        }
       }
+    } catch (e) {
+      MicroserviceApp.error(`Failed to send on websocket: ${e.message}`);
+      this.onClose();
     }
   }
 
   /** Close the stream- */
   close(): void {
-    this.ws?.close();
+    try {
+      this.ws?.close();
+    } catch (e) {}
+    this.onClose();
+  }
+
+  /** Called when the underlying websocket has been closed. */
+  onClose(): void {
+    this.closed.next(true);
+    delete this.ws;
   }
 }
 
@@ -250,7 +271,7 @@ export class MicroserviceServer {
       },
 
       close: () => {
-        stream?.closed.next(true);
+        stream?.onClose();
       },
     });
   }
