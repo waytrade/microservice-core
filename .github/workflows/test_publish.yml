@@ -16,25 +16,20 @@ jobs:
         with:
           ref: ${{ github.ref }}
 
-      # Setup Node.js
       - name: "Setup Node.js"
         uses: "actions/setup-node@v2"
         with:
           node-version: "14.x"
 
-      # Install packages with yarn
-      - name: "Install"
+      - name: "Install Dependencies"
         run: yarn install
 
-      # Build
-      - name: "Build"
+      - name: "Build Code"
         run: yarn build
 
-      # Tests
-      - name: "Test"
+      - name: "Run Tests"
         run: yarn test
 
-      # Automated Version Bump
       - name: "Automated Version Bump"
         uses: "phips28/gh-action-bump-version@master"
         with:
@@ -42,11 +37,25 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # Publish the package
-      - name: npm publish
+      - name: "Publish to npmjs"
         run: |
-          npm config set //registry.npmjs.org/:_authToken=$NPM_AUTH_TOKEN
+          npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
           npm publish --access public
         env:
-          CI: true
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+          
+      - name: "Setup github environment"
+        uses: "actions/setup-node@v2"
+        with:
+          node-version: "14.x"
+          registry-url: https://npm.pkg.github.com/
+          scope: "@waytrade"
+          always-auth: true
+          
+      - name: "Publish to github"
+        run: |
+          echo registry=https://npm.pkg.github.com/waytrade >> .npmrc
+          npm config set //npm.pkg.github.com//:_authToken=$NODE_AUTH_TOKEN
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
