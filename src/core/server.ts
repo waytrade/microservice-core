@@ -66,6 +66,7 @@ export class MicroserviceStream {
     ws: uWS.WebSocket,
     public readonly requestHeader: Map<string, string>,
   ) {
+    this.url = ws.url;
     this.ws = ws;
   }
 
@@ -74,6 +75,9 @@ export class MicroserviceStream {
 
   /** Callback handler for received messages. */
   onReceived?: (message: string) => void;
+
+  /** The request URL. */
+  readonly url: string;
 
   /** true if the stream has need closed, false otherwise. */
   readonly closed = new BehaviorSubject<boolean>(false);
