@@ -108,8 +108,8 @@ export class OpenApi {
     const paths = new MapExt<string, PathItemObject>();
     MicroserviceContext.controllers.forEach(ctrl => {
       if (ctrl.type === this.controllerType) {
-        usesBearerAuth =
-          usesBearerAuth || this.createControllerApi(ctrl, paths);
+        const hasAuth = this.createControllerApi(ctrl, paths);
+        usesBearerAuth = usesBearerAuth || hasAuth;
       }
     });
 
