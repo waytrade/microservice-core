@@ -230,7 +230,7 @@ export class MicroserviceServer {
       path = path.substr(0, i) + "*";
     }
 
-    let stream: MicroserviceStream | undefined = undefined;
+    const streams = new Map<uWS.WebSocket, MicroserviceStream>();
     const headers = new Map<string, string>();
 
     this.wsApp.ws(path, {
@@ -256,7 +256,8 @@ export class MicroserviceServer {
       },
 
       open: ws => {
-        stream = new MicroserviceStream(ws, headers);
+        const stream = new MicroserviceStream(ws, headers);
+        streams.set(ws, stream);
         this.handleWsOpen(target, propertyKey, stream);
       },
 
@@ -265,6 +266,7 @@ export class MicroserviceServer {
           MicroserviceApp.error("Binary data on websocket not supported.");
           return;
         }
+        const stream = streams.get(ws);
         if (stream?.onReceived) {
           stream?.onReceived(new TextDecoder().decode(message));
         }
@@ -276,8 +278,10 @@ export class MicroserviceServer {
         );
       },
 
-      close: () => {
+      close: ws => {
+        const stream = streams.get(ws);
         stream?.onClose();
+        streams.delete(ws);
       },
     });
   }
