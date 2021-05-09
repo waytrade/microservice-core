@@ -126,6 +126,10 @@ export abstract class MicroserviceApp {
       this.apiServer.stop();
     }
 
+    if (this.callbackServer) {
+      this.callbackServer.stop();
+    }
+
     MicroserviceContext.controllers.forEach(c => {
       if (c.target?.shutdown) {
         c.target?.shutdown();
