@@ -18,6 +18,9 @@ export interface MicroserviceConfig {
   /** The port of the API server. */
   SERVER_PORT?: number;
 
+  /** The port of the callback server. */
+  CALLBACK_PORT?: number;
+
   /** The log level (error, warn, info, debug or verbose). */
   LOG_LEVEL?: string;
 
