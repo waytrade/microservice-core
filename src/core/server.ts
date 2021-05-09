@@ -9,6 +9,8 @@ import {us_listen_socket_close} from "uWebSockets.js";
 import {HttpError} from "..";
 import {MicroserviceApp} from "./app";
 import {MicroserviceContext} from "./context";
+import {ControllerMetadata, MethodMetadata} from "./metadata";
+import {ControllerType} from "./openapi";
 
 /** Max amount of bytes on websocket back-pressure before dropping the connection. */
 const MAX_WEBSOCKET_BACKPRESSURE_SIZE = 512 * 1024; // 512Kb
@@ -281,7 +283,7 @@ export class MicroserviceServer {
   }
 
   /** Start the server. */
-  start(port: number): Promise<void> {
+  start(port: number, controllerType: ControllerType): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.wsApp.any("/*", (res: uWS.HttpResponse, req: uWS.HttpRequest) => {
         res.cork(() => {
@@ -292,7 +294,7 @@ export class MicroserviceServer {
           res.end();
         });
       });
-      this.setupControllerRoutes();
+      this.setupControllerRoutes(controllerType);
       this.wsApp.listen(port, 1, listenSocket => {
         if (listenSocket) {
           this.listenSocket = listenSocket;
@@ -314,7 +316,7 @@ export class MicroserviceServer {
   }
 
   /** Setup the routes to controllers.  */
-  private setupControllerRoutes(): void {
+  private setupControllerRoutes(controllerType: ControllerType): void {
     this.wsApp.options("/*", (res: uWS.HttpResponse, req: uWS.HttpRequest) => {
       res.writeStatus("204 No Content");
       res.writeHeader("Access-Control-Allow-Origin", "*");
@@ -331,66 +333,71 @@ export class MicroserviceServer {
     });
 
     MicroserviceContext.controllers.forEach(controller => {
-      controller.methods.forEach(method => {
-        if (method?.method && method?.contentType) {
-          const url = (controller.baseUrl ?? "") + method.path;
-          switch (method.method.toLowerCase()) {
-            case "get":
-              if (method.websocket) {
-                this.registerWsRoute(
-                  controller.target,
-                  method.propertyKey,
-                  url,
-                );
-              } else {
-                this.registerGetRoute(
-                  controller.target,
-                  method.propertyKey,
-                  url,
-                  method.contentType,
-                );
-              }
-              break;
-            case "put":
-              this.registerPutRoute(
-                controller.target,
-                method.propertyKey,
-                url,
-                method.contentType,
-              );
-              break;
-            case "post":
-              this.registerPostRoute(
-                controller.target,
-                method.propertyKey,
-                url,
-                method.contentType,
-              );
-              break;
-            case "patch":
-              this.registerPatchRoute(
-                controller.target,
-                method.propertyKey,
-                url,
-                method.contentType,
-              );
-              break;
-            case "delete":
-              this.registerDeleteRoute(
-                controller.target,
-                method.propertyKey,
-                url,
-                method.contentType,
-              );
-              break;
-            default:
-              MicroserviceApp.error(
-                "Unknown operation method " + method.method,
-              );
-          }
-        }
-      });
+      if (controller.type === controllerType) {
+        controller.methods.forEach(method => {
+          this.registerRoute(controller, method);
+        });
+      }
     });
+  }
+
+  /** Register route as describe by method metadata. */
+  private registerRoute(
+    controller: ControllerMetadata,
+    method: MethodMetadata,
+  ): void {
+    if (!method?.method || !method?.contentType) {
+      return;
+    }
+    const url = (controller.baseUrl ?? "") + method.path;
+    switch (method.method.toLowerCase()) {
+      case "get":
+        if (method.websocket) {
+          this.registerWsRoute(controller.target, method.propertyKey, url);
+        } else {
+          this.registerGetRoute(
+            controller.target,
+            method.propertyKey,
+            url,
+            method.contentType,
+          );
+        }
+        break;
+      case "put":
+        this.registerPutRoute(
+          controller.target,
+          method.propertyKey,
+          url,
+          method.contentType,
+        );
+        break;
+      case "post":
+        this.registerPostRoute(
+          controller.target,
+          method.propertyKey,
+          url,
+          method.contentType,
+        );
+        break;
+      case "patch":
+        this.registerPatchRoute(
+          controller.target,
+          method.propertyKey,
+          url,
+          method.contentType,
+        );
+        break;
+      case "delete":
+        this.registerDeleteRoute(
+          controller.target,
+          method.propertyKey,
+          url,
+          method.contentType,
+        );
+        break;
+      default:
+        MicroserviceApp.error("Unknown operation method " + method.method);
+    }
   }
 
   /** Handle a HTTP request. */

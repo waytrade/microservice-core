@@ -5,7 +5,10 @@ export {HttpError} from "./core/http-error";
 export {MicroserviceRequest, MicroserviceStream} from "./core/server";
 export {bearerAuth} from "./decorators/bearer-auth.decorator";
 export {callback} from "./decorators/callback.decorator";
-export {controller} from "./decorators/controller.decorator";
+export {
+  callbackController,
+  controller,
+} from "./decorators/controller.decorator";
 export {description} from "./decorators/description.decorator";
 export {model} from "./decorators/model.decorator";
 export {

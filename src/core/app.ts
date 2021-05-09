@@ -2,7 +2,7 @@ import axios from "axios";
 import fs from "fs";
 import path from "path";
 import {MicroserviceContext} from "./context";
-import {OpenApi} from "./openapi";
+import {ControllerType, OpenApi} from "./openapi";
 import {MicroserviceServer} from "./server";
 
 /**
@@ -26,12 +26,20 @@ export abstract class MicroserviceApp {
     return this._context;
   }
 
-  /** The HTTP/REST API server. */
-  private server!: MicroserviceServer;
+  /** The REST API server. */
+  private apiServer!: MicroserviceServer;
+
+  /** The Webhook callbacks server. */
+  private callbackServer!: MicroserviceServer;
 
   /** Get the port number of the API server. */
   get port(): number {
-    return MicroserviceApp.context.config.SERVER_PORT ?? 0;
+    return Number(MicroserviceApp.context.config.SERVER_PORT ?? 0);
+  }
+
+  /** Get the port number of the callback server. */
+  get callbackPort(): number {
+    return Number(MicroserviceApp.context.config.CALLBACK_PORT ?? 0);
   }
 
   /** Called when the app shall boot up. */
@@ -67,11 +75,16 @@ export abstract class MicroserviceApp {
         this.rootFolder,
       );
 
-      this.server = new MicroserviceServer();
-      new OpenApi(this.server);
+      this.apiServer = new MicroserviceServer();
+      new OpenApi(ControllerType.API, this.apiServer);
+
+      if (this.callbackPort && !isNaN(this.callbackPort)) {
+        this.callbackServer = new MicroserviceServer();
+        new OpenApi(ControllerType.Callback, this.callbackServer);
+      }
 
       if (this.exportOpenApi) {
-        await this.startServer();
+        await this.startServers();
         this.writeOpenapi().finally(() => {
           this.shutdown();
           process.exit(0);
@@ -95,7 +108,7 @@ export abstract class MicroserviceApp {
           }
         }
 
-        await this.startServer();
+        await this.startServers();
 
         this.onStarted();
       }
@@ -109,8 +122,8 @@ export abstract class MicroserviceApp {
 
   /** Shutdown the app. */
   shutdown(): void {
-    if (this.server) {
-      this.server.stop();
+    if (this.apiServer) {
+      this.apiServer.stop();
     }
 
     MicroserviceContext.controllers.forEach(c => {
@@ -164,24 +177,36 @@ export abstract class MicroserviceApp {
     });
   }
 
-  /** Start the API server. */
-  private startServer(): Promise<void> {
+  /** Start the HTTP servers. */
+  private startServers(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       // verify config
 
-      const port = Number(MicroserviceApp.context.config.SERVER_PORT);
-      if (isNaN(port)) {
+      const apiPort = this.port;
+      if (!apiPort || isNaN(apiPort)) {
         throw new Error("SERVER_PORT not configured.");
       }
 
-      // start server
+      // start API server
 
-      this.server
-        .start(port)
+      this.apiServer
+        .start(apiPort, ControllerType.API)
         .then(() => {
           resolve();
         })
         .catch(error => reject(error));
+
+      // start callback server
+
+      const callbackPort = this.callbackPort;
+      if (callbackPort && !isNaN(callbackPort)) {
+        this.callbackServer
+          .start(callbackPort, ControllerType.Callback)
+          .then(() => {
+            resolve();
+          })
+          .catch(error => reject(error));
+      }
     });
   }
 }

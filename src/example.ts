@@ -3,6 +3,7 @@ import {
   arrayProperty,
   bearerAuth,
   callback,
+  callbackController,
   controller,
   get,
   HttpError,
@@ -34,7 +35,10 @@ class App extends MicroserviceApp {
 
   /** Called when the microservice has been started. */
   onStarted(): void {
-    App.info(`Server is running at port ${App.context.config.SERVER_PORT}`);
+    App.info(`API Server is running at port ${App.context.config.SERVER_PORT}`);
+    App.info(
+      `Callback Server is running at port ${App.context.config.CALLBACK_PORT}`,
+    );
   }
 }
 
@@ -143,6 +147,22 @@ export class TestAppController {
     stream.onReceived = (message): void => {
       stream.send(message);
     };
+  }
+}
+
+@callbackController("Test App Callback Controller")
+export class TestAppCallbackController {
+  static async boot(): Promise<void> {
+    return;
+  }
+
+  @post("/")
+  @summary("This is the Callback.")
+  @description("This the description.")
+  @response(200, "This is the 200 response description")
+  @requestBody(TestAppRequest)
+  static post(request: MicroserviceRequest): void {
+    console.log("TestAppCallbackController.post called.");
   }
 }
 

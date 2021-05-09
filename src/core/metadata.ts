@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {MapExt} from "../util/map-ext";
+import {ControllerType} from "./openapi";
 
 /**
  * Metadata of a controller method.
@@ -45,6 +46,7 @@ export class MethodMetadata {
  * Metadata of a controller.
  */
 export class ControllerMetadata {
+  type?: ControllerType;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   target?: any;
   endpointName?: string;
