@@ -44,12 +44,7 @@ export class WebhookCallbackSubscriptions<T> {
     // check if already registered
 
     const id = `${url}:${uuid}`;
-
-    const callback = this.callbacks.get(id);
-    if (callback) {
-      // already exists: stop previous and re-subscribe
-      callback.stopNotifier.next();
-    }
+    let oldCallback = this.callbacks.get(id);
 
     // subscribe on observable
 
@@ -58,6 +53,10 @@ export class WebhookCallbackSubscriptions<T> {
     // eslint-disable-next-line rxjs/no-ignored-subscription
     observable.pipe(takeUntil(stopNotifier)).subscribe({
       next: update => {
+        if (oldCallback) {
+          oldCallback.stopNotifier.next();
+          oldCallback = undefined;
+        }
         this.invokeCallback(url, update).catch(error => {
           this.callbacks.delete(id);
           this.errorCallback(url, error);
@@ -65,6 +64,10 @@ export class WebhookCallbackSubscriptions<T> {
         });
       },
       error: error => {
+        if (oldCallback) {
+          oldCallback.stopNotifier.next();
+          oldCallback = undefined;
+        }
         this.callbacks.delete(id);
         this.errorCallback(url, error);
       },
