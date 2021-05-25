@@ -60,7 +60,7 @@ export abstract class MicroserviceApp {
 
   /** Log a warning message. */
   static warn(msg: string, ...args: unknown[]): void {
-    MicroserviceApp.context.error(msg, args);
+    MicroserviceApp.context.warn(msg, args);
   }
 
   /** Log an error message. */

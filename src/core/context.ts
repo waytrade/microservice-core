@@ -65,7 +65,7 @@ export class MicroserviceContext {
 
   /** Log a warning message. */
   warn(msg: string, ...args: unknown[]): void {
-    this.logger.error(msg, args);
+    this.logger.warn(msg, args);
   }
 
   /** Log an error message. */
