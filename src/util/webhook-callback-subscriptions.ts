@@ -54,18 +54,18 @@ export class WebhookCallbackSubscriptions<T> {
     observable.pipe(takeUntil(stopNotifier)).subscribe({
       next: update => {
         if (oldCallback) {
-          oldCallback.stopNotifier.next();
+          oldCallback.stopNotifier.next(true);
           oldCallback = undefined;
         }
         this.invokeCallback(url, update).catch(error => {
           this.callbacks.delete(id);
           this.errorCallback(url, error);
-          stopNotifier.next();
+          stopNotifier.next(true);
         });
       },
       error: error => {
         if (oldCallback) {
-          oldCallback.stopNotifier.next();
+          oldCallback.stopNotifier.next(true);
           oldCallback = undefined;
         }
         this.callbacks.delete(id);
@@ -83,7 +83,7 @@ export class WebhookCallbackSubscriptions<T> {
   /** Clear all registered callback subscriptions. */
   clear(): void {
     this.callbacks.forEach(sub => {
-      sub.stopNotifier.next();
+      sub.stopNotifier.next(true);
     });
     this.callbacks.clear();
   }
