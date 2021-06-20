@@ -124,7 +124,7 @@ export class TestAppController {
     throw new HttpError(204);
   }
 
-  @get("/triggerCallback")
+  @post("/triggerCallback")
   @requestBody(TestAppSubscribe)
   @callback("{$request.body#/callbackUrl}", TestAppResponse)
   triggerCallback(): void {
