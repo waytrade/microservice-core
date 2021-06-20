@@ -17,7 +17,7 @@ import {MicroserviceApp} from "..";
 import {MapExt} from "../util/map-ext";
 import {MicroserviceContext} from "./context";
 import {SWAGGER_INDEX_HTML} from "./index.html";
-import {ControllerMetadata, ModelMetadata} from "./metadata";
+import {ControllerMetadata, EnumModelMetadata, ModelMetadata} from "./metadata";
 import {MicroserviceServer} from "./server";
 
 const SWAGGER_UI_CSS_URL = "/swagger-ui.css";
@@ -91,13 +91,24 @@ export class OpenApi {
 
     builder.addInfo(info);
 
-    // add model schemas
+    // add object model schemas
 
     MicroserviceContext.models.forEach(model => {
       if (model.target.name) {
         builder.addSchema(
           model.target.name,
           this.modelToSchema(model.target.name, model),
+        );
+      }
+    });
+
+    // add enum model schemas
+
+    MicroserviceContext.enumModels.forEach(model => {
+      if (model.name) {
+        builder.addSchema(
+          model.name,
+          this.enumModelToSchema(model.name, model),
         );
       }
     });
@@ -186,6 +197,18 @@ export class OpenApi {
       }
     });
     return res;
+  }
+
+  private enumModelToSchema(
+    name: string,
+    model: EnumModelMetadata,
+  ): SchemaObject {
+    return {
+      title: name,
+      description: model.description,
+      type: model.type as "number" | "string",
+      enum: model.values,
+    };
   }
 
   /** Get the index.html contents. */

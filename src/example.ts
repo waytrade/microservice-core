@@ -5,6 +5,7 @@ import {
   callback,
   callbackController,
   controller,
+  enumProperty,
   get,
   HttpError,
   MicroserviceApp,
@@ -42,6 +43,18 @@ class App extends MicroserviceApp {
   }
 }
 
+export enum TestStringEnum {
+  EnumValueA = "valA",
+  EnumValueB = "valB",
+  EnumValueC = "valC",
+}
+
+export enum TestNumberEnum {
+  EnumValue1 = 1,
+  EnumValue2 = 2,
+  EnumValue3 = 3,
+}
+
 @model("Test App SubResponse")
 export class TestAppSubResponse {
   @property()
@@ -61,6 +74,12 @@ export class TestAppResponse {
 
   @property()
   sub?: TestAppSubResponse;
+
+  @enumProperty("TestStringEnum", TestStringEnum)
+  stringEnum?: TestStringEnum;
+
+  @enumProperty("TestNumberEnum", TestNumberEnum)
+  numberEnum?: TestNumberEnum;
 
   @arrayProperty(TestAppSubResponse)
   subArray?: TestAppSubResponse[];

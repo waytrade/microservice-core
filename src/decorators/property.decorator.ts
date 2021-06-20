@@ -1,12 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import "reflect-metadata";
 import {MicroserviceContext} from "..";
-import {ModelMetadata, PropertyMetadata} from "../core/metadata";
+import {
+  EnumModelMetadata,
+  ModelMetadata,
+  PropertyMetadata,
+} from "../core/metadata";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function property(description?: string): any {
   return function (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     target: any,
     propertyKey: string,
     descriptor: PropertyDescriptor,
@@ -28,10 +31,8 @@ export function property(description?: string): any {
   };
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function arrayProperty(itemModel: any, description?: string): any {
   return function (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     target: any,
     propertyKey: string,
     descriptor: PropertyDescriptor,
@@ -48,6 +49,53 @@ export function arrayProperty(itemModel: any, description?: string): any {
         itemModel.name,
       ),
     );
+    return descriptor;
+  };
+}
+
+export function enumProperty(
+  enumName: string,
+  enumType: any,
+  description?: string,
+): any {
+  return function (
+    target: any,
+    propertyKey: string,
+    descriptor: PropertyDescriptor,
+  ): PropertyDescriptor {
+    const modelMeta = MicroserviceContext.models.getOrAdd(
+      target.constructor.name,
+      () => new ModelMetadata(target.constructor),
+    );
+    modelMeta.properties.push(
+      new PropertyMetadata(propertyKey, enumName, description, enumType.name),
+    );
+
+    const enumModelMeta = MicroserviceContext.enumModels.getOrAdd(
+      enumName,
+      () => new EnumModelMetadata(),
+    );
+
+    enumModelMeta.name = enumName;
+
+    for (const enumMember in enumType) {
+      enumModelMeta.type = typeof enumType[enumMember];
+      enumModelMeta.values.push(enumType[enumMember]);
+    }
+
+    switch (enumModelMeta.type) {
+      case "number":
+        enumModelMeta.values = enumModelMeta.values.filter(
+          v => typeof v === "number",
+        );
+        break;
+      case "string":
+        enumModelMeta.values = enumModelMeta.values.filter(
+          v => typeof v === "string",
+        );
+        break;
+    }
+
     return descriptor;
   };
 }

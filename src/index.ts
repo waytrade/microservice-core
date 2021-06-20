@@ -20,7 +20,11 @@ export {
   put,
 } from "./decorators/operation.decorator";
 export {pathParameter} from "./decorators/path-parameter.decorator";
-export {arrayProperty, property} from "./decorators/property.decorator";
+export {
+  arrayProperty,
+  enumProperty,
+  property,
+} from "./decorators/property.decorator";
 export {queryParameter} from "./decorators/query-parameter.decorator";
 export {requestBody} from "./decorators/request-body.decorator";
 export {responseBody} from "./decorators/response-body.decorator";

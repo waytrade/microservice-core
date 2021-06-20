@@ -83,3 +83,13 @@ export class ModelMetadata {
   description?: string;
   readonly properties: PropertyMetadata[] = [];
 }
+
+/**
+ * Metadata of an enum model.
+ */
+export class EnumModelMetadata {
+  name?: string;
+  type?: string;
+  description?: string;
+  values: string[] = [];
+}
