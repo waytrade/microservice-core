@@ -76,6 +76,10 @@ export function enumProperty(
       () => new EnumModelMetadata(),
     );
 
+    if (enumModelMeta.name) {
+      return descriptor;
+    }
+
     enumModelMeta.name = enumName;
 
     for (const enumMember in enumType) {
