@@ -3,7 +3,6 @@ import {
   arrayProperty,
   bearerAuth,
   callback,
-  callbackController,
   controller,
   enumProperty,
   get,
@@ -18,6 +17,7 @@ import {
   response,
   responseBody,
   service,
+  webhookCallback,
   websocket,
 } from ".";
 import {MicroserviceRequest, MicroserviceStream} from "./core/server";
@@ -169,22 +169,6 @@ export class TestAppController {
   }
 }
 
-@callbackController("Test App Callback Controller")
-export class TestAppCallbackController {
-  static async boot(): Promise<void> {
-    return;
-  }
-
-  @post("/")
-  @summary("This is the Callback.")
-  @description("This the description.")
-  @response(200, "This is the 200 response description")
-  @requestBody(TestAppRequest)
-  static post(request: MicroserviceRequest): void {
-    console.log("TestAppCallbackController.post called.");
-  }
-}
-
 @service()
 class DummyService {
   static async boot(): Promise<void> {
@@ -197,6 +181,11 @@ class DummyService {
 
   foo(): number {
     return 43;
+  }
+
+  @webhookCallback("/onEvent")
+  static onEvent(request: MicroserviceRequest): void {
+    console.log("onEvent called.");
   }
 }
 

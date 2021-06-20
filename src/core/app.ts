@@ -2,8 +2,8 @@ import axios from "axios";
 import fs from "fs";
 import path from "path";
 import {MicroserviceContext} from "./context";
-import {ControllerType, OpenApi} from "./openapi";
-import {MicroserviceServer} from "./server";
+import {OpenApi} from "./openapi";
+import {MicroserviceServer, ServerType} from "./server";
 
 /**
  * Base-class for Microservice App implementations.
@@ -76,11 +76,10 @@ export abstract class MicroserviceApp {
       );
 
       this.apiServer = new MicroserviceServer();
-      new OpenApi(ControllerType.API, this.apiServer);
+      new OpenApi(this.apiServer);
 
       if (this.callbackPort && !isNaN(this.callbackPort)) {
         this.callbackServer = new MicroserviceServer();
-        new OpenApi(ControllerType.Callback, this.callbackServer);
       }
 
       if (this.exportOpenApi) {
@@ -194,7 +193,7 @@ export abstract class MicroserviceApp {
       // start API server
 
       this.apiServer
-        .start(apiPort, ControllerType.API)
+        .start(apiPort, ServerType.ApiServer)
         .then(() => {
           resolve();
         })
@@ -205,7 +204,7 @@ export abstract class MicroserviceApp {
       const callbackPort = this.callbackPort;
       if (callbackPort && !isNaN(callbackPort)) {
         this.callbackServer
-          .start(callbackPort, ControllerType.Callback)
+          .start(callbackPort, ServerType.CallbackServer)
           .then(() => {
             resolve();
           })

@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {MapExt} from "../util/map-ext";
-import {ControllerType} from "./openapi";
 
 /**
  * Metadata of a controller method.
@@ -46,7 +45,6 @@ export class MethodMetadata {
  * Metadata of a controller.
  */
 export class ControllerMetadata {
-  type?: ControllerType;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   target?: any;
   endpointName?: string;
@@ -60,6 +58,16 @@ export class ControllerMetadata {
 export class ServiceMetadata {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   target?: any;
+}
+
+/**
+ * Metadata of a webhook callback.
+ */
+export class WebHookCallbackMetadata {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  target?: any;
+  endpointName?: string;
+  readonly methods = new MapExt<string, MethodMetadata>();
 }
 
 /**

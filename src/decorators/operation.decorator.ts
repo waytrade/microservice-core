@@ -1,10 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {MicroserviceContext} from "../core/context";
-import {ControllerMetadata, MethodMetadata} from "../core/metadata";
+import {
+  ControllerMetadata,
+  MethodMetadata,
+  WebHookCallbackMetadata,
+} from "../core/metadata";
 
 export function operation(method: string, path: string) {
   return function (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     target: any,
     propertyKey: string,
     descriptor: PropertyDescriptor,
@@ -77,4 +81,30 @@ export function del(
   descriptor: PropertyDescriptor,
 ) => PropertyDescriptor {
   return operation("delete", path);
+}
+
+export function webhookCallback(path: string) {
+  return function (
+    target: any,
+    propertyKey: string,
+    descriptor: PropertyDescriptor,
+  ): PropertyDescriptor {
+    const typeName = target.name ?? target.constructor.name;
+    const meta = MicroserviceContext.callbacks.getOrAdd(
+      typeName,
+      () => new WebHookCallbackMetadata(),
+    );
+
+    meta.target = target;
+
+    const propMeta = meta.methods.getOrAdd(
+      propertyKey,
+      () => new MethodMetadata(propertyKey),
+    );
+    propMeta.path = path;
+    propMeta.method = "post";
+    propMeta.contentType = "application/json";
+
+    return descriptor;
+  };
 }

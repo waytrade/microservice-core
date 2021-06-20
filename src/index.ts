@@ -5,10 +5,7 @@ export {HttpError} from "./core/http-error";
 export {MicroserviceRequest, MicroserviceStream} from "./core/server";
 export {bearerAuth} from "./decorators/bearer-auth.decorator";
 export {callback} from "./decorators/callback.decorator";
-export {
-  callbackController,
-  controller,
-} from "./decorators/controller.decorator";
+export {controller} from "./decorators/controller.decorator";
 export {description} from "./decorators/description.decorator";
 export {model} from "./decorators/model.decorator";
 export {
@@ -18,6 +15,7 @@ export {
   patch,
   post,
   put,
+  webhookCallback,
 } from "./decorators/operation.decorator";
 export {pathParameter} from "./decorators/path-parameter.decorator";
 export {

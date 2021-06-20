@@ -10,10 +10,15 @@ import {HttpError} from "..";
 import {MicroserviceApp} from "./app";
 import {MicroserviceContext} from "./context";
 import {ControllerMetadata, MethodMetadata} from "./metadata";
-import {ControllerType} from "./openapi";
 
 /** Max amount of bytes on websocket back-pressure before dropping the connection. */
 const MAX_WEBSOCKET_BACKPRESSURE_SIZE = 512 * 1024; // 512Kb
+
+/** Type the server. */
+export enum ServerType {
+  ApiServer,
+  CallbackServer,
+}
 
 /** URL query parameters. */
 export interface QueryParams {
@@ -286,8 +291,8 @@ export class MicroserviceServer {
     });
   }
 
-  /** Start the server. */
-  start(port: number, controllerType: ControllerType): Promise<void> {
+  /** Start the API or callback server. */
+  start(port: number, type: ServerType): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       this.wsApp.any("/*", (res: uWS.HttpResponse, req: uWS.HttpRequest) => {
         res.cork(() => {
@@ -298,11 +303,35 @@ export class MicroserviceServer {
           res.end();
         });
       });
-      this.setupControllerRoutes(controllerType);
+
+      this.wsApp.options(
+        "/*",
+        (res: uWS.HttpResponse, req: uWS.HttpRequest) => {
+          res.writeStatus("204 No Content");
+          res.writeHeader("Access-Control-Allow-Origin", "*");
+          res.writeHeader(
+            "Access-Control-Allow-Methods",
+            "GET, PUT, PATCH, POST, DELETE",
+          );
+          res.writeHeader(
+            "Access-Control-Allow-Headers",
+            req.getHeader("access-control-request-headers"),
+          );
+          res.writeHeader("Access-Control-Max-Age", "86400");
+          res.end();
+        },
+      );
+
+      if (type === ServerType.ApiServer) {
+        this.setupControllerRoutes();
+      } else if (type === ServerType.CallbackServer) {
+        this.setupCallbackRoutes();
+      }
+
       this.wsApp.listen(port, 1, listenSocket => {
         if (listenSocket) {
           this.listenSocket = listenSocket;
-          MicroserviceApp.debug(`Server listening on port ${port}`);
+          MicroserviceApp.debug(`API Server listening on port ${port}`);
           resolve();
         } else {
           delete this.listenSocket;
@@ -320,28 +349,20 @@ export class MicroserviceServer {
   }
 
   /** Setup the routes to controllers.  */
-  private setupControllerRoutes(controllerType: ControllerType): void {
-    this.wsApp.options("/*", (res: uWS.HttpResponse, req: uWS.HttpRequest) => {
-      res.writeStatus("204 No Content");
-      res.writeHeader("Access-Control-Allow-Origin", "*");
-      res.writeHeader(
-        "Access-Control-Allow-Methods",
-        "GET, PUT, PATCH, POST, DELETE",
-      );
-      res.writeHeader(
-        "Access-Control-Allow-Headers",
-        req.getHeader("access-control-request-headers"),
-      );
-      res.writeHeader("Access-Control-Max-Age", "86400");
-      res.end();
-    });
-
+  private setupControllerRoutes(): void {
     MicroserviceContext.controllers.forEach(controller => {
-      if (controller.type === controllerType) {
-        controller.methods.forEach(method => {
-          this.registerRoute(controller, method);
-        });
-      }
+      controller.methods.forEach(method => {
+        this.registerRoute(controller, method);
+      });
+    });
+  }
+
+  /** Setup the routes to webhook callbacks.  */
+  private setupCallbackRoutes(): void {
+    MicroserviceContext.callbacks.forEach(callback => {
+      callback.methods.forEach(method => {
+        this.registerRoute(callback, method);
+      });
     });
   }
 

@@ -29,24 +29,13 @@ function isNativeType(type: string): boolean {
   return type === "number" || type === "string" || type === "boolean";
 }
 
-/** Type of controller. */
-export enum ControllerType {
-  /** Public API controller. */
-  API,
-  /** Webhook callback controller. */
-  Callback,
-}
-
 /**
  * OpenAPI helper class.
  */
 export class OpenApi {
   static readonly OPENAPI_RELATIVE_URL = "openapi.json";
 
-  constructor(
-    public readonly controllerType: ControllerType,
-    server: MicroserviceServer,
-  ) {
+  constructor(server: MicroserviceServer) {
     server.registerGetRoute(this, "getHtml", "/", "text/html");
     server.registerGetRoute(
       this,
@@ -118,10 +107,8 @@ export class OpenApi {
     let usesBearerAuth = false;
     const paths = new MapExt<string, PathItemObject>();
     MicroserviceContext.controllers.forEach(ctrl => {
-      if (ctrl.type === this.controllerType) {
-        const hasAuth = this.createControllerApi(ctrl, paths);
-        usesBearerAuth = usesBearerAuth || hasAuth;
-      }
+      const hasAuth = this.createControllerApi(ctrl, paths);
+      usesBearerAuth = usesBearerAuth || hasAuth;
     });
 
     // add paths
@@ -255,14 +242,22 @@ export class OpenApi {
   ): boolean {
     let usesBearerAuth = false;
     ctrl.methods.forEach(method => {
+      if (
+        method.method !== "get" &&
+        method.method !== "put" &&
+        method.method !== "post" &&
+        method.method !== "patch" &&
+        method.method !== "delete"
+      ) {
+        return;
+      }
+
       const url = (ctrl.baseUrl ?? "") + method.path;
       const pathItem: PathItemObject = allPaths.getOrAdd(url, () => {
         return {};
       });
 
       const responses: ResponsesObject = {};
-      6;
-
       let hasSuccessCode = false;
 
       method.responses.forEach(responseMeta => {
@@ -351,43 +346,44 @@ export class OpenApi {
         };
       });
 
-      if (method.method && method.path) {
-        const methodType = method.method;
-        pathItem[methodType] = {
+      const methodType = method.method;
+      if (methodType && method.path && ctrl.endpointName) {
+        const item = <Record<string, unknown>>(pathItem[methodType] = {
           responses,
           requestBody,
           tags: [ctrl.endpointName],
-        };
+        });
 
-        pathItem[methodType]["x-controller-name"] = ctrl.target.name;
-        pathItem[methodType]["x-operation-name"] = method.propertyKey;
-        pathItem[methodType]["operationId"] = method.propertyKey;
+        item["x-controller-name"] = ctrl.target.name;
+
+        item["x-operation-name"] = method.propertyKey;
+        item["operationId"] = method.propertyKey;
 
         if (method.summary) {
-          pathItem[methodType].summary = method.summary;
+          item.summary = method.summary;
         }
 
         if (method.description) {
-          pathItem[methodType].description = method.description;
+          item.description = method.description;
         }
 
         if (method.callbackRefs.size) {
-          pathItem[methodType].callbacks = callbacks;
+          item.callbacks = callbacks;
         }
 
         if (method.bearerAuthScopes) {
           usesBearerAuth = true;
-          pathItem[methodType]["security"] = [
+          item["security"] = [
             {
               bearerAuth: method.bearerAuthScopes,
             },
           ];
         }
 
-        pathItem[methodType].parameters = [];
+        item.parameters = [];
 
         method.queryParams.forEach(param => {
-          pathItem[methodType].parameters.push({
+          (item.parameters as Array<unknown>).push({
             name: param.name,
             in: param.inType,
             required: param.required,

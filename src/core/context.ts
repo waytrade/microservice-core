@@ -7,6 +7,7 @@ import {
   EnumModelMetadata,
   ModelMetadata,
   ServiceMetadata,
+  WebHookCallbackMetadata,
 } from "./metadata";
 
 /**
@@ -98,6 +99,9 @@ export class MicroserviceContext {
 
   /** Array of all service metadata, with target object as key. */
   static readonly services = new MapExt<string, ServiceMetadata>();
+
+  /** Array of all webhook callbacks, with target object as key. */
+  static readonly callbacks = new MapExt<string, WebHookCallbackMetadata>();
 
   /** Array of all model metadata, with target object as key. */
   static readonly models = new MapExt<string, ModelMetadata>();
