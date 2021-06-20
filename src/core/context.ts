@@ -2,7 +2,12 @@ import fs from "fs";
 import Pino, {Logger} from "pino";
 import {MicroserviceConfig, readConfiguration} from "..";
 import {MapExt} from "../util/map-ext";
-import {ControllerMetadata, ModelMetadata, ServiceMetadata} from "./metadata";
+import {
+  ControllerMetadata,
+  EnumModelMetadata,
+  ModelMetadata,
+  ServiceMetadata,
+} from "./metadata";
 
 /**
  * Base-class for Microservice App implementations.
@@ -96,4 +101,7 @@ export class MicroserviceContext {
 
   /** Array of all model metadata, with target object as key. */
   static readonly models = new MapExt<string, ModelMetadata>();
+
+  /** Array of all enum model metadata, with target object as key. */
+  static readonly enumModels = new MapExt<string, EnumModelMetadata>();
 }
