@@ -149,7 +149,7 @@ describe("REST Server Tests", () => {
     app.shutdown();
   });
 
-  test("OpenAPI Spec Validation", async done => {
+  test("OpenAPI Spec Validation", done => {
     axios
       .get<OpenAPIObject>(`http://127.0.0.1:${app.port}/openapi.json`)
       .then(res => {
@@ -175,7 +175,7 @@ describe("REST Server Tests", () => {
       });
   });
 
-  test("GET with synchronous response", async done => {
+  test("GET with synchronous response", done => {
     const url = `http://127.0.0.1:${app.port}/api`;
     axios
       .get<TestControllerResponse>(`http://127.0.0.1:${app.port}/api/`)
@@ -190,7 +190,7 @@ describe("REST Server Tests", () => {
       });
   });
 
-  test("GET with asynchronous response", async done => {
+  test("GET with asynchronous response", done => {
     axios
       .get<TestControllerResponse>(`http://127.0.0.1:${app.port}/api/async`)
       .then(res => {
@@ -202,7 +202,7 @@ describe("REST Server Tests", () => {
       .catch(error => fail(error));
   });
 
-  test("GET with empty response", async done => {
+  test("GET with empty response", done => {
     axios
       .get<void>(`http://127.0.0.1:${app.port}/api/empty`)
       .then(res => {
@@ -213,7 +213,7 @@ describe("REST Server Tests", () => {
       .catch(error => fail(error));
   });
 
-  test("GET with synchronous error 500 and message", async done => {
+  test("GET with synchronous error 500 and message", done => {
     axios
       .get<void>(`http://127.0.0.1:${app.port}/api/errorSync`)
       .then(res => {
@@ -226,7 +226,7 @@ describe("REST Server Tests", () => {
       });
   });
 
-  test("GET with asynchronous error 500 and message", async done => {
+  test("GET with asynchronous error 500 and message", done => {
     axios
       .get<void>(`http://127.0.0.1:${app.port}/api/errorAsync`)
       .then(res => {
@@ -239,7 +239,7 @@ describe("REST Server Tests", () => {
       });
   });
 
-  test("GET with error 403", async done => {
+  test("GET with error 403", done => {
     axios
       .get<void>(`http://127.0.0.1:${app.port}/api/error403`)
       .then(res => {
@@ -251,7 +251,7 @@ describe("REST Server Tests", () => {
       });
   });
 
-  test("PUT valid data", async done => {
+  test("PUT valid data", done => {
     axios
       .put<TestControllerResponse>(`http://127.0.0.1:${app.port}/api/putData`, {
         message: "putData",
@@ -266,7 +266,7 @@ describe("REST Server Tests", () => {
       });
   });
 
-  test("PUT invalid data", async done => {
+  test("PUT invalid data", done => {
     axios
       .put<void>(`http://127.0.0.1:${app.port}/api/putData`, {
         message: "invalid",
@@ -280,7 +280,7 @@ describe("REST Server Tests", () => {
       });
   });
 
-  test("PUT malformed data", async done => {
+  test("PUT malformed data", done => {
     axios
       .put<void>(`http://127.0.0.1:${app.port}/api/putData`, "[{}")
       .then(res => {
@@ -292,7 +292,7 @@ describe("REST Server Tests", () => {
       });
   });
 
-  test("POST valid data", async done => {
+  test("POST valid data", done => {
     axios
       .post<TestControllerResponse>(
         `http://127.0.0.1:${app.port}/api/postData`,
@@ -310,7 +310,7 @@ describe("REST Server Tests", () => {
       });
   });
 
-  test("POST invalid data", async done => {
+  test("POST invalid data", done => {
     axios
       .post<void>(`http://127.0.0.1:${app.port}/api/postData`, {
         message: "invalid",
@@ -324,7 +324,7 @@ describe("REST Server Tests", () => {
       });
   });
 
-  test("POST malformed data", async done => {
+  test("POST malformed data", done => {
     axios
       .post<void>(`http://127.0.0.1:${app.port}/api/postData`, "[{}")
       .then(res => {
@@ -336,7 +336,7 @@ describe("REST Server Tests", () => {
       });
   });
 
-  test("PATCH valid data", async done => {
+  test("PATCH valid data", done => {
     axios
       .patch<TestControllerResponse>(
         `http://127.0.0.1:${app.port}/api/patchData`,
@@ -354,7 +354,7 @@ describe("REST Server Tests", () => {
       });
   });
 
-  test("PATCH invalid data", async done => {
+  test("PATCH invalid data", done => {
     axios
       .patch<void>(`http://127.0.0.1:${app.port}/api/patchData`, {
         message: "invalid",
@@ -368,7 +368,7 @@ describe("REST Server Tests", () => {
       });
   });
 
-  test("PATCH malformed data", async done => {
+  test("PATCH malformed data", done => {
     axios
       .patch<void>(`http://127.0.0.1:${app.port}/api/patchData`, "[{}")
       .then(res => {
@@ -380,7 +380,7 @@ describe("REST Server Tests", () => {
       });
   });
 
-  test("DELETE request", async done => {
+  test("DELETE request", done => {
     axios
       .delete<void>(`http://127.0.0.1:${app.port}/api/`)
       .then(res => {
