@@ -30,5 +30,6 @@ export {response} from "./decorators/response.decorator";
 export {service} from "./decorators/service.decorator";
 export {summary} from "./decorators/summary.decorator";
 export {websocket} from "./decorators/websocket.decorator";
+export {DiffTools} from "./util/diff-tools";
 export {MapExt} from "./util/map-ext";
 export {WebhookCallbackSubscriptions} from "./util/webhook-callback-subscriptions";
