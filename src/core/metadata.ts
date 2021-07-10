@@ -101,3 +101,17 @@ export class EnumModelMetadata {
   description?: string;
   values: string[] = [];
 }
+
+/** All model metadata, with target object as key. */
+export const CONTROLLER_METADATA: MapExt<string, ControllerMetadata> =
+  new MapExt();
+
+/** All service metadata, with target object as key. */
+export const SERVICE_METADATA: MapExt<string, ServiceMetadata> = new MapExt();
+
+/** All model metadata, with target object as key. */
+export const MODEL_METADATA: MapExt<string, ModelMetadata> = new MapExt();
+
+/** All enum model metadata, with target object as key. */
+export const ENUM_MODEL_METADATA: MapExt<string, EnumModelMetadata> =
+  new MapExt();

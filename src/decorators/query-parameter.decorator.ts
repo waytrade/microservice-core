@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import {MicroserviceContext} from "../core/context";
 import {
   ControllerMetadata,
+  CONTROLLER_METADATA,
   MethodMetadata,
   QueryParamterMetadata,
 } from "../core/metadata";
@@ -27,9 +27,8 @@ export function queryParameter(
       return descriptor;
     }
 
-    const typeName = target.name ?? target.constructor.name;
-    const meta = MicroserviceContext.controllers.getOrAdd(
-      typeName,
+    const meta = CONTROLLER_METADATA.getOrAdd(
+      target.name,
       () => new ControllerMetadata(),
     );
 

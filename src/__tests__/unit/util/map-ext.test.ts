@@ -1,6 +1,6 @@
-import {MapExt} from "../../util/map-ext";
+import {MapExt} from "../../../util/map-ext";
 
-describe("MapExt class", () => {
+describe("Test MapExt class", () => {
   test("getOrAdd", () => {
     const map = new MapExt<number, number>();
 

@@ -17,10 +17,11 @@ function isPrimitiveType(typeString: unknown): boolean {
 export class DiffTools {
   /** Compute the difference between a reference and diff object. */
   static diff<T>(ref: T, diff: T): DiffResult<T> {
-    if (ref === undefined && diff === undefined) {
-      return {};
-    } else if (ref === undefined || diff === undefined) {
+    if (ref === undefined) {
       return {changed: diff};
+    }
+    if (diff === undefined) {
+      return {removed: ref};
     }
 
     const changed: any = {};
@@ -77,7 +78,7 @@ export class DiffTools {
             return false;
           }
         } else {
-          throw new Error("Complex array comparison not supported.");
+          return this.diff(a[i], b[i]).changed === undefined;
         }
       }
     }

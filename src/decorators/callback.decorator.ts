@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import {MicroserviceContext} from "..";
-import {ControllerMetadata, MethodMetadata} from "../core/metadata";
+import {
+  ControllerMetadata,
+  CONTROLLER_METADATA,
+  MethodMetadata,
+} from "../core/metadata";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function callback(url: string, model: any) {
@@ -10,9 +13,8 @@ export function callback(url: string, model: any) {
     propertyKey: string,
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
-    const typeName = target.name ?? target.constructor.name;
-    const meta = MicroserviceContext.controllers.getOrAdd(
-      typeName,
+    const meta = CONTROLLER_METADATA.getOrAdd(
+      target.name,
       () => new ControllerMetadata(),
     );
     meta.target = target;

@@ -3,46 +3,94 @@ name: "Test and Publish"
 on:
   push:
     branches:
-      - "dev"
+      - master
+  pull_request:
+    branches:
+      - master
 
 jobs:
-  build:
-    name: "Build"
+  test:
+    name: "Build and Test"
     runs-on: ubuntu-latest
-
     steps:
+      - name: "Setup node.js envioremnt"
+        uses: "actions/setup-node@v2"
+        with:
+          node-version: "14.x"
+          registry-url: https://npm.pkg.github.com/
+          scope: "@waytrade"
+          always-auth: true
+          
       - name: "Checkout source code"
         uses: "actions/checkout@v2"
         with:
           ref: ${{ github.ref }}
-
-      - name: "Setup Node.js"
-        uses: "actions/setup-node@v2"
+          
+      - name: "Configure cache" 
+        uses: actions/cache@v2
         with:
-          node-version: "14.x"
-
-      - name: "Install Dependencies"
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-all-${{ hashFiles('**/yarn.lock') }}
+          
+      - name: "Install dependencies"
         run: yarn install
 
       - name: "Build Code"
         run: yarn build
+        
+      - name: "Run Tests"
+        run: sudo yarn test
+      
+      - name: "Bump Version"
+        uses: "phips28/gh-action-bump-version@master"
+        with:
+          tag-prefix: "v"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
+      - run: rm -r -f node_modules
+      
+      - name: "Configure cache" 
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-prod-${{ hashFiles('**/yarn.lock') }}
+          
+      - name: "Install production dependencies"
+        run: yarn install --prod
+          
+      - name: 'Pack Artifact Archive'
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r files.zip package.json config dist node_modules
 
-      - name: 'Upload Artifact'
+      - name: 'Upload Build Artifact'
         uses: actions/upload-artifact@v2
         with:
-          name: build-artifact
-          path: /*
+          name: production-build
+          path: files.zip
           retention-days: 1
-
-  test:
-    name: "Test"
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Download a single artifact
-        uses: actions/download-artifact@v2
+        
+      - name: 'Upload Test-Report Artifact'
+        uses: actions/upload-artifact@v2
         with:
-          name: build-artifact
-
-      - name: "Run Tests"
-        run: yarn test
+          name: test-report
+          path: test-report/*
+          retention-days: 5
+          
+      - name: Deploy Test-Report
+        if: github.ref == 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v3
+        #if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./test-report
+          
+      - name: "Publish NPM Package"
+        if: github.ref == 'refs/heads/master'
+        run: |
+          echo registry=https://npm.pkg.github.com/waytrade >> .npmrc
+          npm config set //npm.pkg.github.com//:_authToken=$NODE_AUTH_TOKEN
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
