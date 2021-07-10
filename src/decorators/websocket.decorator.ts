@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import {MicroserviceContext} from "..";
-import {ControllerMetadata, MethodMetadata} from "../core/metadata";
+import {
+  ControllerMetadata,
+  CONTROLLER_METADATA,
+  MethodMetadata,
+} from "../core/metadata";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function websocket(path: string) {
@@ -11,7 +14,7 @@ export function websocket(path: string) {
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
     const typeName = target.name ?? target.constructor.name;
-    const meta = MicroserviceContext.controllers.getOrAdd(
+    const meta = CONTROLLER_METADATA.getOrAdd(
       typeName,
       () => new ControllerMetadata(),
     );

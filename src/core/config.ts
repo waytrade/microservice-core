@@ -7,10 +7,10 @@ import * as path from "path";
  */
 export interface MicroserviceConfig {
   /** The name of the microservice. */
-  NAME: string;
+  NAME?: string;
 
   /** The version of the microservice. */
-  VERSION: string;
+  VERSION?: string;
 
   /** The description of the microservice. */
   DESCRIPTION?: string;
@@ -31,13 +31,13 @@ export interface MicroserviceConfig {
   LOG_FILE_PATH?: string;
 
   /** true if running in production environment, false otherwise. */
-  isProduction: boolean;
+  isProduction?: boolean;
 
   /** true if running in development environment, false otherwise. */
-  isDevelopment: boolean;
+  isDevelopment?: boolean;
 
   /** true if running in test environment, false otherwise. */
-  isTest: boolean;
+  isTest?: boolean;
 
   /** Other properties. */
   [prop: string]: unknown;
@@ -127,19 +127,12 @@ function ensureInteger(config: MicroserviceConfig): void {
   });
 }
 
-/** The Service configuration. / */
-let globalConfig: MicroserviceConfig;
-
 /**
  * Read the Microservice configuration.
  */
 export async function readConfiguration(
   rootFolder: string,
 ): Promise<MicroserviceConfig> {
-  if (globalConfig !== undefined) {
-    return globalConfig;
-  }
-
   // load .env and package.json file
 
   dotenv.config();
@@ -147,44 +140,39 @@ export async function readConfiguration(
   // load default config
 
   const pkg = readPackage(rootFolder);
-  globalConfig = readConfig(rootFolder, "default");
+  let config = readConfig(rootFolder, "default");
 
   // load environment specific config
 
   const nodeEnvironment = process.env.NODE_ENV;
 
   if (nodeEnvironment) {
-    globalConfig = loadEnvironmentConfig(
-      rootFolder,
-      globalConfig,
-      nodeEnvironment,
-    );
+    config = loadEnvironmentConfig(rootFolder, config, nodeEnvironment);
   }
 
   // load config from env variables
 
-  globalConfig = assignEnvironment(globalConfig);
+  config = assignEnvironment(config);
 
   // convert strings to numbers
 
-  ensureInteger(globalConfig);
+  ensureInteger(config);
 
   // init package values and runtime mode
 
-  globalConfig.NAME = pkg?.name ?? "";
-  globalConfig.VERSION = pkg?.version ?? "";
-  globalConfig.DESCRIPTION = pkg?.description;
+  config.NAME = pkg?.name ?? "";
+  config.VERSION = pkg?.version ?? "";
+  config.DESCRIPTION = pkg?.description;
 
-  globalConfig.isProduction = nodeEnvironment === "production";
-  globalConfig.isDevelopment =
-    nodeEnvironment === "development" || !nodeEnvironment;
-  globalConfig.isTest = nodeEnvironment === "test";
+  config.isProduction = nodeEnvironment === "production";
+  config.isDevelopment = nodeEnvironment === "development" || !nodeEnvironment;
+  config.isTest = nodeEnvironment === "test";
 
   // overwrite with env vars
 
-  Object.assign(globalConfig, process.env);
+  Object.assign(config, process.env);
 
   // return config
 
-  return globalConfig;
+  return config;
 }

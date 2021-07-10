@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import {MicroserviceContext} from "..";
-import {ControllerMetadata, MethodMetadata} from "../core/metadata";
+import {
+  ControllerMetadata,
+  CONTROLLER_METADATA,
+  MethodMetadata,
+} from "../core/metadata";
 
 export function bearerAuth(scopes: string[]) {
   return function (
@@ -10,7 +13,7 @@ export function bearerAuth(scopes: string[]) {
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
     const typeName = target.name ?? target.constructor.name;
-    const meta = MicroserviceContext.controllers.getOrAdd(
+    const meta = CONTROLLER_METADATA.getOrAdd(
       typeName,
       () => new ControllerMetadata(),
     );

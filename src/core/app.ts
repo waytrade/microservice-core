@@ -1,7 +1,9 @@
 import axios from "axios";
 import fs from "fs";
-import path from "path";
-import {MicroserviceContext} from "./context";
+import path, {resolve} from "path";
+import Pino, {Logger} from "pino";
+import {MicroserviceConfig, readConfiguration} from "./config";
+import {CONTROLLER_METADATA, SERVICE_METADATA} from "./metadata";
 import {OpenApi} from "./openapi";
 import {MicroserviceServer, ServerType} from "./server";
 
@@ -9,149 +11,210 @@ import {MicroserviceServer, ServerType} from "./server";
  * Base-class for Microservice App implementations.
  */
 export abstract class MicroserviceApp {
-  constructor(private readonly rootFolder: string) {
-    this.exportOpenApi =
-      process.argv.find(v => v === "-write-openapi") === "-write-openapi";
-  }
+  protected constructor(
+    private readonly rootFolder: string,
+    private readonly controllers: unknown[],
+    private readonly services: unknown[],
+  ) {}
 
-  /**
-   * If true, the openapi.json will be exported and the app will terminate
-   * afterwards. If false, the app will start normally.
-   */
-  private exportOpenApi: boolean;
-
-  /** The microservice context. */
-  private static _context: MicroserviceContext;
-  static get context(): MicroserviceContext {
-    return this._context;
-  }
+  /** The Pino logger instance. */
+  private logger?: Logger;
 
   /** The REST API server. */
-  private apiServer!: MicroserviceServer;
+  private apiServer?: MicroserviceServer;
 
   /** The Webhook callbacks server. */
-  private callbackServer!: MicroserviceServer;
+  private callbackServer?: MicroserviceServer;
+
+  /** The service configuration */
+  config: MicroserviceConfig = {};
 
   /** Get the port number of the API server. */
-  get port(): number {
-    return Number(MicroserviceApp.context.config.SERVER_PORT ?? 0);
+  get apiPort(): number {
+    return this.apiServer?.listeningPort ?? 0;
   }
 
   /** Get the port number of the callback server. */
   get callbackPort(): number {
-    return Number(MicroserviceApp.context.config.CALLBACK_PORT ?? 0);
+    return this.callbackServer?.listeningPort ?? 0;
   }
 
-  /** Called when the app shall boot up. */
+  /**
+   * Called when the app shall boot up.
+   * Implement on sub-class to prepare for startup (e.g. validate configuration,
+   * or connection to external services).
+   */
   abstract onBoot(): Promise<void>;
 
-  /** Called when the microservice has been started. */
-  abstract onStarted(): void;
+  /**
+   * Boot the service (prepare for startup).
+   * The service will be booted during run() call, unless already booted
+   * by an explicit previous call.
+   */
+  protected async boot(): Promise<void> {
+    if (this.apiServer) {
+      return;
+    }
+    try {
+      // read config
 
-  /** Log a debug message. */
-  static debug(msg: string, ...args: unknown[]): void {
-    MicroserviceApp.context.debug(msg, args);
+      this.config = await readConfiguration(this.rootFolder);
+
+      // init logger
+
+      const logLevel = this.config.LOG_LEVEL ?? "info";
+
+      const name = this.config.NAME?.substr(this.config.NAME?.indexOf("/") + 1);
+      const today = new Date();
+      const logFileName = `${name}_${today.getFullYear()}_${
+        today.getMonth() + 1
+      }_${today.getDate()}.log`;
+
+      this.logger = this.config.LOG_FILE_PATH
+        ? Pino(
+            {
+              name: this.config.NAME,
+              level: logLevel.toLowerCase(),
+            },
+            Pino.destination(this.config.LOG_FILE_PATH + "/" + logFileName),
+          )
+        : Pino({
+            name: this.config.NAME,
+            level: logLevel.toLowerCase(),
+            prettyPrint: {
+              colorize: true,
+              translateTime: "yyyy-mm-dd HH:MM:ss.l",
+              ignore: "name,pid,hostname",
+            },
+          });
+
+      // create API server
+
+      this.apiServer = new MicroserviceServer(this);
+
+      // export OpenAPI.json
+
+      new OpenApi(this.apiServer);
+
+      const writeOpenApi =
+        process.argv.find(v => v === "-write-openapi") === "-write-openapi";
+
+      const writeOpenApiNoExit =
+        process.argv.find(v => v === "-write-openapi-no-exit") ===
+        "-write-openapi-no-exit";
+
+      if (writeOpenApi || writeOpenApiNoExit) {
+        await this.startServers();
+        await this.writeOpenapi();
+        this.shutdown();
+        resolve();
+        if (!writeOpenApiNoExit) {
+          process.exit(0);
+        }
+      }
+
+      // create callback server
+
+      if (this.config.CALLBACK_PORT && !isNaN(this.config.CALLBACK_PORT)) {
+        this.callbackServer = new MicroserviceServer(this);
+      }
+
+      // boot app code
+
+      await this.onBoot();
+    } catch (error) {
+      this.apiServer?.stop();
+      this.callbackServer?.stop();
+      delete this.apiServer;
+      delete this.callbackServer;
+      this.error("Service boot failed: " + error);
+      throw error;
+    }
   }
 
-  /** Log an info message. */
-  static info(msg: string, ...args: unknown[]): void {
-    MicroserviceApp.context.info(msg, args);
-  }
-
-  /** Log a warning message. */
-  static warn(msg: string, ...args: unknown[]): void {
-    MicroserviceApp.context.warn(msg, args);
-  }
-
-  /** Log an error message. */
-  static error(msg: string, ...args: unknown[]): void {
-    MicroserviceApp.context.error(msg, args);
+  /**
+   * Called when the microservice has been started.
+   * Overwrite on sub-class if necessary.
+   */
+  onStarted(): void {
+    this.info(`API Server is running at port ${this.apiPort}`);
+    if (this.callbackPort) {
+      this.info(`Callback Server is running at port ${this.callbackPort}`);
+    }
   }
 
   /** Start the service. */
   async run(): Promise<void> {
     try {
-      MicroserviceApp._context = await MicroserviceContext.boot(
-        this.rootFolder,
-      );
+      await this.startServers();
 
-      this.apiServer = new MicroserviceServer();
-      new OpenApi(this.apiServer);
-
-      if (this.callbackPort && !isNaN(this.callbackPort)) {
-        this.callbackServer = new MicroserviceServer();
+      const services = Array.from(SERVICE_METADATA.values());
+      for (let i = 0; i < services.length; i++) {
+        if (services[i].target?.boot) {
+          await (services[i].target?.boot() as Promise<void>);
+        }
       }
 
-      if (this.exportOpenApi) {
-        await this.startServers();
-        this.writeOpenapi().finally(() => {
-          this.shutdown();
-          process.exit(0);
-        });
-      } else {
-        await this.onBoot();
-
-        const services = Array.from(MicroserviceContext.services.values());
-        for (let i = 0; i < services.length; i++) {
-          if (services[i].target?.boot) {
-            await (services[i].target?.boot() as Promise<void>);
-          }
+      const controllers = Array.from(CONTROLLER_METADATA.values());
+      for (let i = 0; i < controllers.length; i++) {
+        if (controllers[i].target?.boot) {
+          await (controllers[i].target?.boot() as Promise<void>);
         }
-
-        const controllers = Array.from(
-          MicroserviceContext.controllers.values(),
-        );
-        for (let i = 0; i < controllers.length; i++) {
-          if (controllers[i].target?.boot) {
-            await (controllers[i].target?.boot() as Promise<void>);
-          }
-        }
-
-        await this.startServers();
-
-        this.onStarted();
       }
+
+      this.onStarted();
     } catch (error) {
-      console.error("Service boot failed. ");
-      console.error(error);
-      console.error("Terminating process");
-      process.exit(1);
+      this.error("Service start failed. ");
+      this.error(error);
+      throw error;
     }
   }
 
-  /** Shutdown the app. */
+  /** Shutdown the service. */
   shutdown(): void {
-    if (this.apiServer) {
-      this.apiServer.stop();
-    }
+    this.apiServer?.stop();
+    this.callbackServer?.stop();
 
-    if (this.callbackServer) {
-      this.callbackServer.stop();
-    }
-
-    MicroserviceContext.controllers.forEach(c => {
+    CONTROLLER_METADATA.forEach(c => {
       if (c.target?.shutdown) {
         c.target?.shutdown();
       }
     });
 
-    MicroserviceContext.services.forEach(c => {
+    SERVICE_METADATA.forEach(c => {
       if (c.target?.shutdown) {
         c.target?.shutdown();
       }
     });
+  }
+
+  /** Log a debug message. */
+  debug(msg: string, ...args: unknown[]): void {
+    this.logger?.debug(msg, args);
+  }
+
+  /** Log an info message. */
+  info(msg: string, ...args: unknown[]): void {
+    this.logger?.info(msg, args);
+  }
+
+  /** Log a warning message. */
+  warn(msg: string, ...args: unknown[]): void {
+    this.logger?.warn(msg, args);
+  }
+
+  /** Log an error message. */
+  error(msg: string, ...args: unknown[]): void {
+    this.logger?.error(msg, args);
   }
 
   /** Write the openapi.json to root folder. */
   writeOpenapi(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       axios
-        .get(
-          `http://127.0.0.1:${MicroserviceApp.context.config.SERVER_PORT}/openapi.json`,
-          {
-            transformResponse: r => r,
-          },
-        )
+        .get(`http://127.0.0.1:${this.config.SERVER_PORT}/openapi.json`, {
+          transformResponse: r => r,
+        })
         .then(res => {
           const filePath = path.resolve(
             require?.main?.filename ?? "",
@@ -160,11 +223,11 @@ export abstract class MicroserviceApp {
           fs.promises
             .writeFile(filePath, res.data)
             .then(() => {
-              MicroserviceApp.info("openapi.json downloaded to " + filePath);
+              this.info("openapi.json downloaded to " + filePath);
               resolve();
             })
             .catch(error => {
-              MicroserviceApp.error(
+              this.error(
                 "Failed to write openapi.json to " +
                   filePath +
                   ": " +
@@ -174,7 +237,7 @@ export abstract class MicroserviceApp {
             });
         })
         .catch(() => {
-          MicroserviceApp.error("Failed to download openapi.json");
+          this.error("Failed to download openapi.json");
           reject();
         });
     });
@@ -185,7 +248,7 @@ export abstract class MicroserviceApp {
     return new Promise<void>((resolve, reject) => {
       // verify config
 
-      const apiPort = this.port;
+      const apiPort = this.config.SERVER_PORT;
       if (!apiPort || isNaN(apiPort)) {
         throw new Error("SERVER_PORT not configured.");
       }
@@ -193,23 +256,23 @@ export abstract class MicroserviceApp {
       // start API server
 
       this.apiServer
-        .start(apiPort, ServerType.ApiServer)
+        ?.start(apiPort, ServerType.ApiServer)
         .then(() => {
-          resolve();
+          // start callback server
+
+          const callbackPort = this.config.CALLBACK_PORT;
+          if (this.callbackServer && callbackPort) {
+            this.callbackServer
+              .start(callbackPort, ServerType.CallbackServer)
+              .then(() => {
+                resolve();
+              })
+              .catch(error => reject(error));
+          } else {
+            resolve();
+          }
         })
         .catch(error => reject(error));
-
-      // start callback server
-
-      const callbackPort = this.callbackPort;
-      if (callbackPort && !isNaN(callbackPort)) {
-        this.callbackServer
-          .start(callbackPort, ServerType.CallbackServer)
-          .then(() => {
-            resolve();
-          })
-          .catch(error => reject(error));
-      }
     });
   }
 }

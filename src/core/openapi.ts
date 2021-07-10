@@ -15,9 +15,15 @@ import path from "path";
 import SwaggerUI from "swagger-ui-dist";
 import {MicroserviceApp} from "..";
 import {MapExt} from "../util/map-ext";
-import {MicroserviceContext} from "./context";
 import {SWAGGER_INDEX_HTML} from "./index.html";
-import {ControllerMetadata, EnumModelMetadata, ModelMetadata} from "./metadata";
+import {
+  ControllerMetadata,
+  CONTROLLER_METADATA,
+  EnumModelMetadata,
+  ENUM_MODEL_METADATA,
+  ModelMetadata,
+  MODEL_METADATA,
+} from "./metadata";
 import {MicroserviceServer} from "./server";
 
 const SWAGGER_UI_CSS_URL = "/swagger-ui.css";
@@ -74,7 +80,7 @@ export class OpenApi {
       version: MicroserviceApp.context.config.VERSION,
     };
 
-    if (MicroserviceApp.context.config.DESCRIPTION) {
+    if (MicroserviceApp.config.DESCRIPTION) {
       info.description = MicroserviceApp.context.config.DESCRIPTION;
     }
 
@@ -82,7 +88,7 @@ export class OpenApi {
 
     // add object model schemas
 
-    MicroserviceContext.models.forEach(model => {
+    MODEL_METADATA.forEach(model => {
       if (model.target.name) {
         builder.addSchema(
           model.target.name,
@@ -93,7 +99,7 @@ export class OpenApi {
 
     // add enum model schemas
 
-    MicroserviceContext.enumModels.forEach(model => {
+    ENUM_MODEL_METADATA.forEach(model => {
       if (model.name) {
         builder.addSchema(
           model.name,
@@ -106,7 +112,7 @@ export class OpenApi {
 
     let usesBearerAuth = false;
     const paths = new MapExt<string, PathItemObject>();
-    MicroserviceContext.controllers.forEach(ctrl => {
+    CONTROLLER_METADATA.forEach(ctrl => {
       const hasAuth = this.createControllerApi(ctrl, paths);
       usesBearerAuth = usesBearerAuth || hasAuth;
     });

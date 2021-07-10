@@ -8,8 +8,12 @@ import * as uWS from "uWebSockets.js";
 import {us_listen_socket_close} from "uWebSockets.js";
 import {HttpError} from "..";
 import {MicroserviceApp} from "./app";
-import {MicroserviceContext} from "./context";
-import {ControllerMetadata, MethodMetadata} from "./metadata";
+import {
+  CALLBACKS_METADATA,
+  ControllerMetadata,
+  CONTROLLER_METADATA,
+  MethodMetadata,
+} from "./metadata";
 
 /** Max amount of bytes on websocket back-pressure before dropping the connection. */
 const MAX_WEBSOCKET_BACKPRESSURE_SIZE = 512 * 1024; // 512Kb
@@ -131,11 +135,21 @@ export class MicroserviceStream {
  * HTTP/REST server of a microservice.
  */
 export class MicroserviceServer {
+  constructor(private app: MicroserviceApp) {}
+
   /** The uWebSocket App. */
   private readonly wsApp = uWS.App();
 
   /** The TCP listen socket. */
   private listenSocket?: uWS.us_listen_socket;
+
+  /** Get the server listening port. */
+  get listeningPort(): number {
+    if (!this.listenSocket) {
+      return 0;
+    }
+    return uWS.us_socket_local_port(this.listenSocket);
+  }
 
   /** Register a HTTP POST route. */
   registerPostRoute(
@@ -350,7 +364,7 @@ export class MicroserviceServer {
 
   /** Setup the routes to controllers.  */
   private setupControllerRoutes(): void {
-    MicroserviceContext.controllers.forEach(controller => {
+    CONTROLLER_METADATA.forEach(controller => {
       controller.methods.forEach(method => {
         this.registerRoute(controller, method);
       });
@@ -359,7 +373,7 @@ export class MicroserviceServer {
 
   /** Setup the routes to webhook callbacks.  */
   private setupCallbackRoutes(): void {
-    MicroserviceContext.callbacks.forEach(callback => {
+    CALLBACKS_METADATA.forEach(callback => {
       callback.methods.forEach(method => {
         this.registerRoute(callback, method);
       });

@@ -1,14 +1,6 @@
 import fs from "fs";
 import Pino, {Logger} from "pino";
 import {MicroserviceConfig, readConfiguration} from "..";
-import {MapExt} from "../util/map-ext";
-import {
-  ControllerMetadata,
-  EnumModelMetadata,
-  ModelMetadata,
-  ServiceMetadata,
-  WebHookCallbackMetadata,
-} from "./metadata";
 
 /**
  * Base-class for Microservice App implementations.
@@ -79,33 +71,11 @@ export class MicroserviceContext {
     this.logger.error(msg, args);
   }
 
-  /** The context singleton instance. */
-  private static instance?: MicroserviceContext;
-
   /** Boot the context. */
   static async boot(rootFolder: string): Promise<MicroserviceContext> {
-    if (this.instance) {
-      return this.instance;
-    }
-    this.instance = new MicroserviceContext(
+    return new MicroserviceContext(
       rootFolder,
       await readConfiguration(rootFolder),
     );
-    return this.instance;
   }
-
-  /** Array of all controller metadata, with target object as key. */
-  static readonly controllers = new MapExt<string, ControllerMetadata>();
-
-  /** Array of all service metadata, with target object as key. */
-  static readonly services = new MapExt<string, ServiceMetadata>();
-
-  /** Array of all webhook callbacks, with target object as key. */
-  static readonly callbacks = new MapExt<string, WebHookCallbackMetadata>();
-
-  /** Array of all model metadata, with target object as key. */
-  static readonly models = new MapExt<string, ModelMetadata>();
-
-  /** Array of all enum model metadata, with target object as key. */
-  static readonly enumModels = new MapExt<string, EnumModelMetadata>();
 }

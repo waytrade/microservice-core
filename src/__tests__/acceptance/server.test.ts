@@ -1,5 +1,4 @@
 import axios from "axios";
-import HttpStatus from "http-status";
 import {OpenAPIObject} from "openapi3-ts";
 import {
   arrayProperty,
@@ -7,6 +6,7 @@ import {
   del,
   get,
   HttpError,
+  HttpStatus,
   MicroserviceApp,
   model,
   patch,
@@ -17,7 +17,7 @@ import {
   responseBody,
 } from "../..";
 import {MicroserviceRequest} from "../../core/server";
-import {startTestApp} from "../test-helper";
+import {TestApp} from "../test-app";
 
 /** The test controller response sub-model. */
 @model("Test Controller SubResponse")
@@ -139,10 +139,12 @@ export class TestController {
  * The REST server tests.
  */
 describe("REST Server Tests", () => {
-  let app: MicroserviceApp;
+  const TEST_SERVER_CALLBACK_PORT = 3999;
+
+  const app: TestApp = new TestApp(TEST_SERVER_CALLBACK_PORT);
 
   beforeAll(async () => {
-    app = await startTestApp();
+    app.run();
   });
 
   afterAll(() => {
@@ -247,6 +249,32 @@ describe("REST Server Tests", () => {
       })
       .catch(error => {
         expect(error.response.status).toBe(403);
+        done();
+      });
+  });
+
+  test("GET with error 404 on API", done => {
+    axios
+      .get<void>(`http://127.0.0.1:${app.port}/some/invalie/path`)
+      .then(res => {
+        fail(res);
+      })
+      .catch(error => {
+        expect(error.response.status).toBe(404);
+        done();
+      });
+  });
+
+  test("GET with error 404 on Callback", done => {
+    axios
+      .get<void>(
+        `http://127.0.0.1:${TEST_SERVER_CALLBACK_PORT}/some/invalie/path`,
+      )
+      .then(res => {
+        fail(res);
+      })
+      .catch(error => {
+        expect(error.response.status).toBe(404);
         done();
       });
   });

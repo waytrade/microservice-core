@@ -1,14 +1,11 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   CALLBACKS_METADATA,
-  ControllerMetadata,
   MethodMetadata,
+  WebHookCallbackMetadata,
 } from "../core/metadata";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function callback(url: string, model: any) {
+export function webhookCallback(path: string) {
   return function (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     target: any,
     propertyKey: string,
     descriptor: PropertyDescriptor,
@@ -16,15 +13,18 @@ export function callback(url: string, model: any) {
     const typeName = target.name ?? target.constructor.name;
     const meta = CALLBACKS_METADATA.getOrAdd(
       typeName,
-      () => new ControllerMetadata(),
+      () => new WebHookCallbackMetadata(),
     );
+
     meta.target = target;
+
     const propMeta = meta.methods.getOrAdd(
       propertyKey,
       () => new MethodMetadata(propertyKey),
     );
-
-    propMeta.callbackRefs.set(url, model.name);
+    propMeta.path = path;
+    propMeta.method = "post";
+    propMeta.contentType = "application/json";
 
     return descriptor;
   };

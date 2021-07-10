@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import {MicroserviceContext} from "../core/context";
 import {
+  CALLBACKS_METADATA,
   ControllerMetadata,
+  CONTROLLER_METADATA,
   MethodMetadata,
   WebHookCallbackMetadata,
 } from "../core/metadata";
@@ -14,7 +15,7 @@ export function operation(method: string, path: string) {
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
     const typeName = target.name ?? target.constructor.name;
-    const meta = MicroserviceContext.controllers.getOrAdd(
+    const meta = CONTROLLER_METADATA.getOrAdd(
       typeName,
       () => new ControllerMetadata(),
     );
@@ -90,7 +91,7 @@ export function webhookCallback(path: string) {
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
     const typeName = target.name ?? target.constructor.name;
-    const meta = MicroserviceContext.callbacks.getOrAdd(
+    const meta = CALLBACKS_METADATA.getOrAdd(
       typeName,
       () => new WebHookCallbackMetadata(),
     );
