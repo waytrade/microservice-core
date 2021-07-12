@@ -15,9 +15,8 @@ export function property(description?: string): any {
     propertyKey: string,
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
-    const typeName = target.name ?? target.constructor.name;
     const modelMeta = MODEL_METADATA.getOrAdd(
-      typeName,
+      target.constructor.name,
       () => new ModelMetadata(target.constructor),
     );
     modelMeta.properties.push(
@@ -76,10 +75,6 @@ export function enumProperty(
       enumName,
       () => new EnumModelMetadata(),
     );
-
-    if (enumModelMeta.name) {
-      return descriptor;
-    }
 
     enumModelMeta.name = enumName;
 

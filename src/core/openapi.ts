@@ -9,12 +9,13 @@ import {
   PathItemObject,
   RequestBodyObject,
   ResponsesObject,
-  SchemaObject,
+  SchemaObject
 } from "openapi3-ts";
 import path from "path";
 import SwaggerUI from "swagger-ui-dist";
-import {MicroserviceApp} from "..";
 import {MapExt} from "../util/map-ext";
+import {MicroserviceContext} from "./context";
+import {MicroserviceHttpServer} from "./http-server";
 import {SWAGGER_INDEX_HTML} from "./index.html";
 import {
   ControllerMetadata,
@@ -22,9 +23,8 @@ import {
   EnumModelMetadata,
   ENUM_MODEL_METADATA,
   ModelMetadata,
-  MODEL_METADATA,
+  MODEL_METADATA
 } from "./metadata";
-import {MicroserviceServer} from "./server";
 
 const SWAGGER_UI_CSS_URL = "/swagger-ui.css";
 const SWAGGER_UI_BUNDLE_JS_URL = "/swagger-ui-bundle.js";
@@ -41,7 +41,11 @@ function isNativeType(type: string): boolean {
 export class OpenApi {
   static readonly OPENAPI_RELATIVE_URL = "openapi.json";
 
-  constructor(server: MicroserviceServer) {
+  constructor(
+    private context: MicroserviceContext,
+    private readonly controllers: unknown[],
+    server: MicroserviceHttpServer,
+  ) {
     server.registerGetRoute(this, "getHtml", "/", "text/html");
     server.registerGetRoute(
       this,
@@ -73,54 +77,48 @@ export class OpenApi {
   private buildOpenApi(): OpenAPIObject {
     const builder = new OpenApiBuilder();
 
-    // add info
+    // add global info
 
     const info: InfoObject = {
-      title: MicroserviceApp.context.config.NAME,
-      version: MicroserviceApp.context.config.VERSION,
+      title: this.context.config.NAME ?? "",
+      version: this.context.config.VERSION ?? "",
     };
 
-    if (MicroserviceApp.config.DESCRIPTION) {
-      info.description = MicroserviceApp.context.config.DESCRIPTION;
+    if (this.context.config.DESCRIPTION) {
+      info.description = this.context.config.DESCRIPTION;
     }
 
     builder.addInfo(info);
 
-    // add object model schemas
-
-    MODEL_METADATA.forEach(model => {
-      if (model.target.name) {
-        builder.addSchema(
-          model.target.name,
-          this.modelToSchema(model.target.name, model),
-        );
-      }
-    });
-
-    // add enum model schemas
-
-    ENUM_MODEL_METADATA.forEach(model => {
-      if (model.name) {
-        builder.addSchema(
-          model.name,
-          this.enumModelToSchema(model.name, model),
-        );
-      }
-    });
-
-    // collect paths
+    // collect paths and reference models
 
     let usesBearerAuth = false;
     const paths = new MapExt<string, PathItemObject>();
-    CONTROLLER_METADATA.forEach(ctrl => {
-      const hasAuth = this.createControllerApi(ctrl, paths);
-      usesBearerAuth = usesBearerAuth || hasAuth;
+    const models = new Set<string>();
+
+    this.controllers.forEach(ctrl => {
+      const ctrlMeta = CONTROLLER_METADATA.get(
+        (<Record<string, string>>ctrl).name,
+      );
+      if (ctrlMeta) {
+        const hasAuth = this.addControllerApi(ctrlMeta, paths, models);
+        usesBearerAuth = usesBearerAuth || hasAuth;
+      }
     });
 
     // add paths
 
     paths.forEach((item, url) => {
       builder.addPath(url, item);
+    });
+
+    // add models
+
+    models.forEach(model => {
+      const meta = MODEL_METADATA.get(model);
+      if (meta) {
+        this.addModelToSchemas(builder, meta.target.name, meta);
+      }
     });
 
     // add components
@@ -138,7 +136,11 @@ export class OpenApi {
     return builder.getSpec();
   }
 
-  private modelToSchema(name: string, model: ModelMetadata): SchemaObject {
+  private addModelToSchemas(
+    builder: OpenApiBuilder,
+    name: string,
+    model: ModelMetadata,
+  ): void {
     const res: SchemaObject = {
       title: name,
       description: model.description,
@@ -182,26 +184,48 @@ export class OpenApi {
             type: "object",
           };
         } else {
-          res.properties[prop.propertyKey] = {
-            description: prop.description,
-            $ref: `#/components/schemas/${type}`,
-          };
+          const nestedType = MODEL_METADATA.get(type);
+          if (nestedType) {
+            res.properties[prop.propertyKey] = {
+              description: prop.description,
+              $ref: `#/components/schemas/${type}`,
+            };
+            this.addModelToSchemas(builder, type, nestedType);
+          } else {
+            const enumModelMeta = ENUM_MODEL_METADATA.get(type);
+            if (enumModelMeta) {
+              res.properties[prop.propertyKey] = this.addEnumModelToSchemas(
+                builder,
+                prop.type,
+                enumModelMeta,
+              );
+            } else {
+              res.properties[prop.propertyKey] = {
+                description: prop.description,
+                type: "object",
+              };
+            }
+          }
         }
       }
     });
-    return res;
+
+    builder.addSchema(name, res);
   }
 
-  private enumModelToSchema(
+  private addEnumModelToSchemas(
+    builder: OpenApiBuilder,
     name: string,
     model: EnumModelMetadata,
   ): SchemaObject {
-    return {
+    const obj = {
       title: name,
       description: model.description,
       type: model.type as "number" | "string",
       enum: model.values,
     };
+    builder.addSchema(name, obj);
+    return obj;
   }
 
   /** Get the index.html contents. */
@@ -242,21 +266,13 @@ export class OpenApi {
   }
 
   /** Create openapi of a controller. */
-  private createControllerApi(
+  private addControllerApi(
     ctrl: ControllerMetadata,
     allPaths: MapExt<string, PathItemObject>,
+    allModels: Set<string>,
   ): boolean {
     let usesBearerAuth = false;
     ctrl.methods.forEach(method => {
-      if (
-        method.method !== "get" &&
-        method.method !== "put" &&
-        method.method !== "post" &&
-        method.method !== "patch" &&
-        method.method !== "delete"
-      ) {
-        return;
-      }
 
       const url = (ctrl.baseUrl ?? "") + method.path;
       const pathItem: PathItemObject = allPaths.getOrAdd(url, () => {
@@ -284,6 +300,7 @@ export class OpenApi {
               },
             };
           } else {
+            allModels.add(responseMeta.ref);
             responses[responseMeta.code].content = {
               "application/json": {
                 schema: {

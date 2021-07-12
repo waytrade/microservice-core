@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
-  CALLBACKS_METADATA,
   ControllerMetadata,
+  CONTROLLER_METADATA,
   MethodMetadata,
 } from "../core/metadata";
 
@@ -13,9 +13,8 @@ export function callback(url: string, model: any) {
     propertyKey: string,
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
-    const typeName = target.name ?? target.constructor.name;
-    const meta = CALLBACKS_METADATA.getOrAdd(
-      typeName,
+    const meta = CONTROLLER_METADATA.getOrAdd(
+      target.name,
       () => new ControllerMetadata(),
     );
     meta.target = target;

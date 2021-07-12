@@ -1,11 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
-  CALLBACKS_METADATA,
   ControllerMetadata,
   CONTROLLER_METADATA,
   MethodMetadata,
-  WebHookCallbackMetadata,
 } from "../core/metadata";
 
 export function operation(method: string, path: string) {
@@ -14,9 +12,8 @@ export function operation(method: string, path: string) {
     propertyKey: string,
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
-    const typeName = target.name ?? target.constructor.name;
     const meta = CONTROLLER_METADATA.getOrAdd(
-      typeName,
+      target.name,
       () => new ControllerMetadata(),
     );
 
@@ -84,28 +81,12 @@ export function del(
   return operation("delete", path);
 }
 
-export function webhookCallback(path: string) {
-  return function (
-    target: any,
-    propertyKey: string,
-    descriptor: PropertyDescriptor,
-  ): PropertyDescriptor {
-    const typeName = target.name ?? target.constructor.name;
-    const meta = CALLBACKS_METADATA.getOrAdd(
-      typeName,
-      () => new WebHookCallbackMetadata(),
-    );
-
-    meta.target = target;
-
-    const propMeta = meta.methods.getOrAdd(
-      propertyKey,
-      () => new MethodMetadata(propertyKey),
-    );
-    propMeta.path = path;
-    propMeta.method = "post";
-    propMeta.contentType = "application/json";
-
-    return descriptor;
-  };
+export function webhookCallback(
+  path: string,
+): (
+  target: unknown,
+  propertyKey: string,
+  descriptor: PropertyDescriptor,
+) => PropertyDescriptor {
+  return operation("post", path);
 }

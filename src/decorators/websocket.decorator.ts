@@ -13,9 +13,8 @@ export function websocket(path: string) {
     propertyKey: string,
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
-    const typeName = target.name ?? target.constructor.name;
     const meta = CONTROLLER_METADATA.getOrAdd(
-      typeName,
+      target.name,
       () => new ControllerMetadata(),
     );
 

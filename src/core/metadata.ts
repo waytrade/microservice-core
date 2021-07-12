@@ -109,10 +109,6 @@ export const CONTROLLER_METADATA: MapExt<string, ControllerMetadata> =
 /** All service metadata, with target object as key. */
 export const SERVICE_METADATA: MapExt<string, ServiceMetadata> = new MapExt();
 
-/** All webhook callback metadata, with target object as key. */
-export const CALLBACKS_METADATA: MapExt<string, WebHookCallbackMetadata> =
-  new MapExt();
-
 /** All model metadata, with target object as key. */
 export const MODEL_METADATA: MapExt<string, ModelMetadata> = new MapExt();
 

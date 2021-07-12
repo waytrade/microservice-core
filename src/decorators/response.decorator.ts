@@ -14,9 +14,8 @@ export function response(code: number, description?: any) {
     propertyKey: string,
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
-    const typeName = target.name ?? target.constructor.name;
     const meta = CONTROLLER_METADATA.getOrAdd(
-      typeName,
+      target.name,
       () => new ControllerMetadata(),
     );
 
@@ -29,22 +28,6 @@ export function response(code: number, description?: any) {
       code,
       () => new ResponseMetadata(code),
     ).description = description;
-
-    /*
-    console.log(model);
-    console.log(
-      Reflect.getMetadata("design:type", target as Object, propertyKey),
-    );
-    // [Function: Function]
-    // Checks the types of all params
-    console.log(
-      Reflect.getMetadata("design:paramtypes", target as Object, propertyKey),
-    );
-    // [[Function: Number]]
-    // Checks the return type
-    console.log(
-      Reflect.getMetadata("design:returntype", target as Object, propertyKey),
-    );*/
 
     return descriptor;
   };

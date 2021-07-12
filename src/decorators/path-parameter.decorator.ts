@@ -22,9 +22,8 @@ export function pathParameter(name: string, type: any, description?: string) {
       return descriptor;
     }
 
-    const typeName = target.name ?? target.constructor.name;
     const meta = CONTROLLER_METADATA.getOrAdd(
-      typeName,
+      target.name,
       () => new ControllerMetadata(),
     );
 

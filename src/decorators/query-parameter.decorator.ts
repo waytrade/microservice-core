@@ -27,9 +27,8 @@ export function queryParameter(
       return descriptor;
     }
 
-    const typeName = target.name ?? target.constructor.name;
     const meta = CONTROLLER_METADATA.getOrAdd(
-      typeName,
+      target.name,
       () => new ControllerMetadata(),
     );
 

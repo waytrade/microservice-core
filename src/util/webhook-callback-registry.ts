@@ -5,7 +5,7 @@ import {
   HttpStatus,
   HttpStatusCode,
   MicroserviceRequest,
-  WebhookSubscriptionArgs,
+  WebhookCallbackHost,
 } from "..";
 
 /** A Webhook callback subscription. */
@@ -32,7 +32,7 @@ export class WebhookCallbackRegistry<T> {
    */
   add(
     request: MicroserviceRequest,
-    args: WebhookSubscriptionArgs,
+    args: WebhookCallbackHost,
     observable: Observable<T>,
   ): HttpStatusCode {
     // verify arguments
@@ -41,19 +41,12 @@ export class WebhookCallbackRegistry<T> {
       return HttpStatus.BAD_REQUEST;
     }
 
-    // format absolute callback url
+    // check if already registered
 
-    const remoteAddress = args.host ?? request.remoteAddress;
-    if (!remoteAddress) {
+    const url = this.formatCallbackUrl(request, args);
+    if (!url) {
       return HttpStatus.BAD_REQUEST;
     }
-
-    const isIPv6 = remoteAddress.indexOf(":") !== -1;
-    const url = isIPv6
-      ? `http://[${remoteAddress}]:${args.port}${args.callbackUrl}`
-      : `http://${remoteAddress}:${args.port}${args.callbackUrl}`;
-
-    // check if already registered
 
     if (this.callbacks.has(url)) {
       return HttpStatus.NO_CONTENT;
@@ -78,7 +71,7 @@ export class WebhookCallbackRegistry<T> {
       },
     });
 
-    // add to callbacks and return true
+    // add to callbacks
 
     this.callbacks.set(url, {url, stopNotifier});
 
@@ -94,7 +87,7 @@ export class WebhookCallbackRegistry<T> {
    */
   remove(
     request: MicroserviceRequest,
-    args: WebhookSubscriptionArgs,
+    args: WebhookCallbackHost,
   ): HttpStatusCode {
     // verify arguments
 
@@ -102,19 +95,12 @@ export class WebhookCallbackRegistry<T> {
       return HttpStatus.BAD_REQUEST;
     }
 
-    // format absolute callback url
+    // unregister
 
-    const remoteAddress = args.host ?? request.remoteAddress;
-    if (!remoteAddress) {
+    const url = this.formatCallbackUrl(request, args);
+    if (!url) {
       return HttpStatus.BAD_REQUEST;
     }
-
-    const isIPv6 = remoteAddress.indexOf(":") !== -1;
-    const url = isIPv6
-      ? `http://[${remoteAddress}]:${args.port}${args.callbackUrl}`
-      : `http://${remoteAddress}:${args.port}${args.callbackUrl}`;
-
-    // unregister
 
     const sub = this.callbacks.get(url);
     if (!sub) {
@@ -151,5 +137,23 @@ export class WebhookCallbackRegistry<T> {
           reject(error);
         });
     });
+  }
+
+  /** Format the full absolute URL of a webhook callback. */
+  private formatCallbackUrl(
+    request: MicroserviceRequest,
+    args: WebhookCallbackHost,
+  ): string | undefined {
+    const remoteAddress = args.host ?? request.remoteAddress;
+    if (!remoteAddress) {
+      return;
+    }
+
+    const isIPv6 = remoteAddress.indexOf(":") !== -1;
+    const url = isIPv6
+      ? `http://[${remoteAddress}]:${args.port}${args.callbackUrl}`
+      : `http://${remoteAddress}:${args.port}${args.callbackUrl}`;
+
+    return url;
   }
 }

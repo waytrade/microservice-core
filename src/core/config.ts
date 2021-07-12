@@ -2,42 +2,54 @@ import * as dotenv from "dotenv";
 import {readFileSync} from "fs";
 import * as path from "path";
 
+/** The log level. */
+export type LogLevel = "error" | "warn" | "info" | "debug" | "silent";
+
 /**
  * The Microservice Configuration.
  */
 export interface MicroserviceConfig {
-  /** The name of the microservice. */
+  /** The name of the service. */
   NAME?: string;
 
-  /** The version of the microservice. */
+  /** The version of the service. */
   VERSION?: string;
 
-  /** The description of the microservice. */
+  /** The description of the service. */
   DESCRIPTION?: string;
 
-  /** The port of the API server. */
+  /**
+   * The port of the API server.
+   * If not specified, a random port will be used.
+   */
   SERVER_PORT?: number;
 
-  /** The port of the callback server. */
+  /**
+   * The port of the callback server.
+   * If not specified, a random port will be used.
+   */
   CALLBACK_PORT?: number;
 
-  /** The log level (error, warn, info, debug or verbose). */
-  LOG_LEVEL?: string;
+  /** The log level. Default is "info" */
+  LOG_LEVEL: LogLevel;
 
   /**
-   * The path for storing the log files.
-   * If not specified, log output will be sent to stdout instead.
+   * True if log output shall be sent to console, false otherwise.
+   * Default is true.
    */
-  LOG_FILE_PATH?: string;
+  LOG_TO_CONSOLE?: boolean;
+
+  /** The path for storing the log files.  */
+  LOG_FILE_FOLDER_PATH?: string;
 
   /** true if running in production environment, false otherwise. */
-  isProduction?: boolean;
+  isProduction: boolean;
 
   /** true if running in development environment, false otherwise. */
-  isDevelopment?: boolean;
+  isDevelopment: boolean;
 
   /** true if running in test environment, false otherwise. */
-  isTest?: boolean;
+  isTest: boolean;
 
   /** Other properties. */
   [prop: string]: unknown;
@@ -113,25 +125,11 @@ function loadEnvironmentConfig(
 }
 
 /**
- * Helper function to ensure numbers are number type.
- */
-function ensureInteger(config: MicroserviceConfig): void {
-  Object.keys(config).forEach(field => {
-    const value = config[field] as unknown;
-    if (typeof value === "string") {
-      const i = parseInt(value, 10);
-      if (!isNaN(i)) {
-        config[field] = i as never;
-      }
-    }
-  });
-}
-
-/**
  * Read the Microservice configuration.
  */
 export async function readConfiguration(
   rootFolder: string,
+  configOverwrites?: Partial<MicroserviceConfig>,
 ): Promise<MicroserviceConfig> {
   // load .env and package.json file
 
@@ -154,23 +152,30 @@ export async function readConfiguration(
 
   config = assignEnvironment(config);
 
-  // convert strings to numbers
-
-  ensureInteger(config);
-
   // init package values and runtime mode
 
-  config.NAME = pkg?.name ?? "";
-  config.VERSION = pkg?.version ?? "";
+  config.NAME = pkg?.name;
+  config.VERSION = pkg?.version;
   config.DESCRIPTION = pkg?.description;
 
   config.isProduction = nodeEnvironment === "production";
   config.isDevelopment = nodeEnvironment === "development" || !nodeEnvironment;
   config.isTest = nodeEnvironment === "test";
 
-  // overwrite with env vars
+  // overwrite
 
   Object.assign(config, process.env);
+  Object.assign(config, configOverwrites);
+
+  // ensure defaults
+
+  if (config.LOG_LEVEL === undefined) {
+    config.LOG_LEVEL = "info";
+  }
+
+  if (config.LOG_TO_CONSOLE === undefined) {
+    config.LOG_TO_CONSOLE = true;
+  }
 
   // return config
 
