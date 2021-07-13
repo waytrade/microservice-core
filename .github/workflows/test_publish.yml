@@ -41,6 +41,14 @@ jobs:
       - name: "Run Tests"
         run: sudo yarn test
         
+      - name: "Bump Version"
+        if: github.ref == 'refs/heads/master'
+        uses: "phips28/gh-action-bump-version@master"
+        with:
+          tag-prefix: "v"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
       - name: 'Upload Test-Report Artifact'
         uses: actions/upload-artifact@v2
         with:
@@ -49,12 +57,26 @@ jobs:
           retention-days: 5
         
       - name: "Deploy Test-Report"
+        if: github.ref == 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v3
-        if: github.ref == 'refs/heads/main'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./test-report
-      
+        
+      - name: 'Pack Build Artifact'
+        if: github.ref == 'refs/heads/master'
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r files.zip package.json config dist
+          
+      - name: 'Upload Build Artifact'
+        if: github.ref == 'refs/heads/master'
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist-files
+          path: files.zip
+          retention-days: 1
+    
   publish:
     name: "Publish"
     if: github.ref == 'refs/heads/master'
@@ -75,24 +97,16 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: "@waytrade"
           always-auth: true 
-
-      - name: "Checkout source code"
-        uses: "actions/checkout@v2"
-        with:
-          ref: ${{ github.ref }}
           
-      - name: "Install dependencies"
-        run: yarn install
-        
-      - name: "Build App"
-        run: yarn build
-        
-      - name: "Bump Version"
-        uses: "phips28/gh-action-bump-version@master"
+      - name: "Donwload Build Artifact"
+        uses: actions/download-artifact@v2
         with:
-          tag-prefix: "v"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          name: dist-files
+          
+      - name: 'Unpack Build Artifact'
+        uses: montudor/action-zip@v1
+        with:
+          args: unzip -qq files.zip -d .
 
       - name: "Publish NPM Package"
         run: |
