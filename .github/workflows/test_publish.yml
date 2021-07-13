@@ -26,7 +26,8 @@ jobs:
       - name: "Build Code"
         run: yarn build
         
-      - uses: montudor/action-zip@v1
+      - name: 'Create Artifact Archive'
+        uses: montudor/action-zip@v1
         with:
           args: zip -qq -r build_files.zip .
 
@@ -43,29 +44,23 @@ jobs:
     needs: build
     
     steps:
-      - name: Download a single artifact
+      - name: "Donwload Build Artifact"
         uses: actions/download-artifact@v2
         with:
           name: build-artifact
           
-      - name: "Setup Node.js"
-        uses: "actions/setup-node@v2"
-        with:
-          node-version: "14.x"
-          
-      - uses: actions/download-artifact@v2
-        with:
-          name: build-artifact
-          
-      - uses: montudor/action-zip@v1
-        with:
-          args: unzip -qq build_files.zip -d .
-          
-      - name: "Prepare for Tests"
-        run: |
-          mkdir test-report
-          chmod 777 test-report
-
       - name: "Run Tests"
         run: sudo yarn test
+        
+      - name: 'Create Artifact Archive'
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r test_report.zip test-report    
+
+      - name: 'Upload Test-Report Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifact
+          path: build_files.zip
+          retention-days: 5
         
