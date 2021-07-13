@@ -10,7 +10,7 @@ on:
 
 jobs:
   test:
-    name: "Build and Test"
+    name: "Test"
     runs-on: ubuntu-latest
     steps:
       - name: "Setup node.js envioremnt"
@@ -35,11 +35,18 @@ jobs:
       - name: "Install dependencies"
         run: yarn install
 
-      - name: "Build Code"
+      - name: "Build App"
         run: yarn build
         
       - name: "Run Tests"
         run: sudo yarn test
+        
+      - name: "Deploy Test-Report"
+        uses: peaceiris/actions-gh-pages@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./test-report
       
   publish:
     name: "Publish"
@@ -67,6 +74,9 @@ jobs:
           
       - name: "Install production dependencies"
         run: yarn install --prod
+        
+      - name: "Build App"
+        run: yarn build
           
       - name: "Pack Artifact Archive"
         uses: montudor/action-zip@v1
@@ -79,20 +89,6 @@ jobs:
           name: production-build
           path: files.zip
           retention-days: 5
-        
-      - name: "Upload Test-Report Artifact"
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-report
-          path: test-report/*
-          retention-days: 5
-          
-      - name: "Deploy Test-Report"
-        uses: peaceiris/actions-gh-pages@v3
-        #if: github.ref == 'refs/heads/main'
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./test-report
           
       - name: "Publish NPM Package"
         run: |
