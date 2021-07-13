@@ -10,6 +10,14 @@ jobs:
     name: "Build and Test"
     runs-on: ubuntu-latest
     steps:
+      - name: "Setup node.js envioremnt"
+        uses: "actions/setup-node@v2"
+        with:
+          node-version: "14.x"
+          registry-url: https://npm.pkg.github.com/
+          scope: "@waytrade"
+          always-auth: true
+          
       - name: "Checkout source code"
         uses: "actions/checkout@v2"
         with:
@@ -73,3 +81,11 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./test-report
+          
+      - name: "Publish NPM Package"
+        run: |
+          echo registry=https://npm.pkg.github.com/waytrade >> .npmrc
+          npm config set //npm.pkg.github.com//:_authToken=$NODE_AUTH_TOKEN
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
