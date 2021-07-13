@@ -78,8 +78,8 @@ jobs:
 
       - name: "Install tools" 
         run: |
-          yarn global add typescript
-          yarn global add tsc
+          npm install typescript -g
+          npm install tsc -g
 
       - name: "Checkout source code"
         uses: "actions/checkout@v2"
