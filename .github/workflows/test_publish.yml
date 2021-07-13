@@ -26,7 +26,7 @@ jobs:
       - name: "Build Code"
         run: yarn build
         
-      - name: 'Create Artifact Archive'
+      - name: 'Pack Artifact Archive'
         uses: montudor/action-zip@v1
         with:
           args: zip -qq -r build_files.zip .
@@ -49,14 +49,14 @@ jobs:
         with:
           name: build-artifact
           
-      - name: "Run Tests"
-        run: sudo yarn test
-        
-      - name: 'Create Artifact Archive'
+      - name: 'Unpack Artifact Archive'
         uses: montudor/action-zip@v1
         with:
           args: zip -qq -r test_report.zip test-report    
-
+          
+      - name: "Run Tests"
+        run: sudo yarn test
+        
       - name: 'Upload Test-Report Artifact'
         uses: actions/upload-artifact@v2
         with:
