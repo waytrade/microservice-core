@@ -29,7 +29,7 @@ jobs:
       - name: 'Pack Artifact Archive'
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r abuild_files.zip .
+          args: zip -qq -r build_files.zip .
 
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v2
