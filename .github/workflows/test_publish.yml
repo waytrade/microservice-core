@@ -70,7 +70,7 @@ jobs:
           always-auth: true 
           
       - name: "Install typescript" 
-        run: sudp npm install typescript -g
+        run: sudo npm install typescript -g
    
       - name: "Checkout source code"
         uses: "actions/checkout@v2"
