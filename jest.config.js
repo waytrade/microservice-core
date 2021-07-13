@@ -45,10 +45,11 @@ module.exports = {
 
   // A list of reporter names that Jest uses when writing coverage reports
    coverageReporters: [
-    // "json",
-    // "text",
-       "lcov",
-    // "clover"
+      //"json",
+      //"json-summary",
+      "lcov",
+      //"text",
+      //"text-summary"
    ],
 
   // Report coverage in lcov for Code Climate
