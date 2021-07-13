@@ -49,7 +49,7 @@ jobs:
         with:
           name: build-artifact
           
-      - name: 'Unpack Artifact Archive'
+      - name: 'Unpack Build Artifact'
         uses: montudor/action-zip@v1
         with:
           args: unzip -qq build_files.zip -d .
@@ -57,22 +57,9 @@ jobs:
       - name: "Run Tests"
         run: sudo yarn test
         
-      - name: 'Pack Artifact Archive'
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r test_report.zip test-report
-
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v2
-        with:
-          name: test-report
-          path: test_report.zip
-          retention-days: 1
-
       - name: 'Upload Test-Report Artifact'
         uses: actions/upload-artifact@v2
         with:
-          name: test-report-artifact
-          path: test_report.zip
-          retention-days: 5
-        
+          name: test-report
+          path: test_report/*
+          retention-days: 1
