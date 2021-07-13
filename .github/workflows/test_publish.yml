@@ -67,3 +67,8 @@ jobs:
           path: test-report/*
           retention-days: 1
  
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: test-report
