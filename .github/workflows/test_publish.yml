@@ -6,8 +6,8 @@ on:
       - "dev"
 
 jobs:
-  build:
-    name: "Build"
+  build-dev:
+    name: "Development Build"
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout source code"
@@ -15,17 +15,14 @@ jobs:
         with:
           ref: ${{ github.ref }}
           
-      - uses: actions/cache@v2
+      - name: "Configure cache" 
+        uses: actions/cache@v2
         with:
-          path: |
-            '**/node_modules'
-            '**/node_modules_production'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-dev-${{ hashFiles('**/yarn.lock') }}
           
-      - name: "Install Production Dependencies"
-        run: yarn install --prod
-        
-      - run: cp -r node_modules node_modules_production
+      - name: "Install Dependencies"
+        run: yarn install
 
       - name: "Install Development Dependencies"
         run: yarn install
@@ -41,20 +38,56 @@ jobs:
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v2
         with:
-          name: build-artifact
+          name: build-development
+          path: build_files.zip
+          retention-days: 1
+          
+  build-prod:
+    name: "Production Build"
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout source code"
+        uses: "actions/checkout@v2"
+        with:
+          ref: ${{ github.ref }}
+          
+      - name: "Configure cache" 
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-prod-${{ hashFiles('**/yarn.lock') }}
+          
+      - name: "Install Dependencies"
+        run: yarn install --prod
+
+      - name: "Install Development Dependencies"
+        run: yarn install
+
+      - name: "Build Code"
+        run: yarn build
+        
+      - name: 'Pack Artifact Archive'
+        uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r build_files.zip .
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-production
           path: build_files.zip
           retention-days: 1
 
   test:
     name: "Test"
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-dev
     
     steps:
       - name: "Donwload Build Artifact"
         uses: actions/download-artifact@v2
         with:
-          name: build-artifact
+          name: build-development
           
       - name: 'Unpack Build Artifact'
         uses: montudor/action-zip@v1
