@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    name: "Test"
+    name: "Build and Test"
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout source code"
@@ -15,7 +15,7 @@ jobs:
         with:
           ref: ${{ github.ref }}
           
-      - name: "Configur cache" 
+      - name: "Configure cache" 
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
@@ -39,7 +39,7 @@ jobs:
           
       - run: rm -r -f node_modules
       
-      - name: "Configure production cache" 
+      - name: "Configure cache" 
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
