@@ -20,27 +20,27 @@ jobs:
           registry-url: https://npm.pkg.github.com/
           scope: "@waytrade"
           always-auth: true
-          
+
       - name: "Checkout source code"
         uses: "actions/checkout@v2"
         with:
           ref: ${{ github.ref }}
-          
-      - name: "Configure cache" 
+
+      - name: "Configure cache"
         uses: actions/cache@v2
         with:
-          path: '**/node_modules'
+          path: "**/node_modules"
           key: ${{ runner.os }}-modules-all-${{ hashFiles('**/yarn.lock') }}
-          
+
       - name: "Install dependencies"
         run: yarn install
 
       - name: "Build App"
         run: yarn build
-        
+
       - name: "Run Tests"
         run: sudo yarn test
-        
+
       - name: "Bump Version"
         if: github.ref == 'refs/heads/master'
         uses: "phips28/gh-action-bump-version@master"
@@ -48,65 +48,55 @@ jobs:
           tag-prefix: "v"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-      - name: 'Upload Test-Report Artifact'
+
+      - name: "Upload Test-Report Artifact"
         uses: actions/upload-artifact@v2
         with:
           name: test-report
-          path: test-report/*
+          path: test-report/
           retention-days: 5
-        
+
       - name: "Deploy Test-Report"
         if: github.ref == 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./test-report
-        
-      - name: 'Pack Build Artifact'
-        if: github.ref == 'refs/heads/master'
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r files.zip package.json config dist
-          
-      - name: 'Upload Build Artifact'
+
+      - name: "Upload Build Artifact"
         if: github.ref == 'refs/heads/master'
         uses: actions/upload-artifact@v2
         with:
           name: dist-files
-          path: files.zip
           retention-days: 1
-    
+          path: |
+            dist/
+            package.json
+
   publish:
     name: "Publish"
     if: github.ref == 'refs/heads/master'
     needs: test
     runs-on: ubuntu-latest
     steps:
-    
-      - name: "Configure cache" 
+      - name: "Configure cache"
         uses: actions/cache@v2
         with:
-          path: '**/node_modules'
+          path: "**/node_modules"
           key: ${{ runner.os }}-modules-prod-${{ hashFiles('**/yarn.lock') }}
-    
+
       - name: "Setup node.js environment"
         uses: "actions/setup-node@v2"
         with:
           node-version: "14.x"
           registry-url: https://npm.pkg.github.com/
           scope: "@waytrade"
-          always-auth: true 
-          
+          always-auth: true
+
       - name: "Donwload Build Artifact"
         uses: actions/download-artifact@v2
         with:
           name: dist-files
-          
-      - name: 'Unpack Build Artifact'
-        uses: montudor/action-zip@v1
-        with:
-          args: unzip -qq files.zip -d .
 
       - name: "Publish NPM Package"
         run: |
