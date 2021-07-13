@@ -1,7 +1,7 @@
 # microservice-core
 
 [![Test and Publish](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml/badge.svg)](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml)
-[![Test Report](./assets/test-results.svg)](https://waytrade.github.io/microservice-core/coverage/jest) [![Core Coverage](./test-report/coverage/coverage.svg)](https://waytrade.github.io/microservice-core/coverage/lcov-report)
+[![Test Report](./assets/test-results.svg)](https://waytrade.github.io/microservice-core/coverage/jest) [![Core Coverage](https://github.com/waytrade/microservice-core/tree/gh-pages/coverage)](https://waytrade.github.io/microservice-core/coverage/lcov-report)
 
 ---
 
