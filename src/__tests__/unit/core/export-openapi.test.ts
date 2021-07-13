@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import {controller, get, MicroserviceContext} from "../../..";
-import {exportOpenApiJson} from "../../../util/openapi-exporter";
+import {exportOpenApiJson} from "../../../core/openapi-exporter";
 
 /** The app root folder. */
 const ROOT_FOLDER = path.resolve(__dirname, "../../..");

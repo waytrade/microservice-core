@@ -1,9 +1,9 @@
 import axios from "axios";
 import fs from "fs";
 import {HttpStatus} from "..";
-import {MicroserviceContext} from "../core/context";
-import {MicroserviceHttpServer} from "../core/http-server";
-import {OpenApi} from "../core/openapi";
+import {MicroserviceContext} from "./context";
+import {MicroserviceHttpServer} from "./http-server";
+import {OpenApi} from "./openapi";
 
 export function exportOpenApiJson(
   path: string,

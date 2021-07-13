@@ -1,7 +1,7 @@
 import {MicroserviceContext} from "..";
-import {exportOpenApiJson} from "../util/openapi-exporter";
 import {MicroserviceConfig} from "./config";
 import {MicroserviceHttpServer} from "./http-server";
+import {exportOpenApiJson} from "./openapi-exporter";
 
 /** MicroserviceApp initialization parameters. */
 export interface MicroserviceAppParams {

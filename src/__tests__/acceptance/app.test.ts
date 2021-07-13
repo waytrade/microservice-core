@@ -4,12 +4,12 @@ import {controller, get, HttpStatus, MicroserviceTestApp} from "../..";
 import {MicroserviceConfig} from "../../core/config";
 
 /** Dummy application config*/
-interface TestAppConfig extends MicroserviceConfig {
+interface CustomAppConfig extends MicroserviceConfig {
   MY_CONFIG_SETTING: string;
 }
 
 /** TestController response model */
-interface TestAppResponse {
+interface CustomAppResponse {
   val: number;
 }
 
@@ -17,23 +17,23 @@ interface TestAppResponse {
 const ROOT_FOLDER = path.resolve(__dirname, "../../..");
 
 /** TestController response object */
-const TEST_RESPONSE: TestAppResponse = {val: Math.random()};
+const TEST_RESPONSE: CustomAppResponse = {val: Math.random()};
 
 /** A test controller that replies with TEST_RESPONSE on /api */
 @controller("A Controller that responses a predefined object")
-class TestController {
+class CustomAppController {
   @get("/")
   static get(): unknown {
     return TEST_RESPONSE;
   }
 }
 
-/** The test app, has an API and Callback Controller */
-class TestApp extends MicroserviceTestApp<TestAppConfig> {
+/** An app with API and Callback controller */
+class CustomApp extends MicroserviceTestApp<CustomAppConfig> {
   constructor() {
     super(ROOT_FOLDER, {
-      apiControllers: [TestController],
-      callbackControllers: [TestController],
+      apiControllers: [CustomAppController],
+      callbackControllers: [CustomAppController],
     });
   }
 }
@@ -44,12 +44,14 @@ class TestApp extends MicroserviceTestApp<TestAppConfig> {
 describe("Test Custom App", () => {
   test("Call REST API server", () => {
     return new Promise<void>((resolve, reject) => {
-      const app = new TestApp();
+      const app = new CustomApp();
       app
         .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
         .then(() => {
           axios
-            .get<TestAppResponse>(`http://127.0.0.1:${app.apiServerPort}/api/`)
+            .get<CustomAppResponse>(
+              `http://127.0.0.1:${app.apiServerPort}/api/`,
+            )
             .then(res => {
               expect(res.status).toBe(HttpStatus.OK);
               expect(res.data).toEqual(TEST_RESPONSE);
@@ -71,12 +73,12 @@ describe("Test Custom App", () => {
   describe("Call Webhook Callback server", () => {
     test("", () => {
       return new Promise<void>((resolve, reject) => {
-        const app = new TestApp();
+        const app = new CustomApp();
         app
           .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
           .then(() => {
             axios
-              .get<TestAppResponse>(
+              .get<CustomAppResponse>(
                 `http://127.0.0.1:${app.callbackServerPort}/api/`,
               )
               .then(res => {
@@ -100,13 +102,13 @@ describe("Test Custom App", () => {
 
   test("Export openapi.json", () => {
     return new Promise<void>((resolve, reject) => {
-      const app = new TestApp();
+      const app = new CustomApp();
       app.exportOpenApi(ROOT_FOLDER + "test-report/tmp/openapi.json");
       app
         .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
         .then(() => {
           axios
-            .get<TestAppResponse>(
+            .get<CustomAppResponse>(
               `http://127.0.0.1:${app.callbackServerPort}/api/`,
             )
             .then(res => {
