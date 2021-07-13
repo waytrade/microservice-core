@@ -30,12 +30,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: build-artifact
-          path: /*
+          path: ./*
           retention-days: 1
 
   test:
     name: "Test"
     runs-on: ubuntu-latest
+    needs: build
     
     steps:
       - name: Download a single artifact
