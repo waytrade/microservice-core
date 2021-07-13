@@ -17,10 +17,17 @@ jobs:
           
       - uses: actions/cache@v2
         with:
-          path: '**/node_modules'
+          path: |
+            '**/node_modules'
+            '**/node_modules_production'
           key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          
+      - name: "Install Production Dependencies"
+        run: yarn install --prod
+        
+      - run: cp -r node_modules node_modules_production
 
-      - name: "Install Dependencies"
+      - name: "Install Development Dependencies"
         run: yarn install
 
       - name: "Build Code"
