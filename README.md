@@ -2,6 +2,10 @@
 
 [![Test and Publish](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml/badge.svg)](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml)
 
+[Test Report](https://waytrade.github.io/microservice-core/)
+[Code Coverage Report](https://waytrade.github.io/microservice-core/coverage/lcov-report/)
+
+
 <a href="https://waytrade.github.io/microservice-core/coverage/lcov-report/" target="_blank">Code Coverage Report</a>
 
 Core-library for microservice implementations.
