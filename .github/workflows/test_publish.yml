@@ -15,13 +15,13 @@ jobs:
         with:
           ref: ${{ github.ref }}
           
-      - name: "Configure development cache" 
+      - name: "Configur cache" 
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-all-${{ hashFiles('**/yarn.lock') }}
           
-      - name: "Install development dependencies"
+      - name: "Install dependencies"
         run: yarn install
 
       - name: "Build Code"
@@ -46,7 +46,7 @@ jobs:
           key: ${{ runner.os }}-modules-prod-${{ hashFiles('**/yarn.lock') }}
           
       - name: "Install production dependencies"
-        run: yarn install
+        run: yarn install --prod
           
       - name: 'Pack Artifact Archive'
         uses: montudor/action-zip@v1
@@ -66,4 +66,4 @@ jobs:
           name: test-report
           path: test-report/*
           retention-days: 1
-     
+ 
