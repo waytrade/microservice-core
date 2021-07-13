@@ -61,29 +61,37 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
+      - name: "Setup node.js envioremnt"
+        uses: "actions/setup-node@v2"
+        with:
+          node-version: "14.x"
+          registry-url: https://npm.pkg.github.com/
+          scope: "@waytrade"
+          always-auth: true 
+          
       - name: "Checkout source code"
         uses: "actions/checkout@v2"
         with:
           ref: ${{ github.ref }}
-          
-      - name: "Bump Version"
-        uses: "phips28/gh-action-bump-version@master"
-        with:
-          tag-prefix: "v"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: "Configure cache" 
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-prod-${{ hashFiles('**/yarn.lock') }}
-          
+   
       - name: "Install production dependencies"
         run: yarn install --prod
         
       - name: "Build App"
         run: yarn build
+        
+      - name: "Bump Version"
+        uses: "phips28/gh-action-bump-version@master"
+        with:
+          tag-prefix: "v"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: "Pack Artifact Archive"
         uses: montudor/action-zip@v1
