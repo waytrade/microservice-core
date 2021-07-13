@@ -67,5 +67,5 @@ jobs:
           chmod 777 test-report
 
       - name: "Run Tests"
-        run: yarn test
+        run: sudo yarn test
         
