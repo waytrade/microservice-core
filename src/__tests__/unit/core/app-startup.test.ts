@@ -4,8 +4,8 @@ import {
   controller,
   get,
   HttpStatus,
-  MicroserviceApp,
   MicroserviceContext,
+  MicroserviceTestApp,
 } from "../../..";
 import {MicroserviceConfig} from "../../../core/config";
 
@@ -63,7 +63,7 @@ describe("Test MicroserviceApp class", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");
 
-      const app = new MicroserviceApp<MicroserviceConfig>(rootFolder);
+      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder);
       app
         .start()
         .then(() => {
@@ -85,7 +85,7 @@ describe("Test MicroserviceApp class", () => {
       context
         .boot()
         .then(() => {
-          const app = new MicroserviceApp<MicroserviceConfig>(rootFolder, {
+          const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
             externalContext: context,
           });
           app
@@ -110,7 +110,7 @@ describe("Test MicroserviceApp class", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");
 
-      const app = new MicroserviceApp<MicroserviceConfig>(rootFolder, {
+      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
         apiControllers: [
           TestControllerNoBootFunction,
           TestControllerBlockingBootFunction,
@@ -142,7 +142,7 @@ describe("Test MicroserviceApp class", () => {
   test("Test API server", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");
-      const app = new MicroserviceApp<MicroserviceConfig>(rootFolder, {
+      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
         apiControllers: [HandleGetTestController],
       });
 

@@ -24,7 +24,7 @@ export interface MicroserviceAppParams {
 /**
  * Base-class for Microservice App implementations.
  */
-export class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
+export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
   /**
    * MicroserviceApp constructor.
    *
@@ -48,6 +48,29 @@ export class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
   /** The Webhook callbacks server. */
   private callbackServer?: MicroserviceHttpServer;
 
+  /** Called when the app shall boot up. */
+  abstract onBoot(): Promise<void>;
+
+  /** Called when the microservice has been started. */
+  onStarted(): void {
+    if (this.apiServer) {
+      this.info(
+        `REST API Server started at port ${this.apiServer.listeningPort}`,
+      );
+    }
+    if (this.callbackServer) {
+      this.info(
+        `Webhook Callback Server started at port ${this.callbackServer.listeningPort}`,
+      );
+    }
+    return;
+  }
+
+  /** Called when the microservice has been started. */
+  onStopped(): void {
+    this.info("App stopped.");
+  }
+
   /** Get the service configuration */
   get config(): CONFIG_TYPE {
     return (<unknown>this.context.config) as CONFIG_TYPE;
@@ -70,6 +93,12 @@ export class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
     if (!this.context.isBooted) {
       await this.context.boot(configOverwrites);
     }
+
+    // start the app
+
+    await this.onBoot();
+
+    this.info("Starting App...");
 
     // start webhook callback server
 
@@ -126,6 +155,8 @@ export class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
       );
       await this.apiServer.start(this.config.SERVER_PORT);
     }
+
+    this.onStarted();
   }
 
   /** Stop the app. */
@@ -158,6 +189,28 @@ export class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
         }
       }
     }
+
+    this.onStopped();
+  }
+
+  /** Log a debug message. */
+  debug(msg: string, ...args: unknown[]): void {
+    this.context?.debug(msg, args);
+  }
+
+  /** Log an info message. */
+  info(msg: string, ...args: unknown[]): void {
+    this.context?.info(msg, args);
+  }
+
+  /** Log a warning message. */
+  warn(msg: string, ...args: unknown[]): void {
+    this.context?.warn(msg, args);
+  }
+
+  /** Log an error message. */
+  error(msg: string, ...args: unknown[]): void {
+    this.context?.error(msg, args);
   }
 
   /** Export the openapi.json the given folder */

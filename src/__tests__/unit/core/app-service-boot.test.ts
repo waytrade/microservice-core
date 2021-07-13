@@ -1,5 +1,5 @@
 import path from "path";
-import {MicroserviceApp, service} from "../../..";
+import {MicroserviceTestApp, service} from "../../..";
 import {MicroserviceConfig} from "../../../core/config";
 
 @service()
@@ -64,7 +64,7 @@ describe("Test Service boot", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");
 
-      const app = new MicroserviceApp<MicroserviceConfig>(rootFolder, {
+      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
         services: [
           TestServiceNoBootFunction,
           TestServiceBlockingBootFunction,
@@ -97,7 +97,7 @@ describe("Test Service boot", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");
 
-      const app = new MicroserviceApp<MicroserviceConfig>(rootFolder, {
+      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
         services: [TestServiceFailedAsyncBoot],
       });
 
@@ -120,7 +120,7 @@ describe("Test Service boot", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");
 
-      const app = new MicroserviceApp<MicroserviceConfig>(rootFolder, {
+      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
         services: [TestServiceFailedBlockingBoot],
       });
 

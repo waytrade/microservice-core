@@ -358,11 +358,8 @@ export class MicroserviceHttpServer {
     controller: ControllerMetadata,
     method: MethodMetadata,
   ): void {
-    if (!method?.method || !method?.contentType) {
-      return;
-    }
     const url = (controller.baseUrl ?? "") + method.path;
-    switch (method.method.toLowerCase()) {
+    switch (method.method?.toLowerCase()) {
       case "get":
         if (method.websocket) {
           this.registerWsRoute(controller.target, method.propertyKey, url);
@@ -371,7 +368,7 @@ export class MicroserviceHttpServer {
             controller.target,
             method.propertyKey,
             url,
-            method.contentType,
+            method.contentType ?? "application/json",
           );
         }
         break;
@@ -380,7 +377,7 @@ export class MicroserviceHttpServer {
           controller.target,
           method.propertyKey,
           url,
-          method.contentType,
+          method.contentType ?? "application/json",
         );
         break;
       case "post":
@@ -388,7 +385,7 @@ export class MicroserviceHttpServer {
           controller.target,
           method.propertyKey,
           url,
-          method.contentType,
+          method.contentType ?? "application/json",
         );
         break;
       case "patch":
@@ -396,7 +393,7 @@ export class MicroserviceHttpServer {
           controller.target,
           method.propertyKey,
           url,
-          method.contentType,
+          method.contentType ?? "application/json",
         );
         break;
       case "delete":
@@ -404,7 +401,7 @@ export class MicroserviceHttpServer {
           controller.target,
           method.propertyKey,
           url,
-          method.contentType,
+          method.contentType ?? "application/json",
         );
         break;
     }
@@ -454,7 +451,7 @@ export class MicroserviceHttpServer {
           .catch(error => (resultCode = error.code))
           .finally(() => {
             const endTime = Date.now();
-            resultCode = resultCode ?? 500;
+            resultCode = resultCode ?? HttpStatus.INTERNAL_SERVER_ERROR;
             this.context.debug(
               `HTTP ${request.method} ${request.url} -> ${resultCode} (${
                 endTime - startTime
@@ -490,7 +487,7 @@ export class MicroserviceHttpServer {
   /** Write an error response the uWS.HttpResponse */
   private writeError(res: uWS.HttpResponse, error: HttpError): void {
     res.cork(() => {
-      const code = error.code ?? 500;
+      const code = error.code ?? HttpStatus.INTERNAL_SERVER_ERROR;
       res.writeStatus(`${code} ${HttpStatus[code]}`);
       this.addCORSResponseHeaders(res);
       res.writeHeader("content-type", "application/json");

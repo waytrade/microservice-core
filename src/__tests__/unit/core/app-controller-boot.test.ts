@@ -1,6 +1,7 @@
 import path from "path";
-import {controller, MicroserviceApp} from "../../..";
+import {controller} from "../../..";
 import {MicroserviceConfig} from "../../../core/config";
+import {MicroserviceTestApp} from "../../../util/test-app";
 
 @controller("Dummy controller without boot and shutdown functions")
 class TestControllerNoBootFunction {
@@ -64,7 +65,7 @@ describe("Test Controller boot", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");
 
-      const app = new MicroserviceApp<MicroserviceConfig>(rootFolder, {
+      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
         apiControllers: [
           TestControllerNoBootFunction,
           TestControllerBlockingBootFunction,
@@ -97,7 +98,7 @@ describe("Test Controller boot", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");
 
-      const app = new MicroserviceApp<MicroserviceConfig>(rootFolder, {
+      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
         apiControllers: [TestControllerFailedAsyncBoot],
       });
 
@@ -120,7 +121,7 @@ describe("Test Controller boot", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");
 
-      const app = new MicroserviceApp<MicroserviceConfig>(rootFolder, {
+      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
         apiControllers: [TestControllerFailedBlockingBoot],
       });
 
@@ -143,7 +144,7 @@ describe("Test Controller boot", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");
 
-      const app = new MicroserviceApp<MicroserviceConfig>(rootFolder, {
+      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
         callbackControllers: [TestControllerFailedAsyncBoot],
       });
 
@@ -166,7 +167,7 @@ describe("Test Controller boot", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");
 
-      const app = new MicroserviceApp<MicroserviceConfig>(rootFolder, {
+      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
         callbackControllers: [TestControllerFailedBlockingBoot],
       });
 

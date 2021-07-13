@@ -26,6 +26,12 @@ class WebsocketEchoController {
       stream.send(message);
     };
   }
+  @websocket("/close")
+  static close(stream: MicroserviceStream): void {
+    stream.onReceived = (message): void => {
+      stream.close();
+    };
+  }
 }
 
 describe("Test MicroserviceHttpServer websocket streaming", () => {
@@ -93,6 +99,44 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
           ws.onopen = (): void => {
             // binary data is not supported, must close immediately.
             ws.send(new ArrayBuffer(32));
+          };
+          ws.onclose = (): void => {
+            resolve();
+            server.stop();
+          };
+          ws.onmessage = (event: any): void => {
+            reject();
+            server.stop();
+          };
+          ws.onerror = (event: any): void => {
+            reject(event);
+            server.stop();
+          };
+        })
+        .catch(error => {
+          reject(error);
+          server.stop();
+        });
+    });
+  });
+
+  test("Fore close", () => {
+    return new Promise<void>((resolve, reject) => {
+      const server = new MicroserviceHttpServer(context, [
+        WebsocketEchoController,
+      ]);
+
+      server
+        .start()
+        .then(() => {
+          expect(server.listeningPort).not.toEqual(0);
+
+          const ws = new WebSocket(
+            `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/close`,
+          );
+
+          ws.onopen = (): void => {
+            ws.send("test");
           };
           ws.onclose = (): void => {
             resolve();

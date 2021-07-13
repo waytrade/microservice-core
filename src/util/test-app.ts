@@ -10,4 +10,8 @@ export class MicroserviceTestApp<
   constructor(projectRootFolder: string, params?: MicroserviceAppParams) {
     super(projectRootFolder, params);
   }
+
+  async onBoot(): Promise<void> {
+    return;
+  }
 }
