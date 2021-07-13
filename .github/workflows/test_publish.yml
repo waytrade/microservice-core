@@ -6,8 +6,8 @@ on:
       - "dev"
 
 jobs:
-  build-dev:
-    name: "Development Build"
+  test:
+    name: "Test"
     runs-on: ubuntu-latest
     steps:
       - name: "Checkout source code"
@@ -15,87 +15,50 @@ jobs:
         with:
           ref: ${{ github.ref }}
           
-      - name: "Configure cache" 
+      - name: "Configure development cache" 
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-dev-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-modules-all-${{ hashFiles('**/yarn.lock') }}
           
-      - name: "Install Dependencies"
-        run: yarn install
-
-      - name: "Install Development Dependencies"
+      - name: "Install development dependencies"
         run: yarn install
 
       - name: "Build Code"
         run: yarn build
         
-      - name: 'Pack Artifact Archive'
-        uses: montudor/action-zip@v1
+      - name: "Run Tests"
+        run: sudo yarn test
+      
+      - name: "Bump Version"
+        uses: "phips28/gh-action-bump-version@master"
         with:
-          args: zip -qq -r build_files.zip .
-
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v2
-        with:
-          name: build-development
-          path: build_files.zip
-          retention-days: 1
+          tag-prefix: "v"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
-  build-prod:
-    name: "Production Build"
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Checkout source code"
-        uses: "actions/checkout@v2"
-        with:
-          ref: ${{ github.ref }}
-          
-      - name: "Configure cache" 
+      - run: rm -r -f node_modules
+      
+      - name: "Configure production cache" 
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-prod-${{ hashFiles('**/yarn.lock') }}
           
-      - name: "Install Dependencies"
-        run: yarn install --prod
-
-      - name: "Install Development Dependencies"
+      - name: "Install production dependencies"
         run: yarn install
-
-      - name: "Build Code"
-        run: yarn build
-        
+          
       - name: 'Pack Artifact Archive'
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r build_files.zip .
+          args: zip -qq -r files.zip package.json config dist node_modules
 
       - name: 'Upload Artifact'
         uses: actions/upload-artifact@v2
         with:
-          name: build-production
-          path: build_files.zip
+          name: production-build
+          path: files.zip
           retention-days: 1
-
-  test:
-    name: "Test"
-    runs-on: ubuntu-latest
-    needs: build-dev
-    
-    steps:
-      - name: "Donwload Build Artifact"
-        uses: actions/download-artifact@v2
-        with:
-          name: build-development
-          
-      - name: 'Unpack Build Artifact'
-        uses: montudor/action-zip@v1
-        with:
-          args: unzip -qq build_files.zip -d .
-          
-      - name: "Run Tests"
-        run: sudo yarn test
         
       - name: 'Upload Test-Report Artifact'
         uses: actions/upload-artifact@v2
@@ -103,3 +66,4 @@ jobs:
           name: test-report
           path: test-report/*
           retention-days: 1
+     
