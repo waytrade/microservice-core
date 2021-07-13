@@ -2,6 +2,8 @@
 
 [![Test and Publish](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml/badge.svg)](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml)
 
+<a href="https://waytrade.github.io/microservice-core/coverage/lcov-report/" target="_blank">Code Coverage Report</a>
+
 Core-library for microservice implementations.
 
 We use this library as core of our microservice Apps and it is OSS so you don't need to write it again. No questions will be answered, no support will be given, no feature-request will be accepted. Use it - or fork it and roll your own :)
