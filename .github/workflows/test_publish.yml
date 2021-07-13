@@ -76,18 +76,13 @@ jobs:
           scope: "@waytrade"
           always-auth: true 
 
-      - name: "Install tools" 
-        run: |
-          sudo yarn global add typescript -g
-          sudo yarn global add tsc -g
-
       - name: "Checkout source code"
         uses: "actions/checkout@v2"
         with:
           ref: ${{ github.ref }}
           
-      - name: "Install production dependencies"
-        run: yarn install --prod
+      - name: "Install dependencies"
+        run: yarn install
         
       - name: "Build App"
         run: yarn build
@@ -98,19 +93,7 @@ jobs:
           tag-prefix: "v"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: "Pack Artifact Archive"
-        uses: montudor/action-zip@v1
-        with:
-          args: zip -qq -r files.zip package.json config dist node_modules
 
-      - name: "Upload Build Artifact"
-        uses: actions/upload-artifact@v2
-        with:
-          name: production-build
-          path: files.zip
-          retention-days: 5
-          
       - name: "Publish NPM Package"
         run: |
           echo registry=https://npm.pkg.github.com/waytrade >> .npmrc
