@@ -3,59 +3,44 @@ name: "Test and Publish"
 on:
   push:
     branches:
-      - "master"
+      - "dev"
 
 jobs:
-  build-test-publish:
-    name: "Build, Test and Publish"
+  build:
+    name: "Build"
     runs-on: ubuntu-latest
 
-    steps:
-      - name: "Checkout source code"
-        uses: "actions/checkout@v2"
-        with:
-          ref: ${{ github.ref }}
+    - name: "Checkout source code"
+      uses: "actions/checkout@v2"
+      with:
+        ref: ${{ github.ref }}
 
-      - name: "Setup Node.js"
-        uses: "actions/setup-node@v2"
-        with:
-          node-version: "14.x"
+    - name: "Setup Node.js"
+      uses: "actions/setup-node@v2"
+      with:
+        node-version: "14.x"
 
-      - name: "Install Dependencies"
+    - name: "Install Dependencies"
         run: yarn install
 
-      - name: "Build Code"
-        run: yarn build
+    - name: "Build Code"
+      run: yarn build
 
-      - name: "Run Tests"
-        run: yarn test
+    - name: 'Upload Artifact'
+    uses: actions/upload-artifact@v2
+    with:
+      name: build-artifact
+      path: /*
+      retention-days: 1
 
-      - name: "Automated Version Bump"
-        uses: "phips28/gh-action-bump-version@master"
-        with:
-          tag-prefix: ""
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  test:
+    name: "Test"
+    runs-on: ubuntu-latest
 
-      - name: "Publish to npmjs"
-        run: |
-          npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
-          npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-          
-      - name: "Setup github environment"
-        uses: "actions/setup-node@v2"
-        with:
-          node-version: "14.x"
-          registry-url: https://npm.pkg.github.com/
-          scope: "@waytrade"
-          always-auth: true
-          
-      - name: "Publish to github"
-        run: |
-          echo registry=https://npm.pkg.github.com/waytrade >> .npmrc
-          npm config set //npm.pkg.github.com//:_authToken=$NODE_AUTH_TOKEN
-          npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Download a single artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: build-artifact
+
+    - name: "Run Tests"
+      run: yarn test
