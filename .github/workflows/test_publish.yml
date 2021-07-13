@@ -53,7 +53,7 @@ jobs:
         with:
           args: zip -qq -r files.zip package.json config dist node_modules
 
-      - name: 'Upload Artifact'
+      - name: 'Upload Build Artifact'
         uses: actions/upload-artifact@v2
         with:
           name: production-build
@@ -67,7 +67,7 @@ jobs:
           path: test-report/*
           retention-days: 1
           
-      - name: Deploy
+      - name: Deploy Test-Report
         uses: peaceiris/actions-gh-pages@v3
         #if: github.ref == 'refs/heads/main'
         with:
