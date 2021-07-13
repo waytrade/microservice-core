@@ -41,6 +41,13 @@ jobs:
       - name: "Run Tests"
         run: sudo yarn test
         
+      - name: 'Upload Test-Report Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-report
+          path: test-report/*
+          retention-days: 5
+        
       - name: "Deploy Test-Report"
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main'
