@@ -110,7 +110,7 @@ describe("Test DiffTools class", () => {
     expect(diffResult.changed.subObject.boolArray).toEqual([]);
   });
 
-  test("DiffTools.diff complex arrays (not supported)", () => {
+  test("DiffTools.diff complex arrays", () => {
     const a: any = {
       testArray: [3, {val: 3}, 0],
     };

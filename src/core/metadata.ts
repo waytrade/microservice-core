@@ -61,16 +61,6 @@ export class ServiceMetadata {
 }
 
 /**
- * Metadata of a webhook callback.
- */
-export class WebHookCallbackMetadata {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  target?: any;
-  endpointName?: string;
-  readonly methods = new MapExt<string, MethodMetadata>();
-}
-
-/**
  * Metadata of a model property.
  */
 export class PropertyMetadata {
