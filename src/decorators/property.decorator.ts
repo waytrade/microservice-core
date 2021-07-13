@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import "reflect-metadata";
-import {MicroserviceContext} from "..";
 import {
   EnumModelMetadata,
+  ENUM_MODEL_METADATA,
   ModelMetadata,
+  MODEL_METADATA,
   PropertyMetadata,
 } from "../core/metadata";
 
@@ -14,9 +15,8 @@ export function property(description?: string): any {
     propertyKey: string,
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
-    const typeName = target.name ?? target.constructor.name;
-    const modelMeta = MicroserviceContext.models.getOrAdd(
-      typeName,
+    const modelMeta = MODEL_METADATA.getOrAdd(
+      target.constructor.name,
       () => new ModelMetadata(target.constructor),
     );
     modelMeta.properties.push(
@@ -37,7 +37,7 @@ export function arrayProperty(itemModel: any, description?: string): any {
     propertyKey: string,
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
-    const modelMeta = MicroserviceContext.models.getOrAdd(
+    const modelMeta = MODEL_METADATA.getOrAdd(
       target.constructor.name,
       () => new ModelMetadata(target.constructor),
     );
@@ -63,7 +63,7 @@ export function enumProperty(
     propertyKey: string,
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
-    const modelMeta = MicroserviceContext.models.getOrAdd(
+    const modelMeta = MODEL_METADATA.getOrAdd(
       target.constructor.name,
       () => new ModelMetadata(target.constructor),
     );
@@ -71,14 +71,10 @@ export function enumProperty(
       new PropertyMetadata(propertyKey, enumName, description, enumType.name),
     );
 
-    const enumModelMeta = MicroserviceContext.enumModels.getOrAdd(
+    const enumModelMeta = ENUM_MODEL_METADATA.getOrAdd(
       enumName,
       () => new EnumModelMetadata(),
     );
-
-    if (enumModelMeta.name) {
-      return descriptor;
-    }
 
     enumModelMeta.name = enumName;
 

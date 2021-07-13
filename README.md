@@ -28,8 +28,8 @@ Provides:
 
 ## Usage
 
-    $ yarn add @waytrade/ib-api-service
+    $ yarn add @waytrade/microservice-core
 
 update:
 
-    $ yarn upgrade @waytrade/ib-api-service@^
+    $ yarn upgrade @waytrade/microservice-core@^

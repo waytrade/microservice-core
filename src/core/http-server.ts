@@ -6,27 +6,24 @@ import URL from "url";
 import {TextDecoder} from "util";
 import * as uWS from "uWebSockets.js";
 import {us_listen_socket_close} from "uWebSockets.js";
-import {HttpError} from "..";
-import {MicroserviceApp} from "./app";
-import {MicroserviceContext} from "./context";
-import {ControllerMetadata, MethodMetadata} from "./metadata";
+import {MicroserviceContext, MicroserviceRequest, MicroserviceStream} from "..";
+import {HttpError} from "./http-error";
+import {
+  ControllerMetadata,
+  CONTROLLER_METADATA,
+  MethodMetadata,
+} from "./metadata";
 
 /** Max amount of bytes on websocket back-pressure before dropping the connection. */
-const MAX_WEBSOCKET_BACKPRESSURE_SIZE = 512 * 1024; // 512Kb
-
-/** Type the server. */
-export enum ServerType {
-  ApiServer,
-  CallbackServer,
-}
+const MAX_WEBSOCKET_BACKPRESSURE_SIZE = 1024; // 1Kb
 
 /** URL query parameters. */
 export interface QueryParams {
   [name: string]: string;
 }
 
-/** An request to a microservice. */
-export class MicroserviceRequest {
+/** An stream on a uWebSockets server. */
+export class MicroservicesHttpServerRequest implements MicroserviceRequest {
   constructor(
     private readonly res: uWS.HttpResponse,
     private readonly req: uWS.HttpRequest,
@@ -67,18 +64,15 @@ export class MicroserviceRequest {
   }
 }
 
-/** An stream on a microservice. */
-export class MicroserviceStream {
+/** An stream on a uWebSockets server. */
+export class MicroserviceWebsocketStream implements MicroserviceStream {
   constructor(
-    ws: uWS.WebSocket,
+    private readonly context: MicroserviceContext,
+    private ws: uWS.WebSocket,
     public readonly requestHeader: Map<string, string>,
   ) {
     this.url = ws.url;
-    this.ws = ws;
   }
-
-  /** The underlying websocket. */
-  private ws?: uWS.WebSocket;
 
   /** Callback handler for received messages. */
   onReceived?: (message: string) => void;
@@ -91,23 +85,14 @@ export class MicroserviceStream {
 
   /** Send a message to the stream. */
   send(msg: string): void {
-    if (this.closed.value || !this.ws) {
-      return;
-    }
     try {
       if (!this.ws.send(msg)) {
-        const buffered = this.ws.getBufferedAmount();
         if (this.ws.getBufferedAmount() >= MAX_WEBSOCKET_BACKPRESSURE_SIZE) {
-          MicroserviceApp.error(
-            `Dropped websocket stream because of too much back-pressure: ${
-              buffered / 1024
-            }kB`,
-          );
           this.close();
         }
       }
     } catch (e) {
-      MicroserviceApp.error(`Failed to send on websocket: ${e.message}`);
+      this.context.error(`Failed to send on websocket: ${e.message}`);
       this.onClose();
     }
   }
@@ -115,7 +100,7 @@ export class MicroserviceStream {
   /** Close the stream- */
   close(): void {
     try {
-      this.ws?.close();
+      this.ws.close();
     } catch (e) {}
     this.onClose();
   }
@@ -123,19 +108,28 @@ export class MicroserviceStream {
   /** Called when the underlying websocket has been closed. */
   onClose(): void {
     this.closed.next(true);
-    delete this.ws;
   }
 }
 
 /**
- * HTTP/REST server of a microservice.
+ * HTTP/REST server on top uWebSockets.
  */
-export class MicroserviceServer {
+export class MicroserviceHttpServer {
+  constructor(
+    private readonly context: MicroserviceContext,
+    private readonly controllers: unknown[],
+  ) {}
+
   /** The uWebSocket App. */
-  private readonly wsApp = uWS.App();
+  private wsApp = uWS.App();
 
   /** The TCP listen socket. */
   private listenSocket?: uWS.us_listen_socket;
+
+  /** Get the server listening port. */
+  get listeningPort(): number {
+    return this.listenSocket ? uWS.us_socket_local_port(this.listenSocket) : 0;
+  }
 
   /** Register a HTTP POST route. */
   registerPostRoute(
@@ -186,7 +180,6 @@ export class MicroserviceServer {
     this.wsApp.get(path, (res, req) => {
       this.handleRequest(target, propertyKey, contentType, res, req);
     });
-    0;
   }
 
   /** Register a HTTP PATCH route. */
@@ -235,14 +228,11 @@ export class MicroserviceServer {
       path = path.substr(0, i) + "*";
     }
 
-    const streams = new Map<uWS.WebSocket, MicroserviceStream>();
+    const streams = new Map<uWS.WebSocket, MicroserviceWebsocketStream>();
     const headers = new Map<string, string>();
 
     this.wsApp.ws(path, {
       compression: uWS.SHARED_COMPRESSOR,
-      maxPayloadLength: 16 * 1024 * 1024,
-      idleTimeout: 30,
-
       upgrade: (
         res: uWS.HttpResponse,
         req: uWS.HttpRequest,
@@ -261,14 +251,19 @@ export class MicroserviceServer {
       },
 
       open: ws => {
-        const stream = new MicroserviceStream(ws, headers);
+        const stream = new MicroserviceWebsocketStream(
+          this.context,
+          ws,
+          headers,
+        );
         streams.set(ws, stream);
-        this.handleWsOpen(target, propertyKey, stream);
+        target[propertyKey](stream);
       },
 
       message: (ws, message, isBinary) => {
         if (isBinary) {
-          MicroserviceApp.error("Binary data on websocket not supported.");
+          this.context.error("Binary data on websocket not supported.");
+          ws.close();
           return;
         }
         const stream = streams.get(ws);
@@ -278,9 +273,7 @@ export class MicroserviceServer {
       },
 
       drain: ws => {
-        MicroserviceApp.debug(
-          "WebSocket backpressure: " + ws.getBufferedAmount(),
-        );
+        this.context.debug("WebSocket backpressure: " + ws.getBufferedAmount());
       },
 
       close: ws => {
@@ -292,12 +285,13 @@ export class MicroserviceServer {
   }
 
   /** Start the API or callback server. */
-  start(port: number, type: ServerType): Promise<void> {
+  start(port?: number): Promise<void> {
+    const portNumber = port ?? 0;
     return new Promise<void>((resolve, reject) => {
       this.wsApp.any("/*", (res: uWS.HttpResponse, req: uWS.HttpRequest) => {
         res.cork(() => {
           const url = req.getUrl();
-          MicroserviceApp.debug(url + " not found.");
+          this.context.debug(url + " not found.");
           res.writeStatus("404 Not Found");
           this.addCORSResponseHeaders(res);
           res.end();
@@ -322,16 +316,14 @@ export class MicroserviceServer {
         },
       );
 
-      if (type === ServerType.ApiServer) {
-        this.setupControllerRoutes();
-      } else if (type === ServerType.CallbackServer) {
-        this.setupCallbackRoutes();
-      }
+      this.setupRoutes();
 
-      this.wsApp.listen(port, 1, listenSocket => {
+      this.wsApp.listen(portNumber, 1, listenSocket => {
         if (listenSocket) {
           this.listenSocket = listenSocket;
-          MicroserviceApp.debug(`API Server listening on port ${port}`);
+          this.context.debug(
+            `HTTP Server listening on port ${this.listeningPort}`,
+          );
           resolve();
         } else {
           delete this.listenSocket;
@@ -344,25 +336,20 @@ export class MicroserviceServer {
   /** Stop the server. */
   stop(): void {
     if (this.listenSocket !== undefined) {
+      this.context.debug(`HTTP Server on port ${this.listeningPort} stopped`);
       us_listen_socket_close(this.listenSocket);
     }
   }
 
   /** Setup the routes to controllers.  */
-  private setupControllerRoutes(): void {
-    MicroserviceContext.controllers.forEach(controller => {
-      controller.methods.forEach(method => {
-        this.registerRoute(controller, method);
-      });
-    });
-  }
-
-  /** Setup the routes to webhook callbacks.  */
-  private setupCallbackRoutes(): void {
-    MicroserviceContext.callbacks.forEach(callback => {
-      callback.methods.forEach(method => {
-        this.registerRoute(callback, method);
-      });
+  private setupRoutes(): void {
+    this.controllers.forEach(ctrl => {
+      const meta = CONTROLLER_METADATA.get((<Record<string, string>>ctrl).name);
+      if (meta) {
+        meta.methods.forEach(method => {
+          this.registerRoute(meta, method);
+        });
+      }
     });
   }
 
@@ -371,11 +358,8 @@ export class MicroserviceServer {
     controller: ControllerMetadata,
     method: MethodMetadata,
   ): void {
-    if (!method?.method || !method?.contentType) {
-      return;
-    }
     const url = (controller.baseUrl ?? "") + method.path;
-    switch (method.method.toLowerCase()) {
+    switch (method.method?.toLowerCase()) {
       case "get":
         if (method.websocket) {
           this.registerWsRoute(controller.target, method.propertyKey, url);
@@ -384,7 +368,7 @@ export class MicroserviceServer {
             controller.target,
             method.propertyKey,
             url,
-            method.contentType,
+            method.contentType ?? "application/json",
           );
         }
         break;
@@ -393,7 +377,7 @@ export class MicroserviceServer {
           controller.target,
           method.propertyKey,
           url,
-          method.contentType,
+          method.contentType ?? "application/json",
         );
         break;
       case "post":
@@ -401,7 +385,7 @@ export class MicroserviceServer {
           controller.target,
           method.propertyKey,
           url,
-          method.contentType,
+          method.contentType ?? "application/json",
         );
         break;
       case "patch":
@@ -409,7 +393,7 @@ export class MicroserviceServer {
           controller.target,
           method.propertyKey,
           url,
-          method.contentType,
+          method.contentType ?? "application/json",
         );
         break;
       case "delete":
@@ -417,11 +401,9 @@ export class MicroserviceServer {
           controller.target,
           method.propertyKey,
           url,
-          method.contentType,
+          method.contentType ?? "application/json",
         );
         break;
-      default:
-        MicroserviceApp.error("Unknown operation method " + method.method);
     }
   }
 
@@ -441,7 +423,7 @@ export class MicroserviceServer {
       }
     });
 
-    const request = new MicroserviceRequest(res, req);
+    const request = new MicroservicesHttpServerRequest(res, req);
     const startTime = Date.now();
 
     let buffer = "";
@@ -464,25 +446,13 @@ export class MicroserviceServer {
         }
 
         let resultCode = 0;
-        this.respond(
-          () => {
-            if (target.prototype && target.prototype[propertyKey]) {
-              return target.prototype[propertyKey](request, data);
-            } else if (target[propertyKey] !== undefined) {
-              return target[propertyKey](request, data);
-            } else {
-              throw new HttpError(400);
-            }
-          },
-          res,
-          contentType,
-        )
+        this.respond(() => target[propertyKey](request, data), res, contentType)
           .then(code => (resultCode = code))
           .catch(error => (resultCode = error.code))
           .finally(() => {
             const endTime = Date.now();
-            resultCode = resultCode ?? 500;
-            MicroserviceApp.debug(
+            resultCode = resultCode ?? HttpStatus.INTERNAL_SERVER_ERROR;
+            this.context.debug(
               `HTTP ${request.method} ${request.url} -> ${resultCode} (${
                 endTime - startTime
               }ms)`,
@@ -490,22 +460,6 @@ export class MicroserviceServer {
           });
       }
     });
-  }
-
-  /** Handle a Websocket connection request. */
-  private handleWsOpen(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    target: any,
-    propertyKey: string,
-    stream: MicroserviceStream,
-  ): void {
-    if (target.prototype && target.prototype[propertyKey]) {
-      target.prototype[propertyKey](stream);
-    } else if (target[propertyKey] !== undefined) {
-      target[propertyKey](stream);
-    } else {
-      stream.close();
-    }
   }
 
   /** Write a success response the uWS.HttpResponse */
@@ -533,7 +487,7 @@ export class MicroserviceServer {
   /** Write an error response the uWS.HttpResponse */
   private writeError(res: uWS.HttpResponse, error: HttpError): void {
     res.cork(() => {
-      const code = error.code ?? 500;
+      const code = error.code ?? HttpStatus.INTERNAL_SERVER_ERROR;
       res.writeStatus(`${code} ${HttpStatus[code]}`);
       this.addCORSResponseHeaders(res);
       res.writeHeader("content-type", "application/json");

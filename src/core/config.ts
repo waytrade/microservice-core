@@ -2,33 +2,45 @@ import * as dotenv from "dotenv";
 import {readFileSync} from "fs";
 import * as path from "path";
 
+/** The log level. */
+export type LogLevel = "error" | "warn" | "info" | "debug" | "silent";
+
 /**
  * The Microservice Configuration.
  */
 export interface MicroserviceConfig {
-  /** The name of the microservice. */
-  NAME: string;
+  /** The name of the service. */
+  NAME?: string;
 
-  /** The version of the microservice. */
-  VERSION: string;
+  /** The version of the service. */
+  VERSION?: string;
 
-  /** The description of the microservice. */
+  /** The description of the service. */
   DESCRIPTION?: string;
 
-  /** The port of the API server. */
+  /**
+   * The port of the API server.
+   * If not specified, a random port will be used.
+   */
   SERVER_PORT?: number;
 
-  /** The port of the callback server. */
+  /**
+   * The port of the callback server.
+   * If not specified, a random port will be used.
+   */
   CALLBACK_PORT?: number;
 
-  /** The log level (error, warn, info, debug or verbose). */
-  LOG_LEVEL?: string;
+  /** The log level. Default is "info" */
+  LOG_LEVEL: LogLevel;
 
   /**
-   * The path for storing the log files.
-   * If not specified, log output will be sent to stdout instead.
+   * True if log output shall be sent to console, false otherwise.
+   * Default is true.
    */
-  LOG_FILE_PATH?: string;
+  LOG_TO_CONSOLE?: boolean;
+
+  /** The path for storing the log files.  */
+  LOG_FILE_FOLDER_PATH?: string;
 
   /** true if running in production environment, false otherwise. */
   isProduction: boolean;
@@ -113,33 +125,12 @@ function loadEnvironmentConfig(
 }
 
 /**
- * Helper function to ensure numbers are number type.
- */
-function ensureInteger(config: MicroserviceConfig): void {
-  Object.keys(config).forEach(field => {
-    const value = config[field] as unknown;
-    if (typeof value === "string") {
-      const i = parseInt(value, 10);
-      if (!isNaN(i)) {
-        config[field] = i as never;
-      }
-    }
-  });
-}
-
-/** The Service configuration. / */
-let globalConfig: MicroserviceConfig;
-
-/**
  * Read the Microservice configuration.
  */
 export async function readConfiguration(
   rootFolder: string,
+  configOverwrites?: Partial<MicroserviceConfig>,
 ): Promise<MicroserviceConfig> {
-  if (globalConfig !== undefined) {
-    return globalConfig;
-  }
-
   // load .env and package.json file
 
   dotenv.config();
@@ -147,44 +138,46 @@ export async function readConfiguration(
   // load default config
 
   const pkg = readPackage(rootFolder);
-  globalConfig = readConfig(rootFolder, "default");
+  let config = readConfig(rootFolder, "default");
 
   // load environment specific config
 
   const nodeEnvironment = process.env.NODE_ENV;
 
   if (nodeEnvironment) {
-    globalConfig = loadEnvironmentConfig(
-      rootFolder,
-      globalConfig,
-      nodeEnvironment,
-    );
+    config = loadEnvironmentConfig(rootFolder, config, nodeEnvironment);
   }
 
   // load config from env variables
 
-  globalConfig = assignEnvironment(globalConfig);
-
-  // convert strings to numbers
-
-  ensureInteger(globalConfig);
+  config = assignEnvironment(config);
 
   // init package values and runtime mode
 
-  globalConfig.NAME = pkg?.name ?? "";
-  globalConfig.VERSION = pkg?.version ?? "";
-  globalConfig.DESCRIPTION = pkg?.description;
+  config.NAME = pkg?.name;
+  config.VERSION = pkg?.version;
+  config.DESCRIPTION = pkg?.description;
 
-  globalConfig.isProduction = nodeEnvironment === "production";
-  globalConfig.isDevelopment =
-    nodeEnvironment === "development" || !nodeEnvironment;
-  globalConfig.isTest = nodeEnvironment === "test";
+  config.isProduction = nodeEnvironment === "production";
+  config.isDevelopment = nodeEnvironment === "development" || !nodeEnvironment;
+  config.isTest = nodeEnvironment === "test";
 
-  // overwrite with env vars
+  // overwrite
 
-  Object.assign(globalConfig, process.env);
+  Object.assign(config, process.env);
+  Object.assign(config, configOverwrites);
+
+  // ensure defaults
+
+  if (config.LOG_LEVEL === undefined) {
+    config.LOG_LEVEL = "info";
+  }
+
+  if (config.LOG_TO_CONSOLE === undefined) {
+    config.LOG_TO_CONSOLE = true;
+  }
 
   // return config
 
-  return globalConfig;
+  return config;
 }
