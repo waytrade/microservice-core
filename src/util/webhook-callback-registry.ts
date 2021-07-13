@@ -5,7 +5,7 @@ import {
   HttpStatus,
   HttpStatusCode,
   MicroserviceRequest,
-  WebhookCallbackHost,
+  WebhookSubscriptionRequest,
 } from "..";
 
 /** A Webhook callback subscription. */
@@ -32,7 +32,7 @@ export class WebhookCallbackRegistry<T> {
    */
   add(
     request: MicroserviceRequest,
-    args: WebhookCallbackHost,
+    args: WebhookSubscriptionRequest,
     observable: Observable<T>,
   ): HttpStatusCode {
     // verify arguments
@@ -87,7 +87,7 @@ export class WebhookCallbackRegistry<T> {
    */
   remove(
     request: MicroserviceRequest,
-    args: WebhookCallbackHost,
+    args: WebhookSubscriptionRequest,
   ): HttpStatusCode {
     // verify arguments
 
@@ -142,7 +142,7 @@ export class WebhookCallbackRegistry<T> {
   /** Format the full absolute URL of a webhook callback. */
   private formatCallbackUrl(
     request: MicroserviceRequest,
-    args: WebhookCallbackHost,
+    args: WebhookSubscriptionRequest,
   ): string | undefined {
     const remoteAddress = args.host ?? request.remoteAddress;
     if (!remoteAddress) {

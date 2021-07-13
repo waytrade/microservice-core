@@ -32,7 +32,8 @@
     "prettier:check": "yarn prettier:cli -l",
     "prettier:fix": "yarn prettier:cli --write",
     "eslint": "eslint --report-unused-disable-directives .",
-    "eslint:fix": "yarn eslint --fix"
+    "eslint:fix": "yarn eslint --fix",
+    "prepare:release": "yarn lint:fix && yarn build && yarn test"
   },
   "engines": {
     "node": ">=14.15.4"
