@@ -9,38 +9,39 @@ jobs:
   build:
     name: "Build"
     runs-on: ubuntu-latest
+    steps:
+      - name: "Checkout source code"
+        uses: "actions/checkout@v2"
+        with:
+          ref: ${{ github.ref }}
 
-    - name: "Checkout source code"
-      uses: "actions/checkout@v2"
-      with:
-        ref: ${{ github.ref }}
+      - name: "Setup Node.js"
+        uses: "actions/setup-node@v2"
+        with:
+          node-version: "14.x"
 
-    - name: "Setup Node.js"
-      uses: "actions/setup-node@v2"
-      with:
-        node-version: "14.x"
-
-    - name: "Install Dependencies"
+      - name: "Install Dependencies"
         run: yarn install
 
-    - name: "Build Code"
-      run: yarn build
+      - name: "Build Code"
+        run: yarn build
 
-    - name: 'Upload Artifact'
-    uses: actions/upload-artifact@v2
-    with:
-      name: build-artifact
-      path: /*
-      retention-days: 1
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-artifact
+          path: /*
+          retention-days: 1
 
   test:
     name: "Test"
     runs-on: ubuntu-latest
+    
+    steps:
+      - name: Download a single artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: build-artifact
 
-    - name: Download a single artifact
-      uses: actions/download-artifact@v2
-      with:
-        name: build-artifact
-
-    - name: "Run Tests"
-      run: yarn test
+      - name: "Run Tests"
+        run: yarn test
