@@ -1,8 +1,13 @@
 # microservice-core
 
+Core-library for microservice implementations.
+
 [![Test and Publish](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml/badge.svg)](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml)
 
-Core-library for microservice implementations.
+[Test Report](https://waytrade.github.io/microservice-core/)
+
+[Code Coverage Report](https://waytrade.github.io/microservice-core/coverage/lcov-report/)
+
 
 We use this library as core of our microservice Apps and it is OSS so you don't need to write it again. No questions will be answered, no support will be given, no feature-request will be accepted. Use it - or fork it and roll your own :)
 
