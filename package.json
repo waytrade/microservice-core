@@ -26,7 +26,7 @@
     "lint": "yarn eslint && yarn prettier:check",
     "lint:fix": "yarn eslint:fix && yarn prettier:fix",
     "jest": "rm -rf test-report && jest --reporters=default --useStderr --detectOpenHandles --runInBand --verbose --coverage --no-cache",
-    "lcov-badge": "lcov-badge2 -o ./test-report/coverage/coverage.svg -l \"Code Coverage\" ./test-report/coverage/lcov.info",
+    "create-lcov-badge": "lcov-badge2 -o ./test-report/coverage/coverage.svg -l \"Code Coverage\" ./test-report/coverage/lcov.info",
     "test": "yarn jest && yarn create-lcov-badge",
     "prettier:cli": "prettier \"**/*.ts\"",
     "prettier:check": "yarn prettier:cli -l",
