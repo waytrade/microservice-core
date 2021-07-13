@@ -9,7 +9,6 @@ export {model} from "./decorators/model.decorator";
 export {
   del,
   get,
-  operation,
   patch,
   post,
   put,
@@ -31,7 +30,7 @@ export {websocket} from "./decorators/websocket.decorator";
 export {MicroserviceRequest} from "./models/microservice-request";
 export {MicroserviceStream} from "./models/microservice-stream";
 export {HttpStatusCode} from "./models/types";
-export {WebhookCallbackHost} from "./models/webhook-callback-host";
+export {WebhookSubscriptionRequest} from "./models/webhook-subscription-request";
 export {DiffTools} from "./util/diff-tools";
 export {MicroserviceTestApp} from "./util/test-app";
 export {HttpStatus};

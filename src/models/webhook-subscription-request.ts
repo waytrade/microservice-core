@@ -1,10 +1,10 @@
 import {model, property} from "..";
 
 /**
- * Host of a webhook callback function.
+ * Request arguments to subscribe for a webhook callback.
  */
-@model("Host of a webhook callback function.")
-export class WebhookCallbackHost {
+@model("Request arguments to subscribe for a webhook callback.")
+export class WebhookSubscriptionRequest {
   /**
    * The hostname of the callback server.
    * The peer address of the connection will be used if not specified.

@@ -7,33 +7,31 @@ import {
 } from "openapi3-ts";
 import path from "path";
 import {
+  arrayProperty,
   bearerAuth,
+  callback,
   controller,
   del,
   description,
+  enumProperty,
   get,
   HttpStatus,
   MicroserviceContext,
+  model,
   patch,
   pathParameter,
   post,
+  property,
   put,
   queryParameter,
   requestBody,
+  response,
+  responseBody,
   summary,
+  webhookCallback,
 } from "../../..";
 import {MicroserviceHttpServer} from "../../../core/http-server";
 import {OpenApi} from "../../../core/openapi";
-import {callback} from "../../../decorators/callback.decorator";
-import {model} from "../../../decorators/model.decorator";
-import {webhookCallback} from "../../../decorators/operation.decorator";
-import {
-  arrayProperty,
-  enumProperty,
-  property,
-} from "../../../decorators/property.decorator";
-import {responseBody} from "../../../decorators/response-body.decorator";
-import {response} from "../../../decorators/response.decorator";
 
 const TEST_MODEL_DESCRIPTION = "The test model.";
 const TEST_SUB_MODEL_DESCRIPTION = "The test sub-model.";

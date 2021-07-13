@@ -171,4 +171,75 @@ describe("Test MicroserviceApp class", () => {
         });
     });
   });
+
+  test("Log a via App proxies", () => {
+    return new Promise<void>((resolve, reject) => {
+      const errorMessage = "Error message";
+      const warnMessage = "Warning message";
+      const infoMessage = "Info message";
+      const debugMessage = "Debug message";
+
+      let logMessagesReceived = 0;
+      const rootFolder = path.resolve(__dirname, "../../../..");
+
+      const context = new MicroserviceContext(rootFolder);
+      context
+        .boot({
+          LOG_LEVEL: "debug",
+        })
+        .then(() => {
+          context.registerLogObserver({
+            async onDebugLog(msg: string, ...args: unknown[]): Promise<void> {
+              expect(msg).toEqual(debugMessage);
+              logMessagesReceived++;
+              if (logMessagesReceived === 4) {
+                resolve();
+              }
+            },
+            async onInfoLog(msg: string, ...args: unknown[]): Promise<void> {
+              expect(msg).toEqual(infoMessage);
+              logMessagesReceived++;
+              if (logMessagesReceived === 4) {
+                resolve();
+              }
+            },
+            async onWarnLog(msg: string, ...args: unknown[]): Promise<void> {
+              expect(msg).toEqual(warnMessage);
+              logMessagesReceived++;
+              if (logMessagesReceived === 4) {
+                resolve();
+              }
+            },
+            async onErrorLog(msg: string, ...args: unknown[]): Promise<void> {
+              expect(msg).toEqual(errorMessage);
+              logMessagesReceived++;
+              if (logMessagesReceived === 4) {
+                resolve();
+              }
+            },
+          });
+
+          const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
+            externalContext: context,
+          });
+          app
+            .start()
+            .then(() => {
+              app.debug(debugMessage);
+              app.info(infoMessage);
+              app.warn(warnMessage);
+              app.error(errorMessage);
+            })
+            .catch(error => {
+              reject(error);
+            })
+            .finally(() => {
+              app.stop();
+            });
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  });
 });

@@ -4,9 +4,11 @@ import {
   controller,
   MicroserviceContext,
   MicroserviceStream,
+  WebhookSubscriptionRequest,
   websocket,
 } from "../../..";
 import {MicroserviceHttpServer} from "../../../core/http-server";
+import {requestBody} from "../../../decorators/request-body.decorator";
 
 const TEST_CONTROLLER_PATH = "/api";
 @controller(
@@ -15,6 +17,7 @@ const TEST_CONTROLLER_PATH = "/api";
 )
 class WebsocketEchoController {
   @websocket("/echo")
+  @requestBody(WebhookSubscriptionRequest)
   static streaming(stream: MicroserviceStream): void {
     stream.onReceived = (message): void => {
       stream.send(message);
