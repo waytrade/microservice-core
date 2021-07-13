@@ -1,14 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+
 import {
   ControllerMetadata,
   CONTROLLER_METADATA,
   MethodMetadata,
 } from "../core/metadata";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function websocket(path: string) {
   return function (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     target: any,
     propertyKey: string,
     descriptor: PropertyDescriptor,

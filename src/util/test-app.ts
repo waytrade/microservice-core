@@ -1,15 +1,13 @@
-import {MicroserviceApp, MicroserviceConfig, MicroserviceContext} from "..";
+import {MicroserviceApp, MicroserviceConfig} from "..";
+import {MicroserviceAppParams} from "../core/app";
 
 /**
- * Base-class for service test applications. service test application.
+ * Base-class for service test applications.
  */
-export class MicroserviceTestApp extends MicroserviceApp<MicroserviceConfig> {
-  constructor(
-    projectRootFolder: string,
-    controllers: unknown[],
-    services: unknown[],
-    externalContext: MicroserviceContext,
-  ) {
-    super(projectRootFolder, controllers, services, externalContext);
+export class MicroserviceTestApp<
+  CONFIG_TYPE extends MicroserviceConfig,
+> extends MicroserviceApp<CONFIG_TYPE> {
+  constructor(projectRootFolder: string, params?: MicroserviceAppParams) {
+    super(projectRootFolder, params);
   }
 }

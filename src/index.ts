@@ -33,5 +33,6 @@ export {MicroserviceStream} from "./models/microservice-stream";
 export {HttpStatusCode} from "./models/types";
 export {WebhookCallbackHost} from "./models/webhook-callback-host";
 export {DiffTools} from "./util/diff-tools";
+export {MicroserviceTestApp} from "./util/test-app";
 export {HttpStatus};
 import HttpStatus from "./models/http-status";

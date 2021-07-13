@@ -9,7 +9,7 @@ import {
   PathItemObject,
   RequestBodyObject,
   ResponsesObject,
-  SchemaObject
+  SchemaObject,
 } from "openapi3-ts";
 import path from "path";
 import SwaggerUI from "swagger-ui-dist";
@@ -23,7 +23,7 @@ import {
   EnumModelMetadata,
   ENUM_MODEL_METADATA,
   ModelMetadata,
-  MODEL_METADATA
+  MODEL_METADATA,
 } from "./metadata";
 
 const SWAGGER_UI_CSS_URL = "/swagger-ui.css";
@@ -273,7 +273,6 @@ export class OpenApi {
   ): boolean {
     let usesBearerAuth = false;
     ctrl.methods.forEach(method => {
-
       const url = (ctrl.baseUrl ?? "") + method.path;
       const pathItem: PathItemObject = allPaths.getOrAdd(url, () => {
         return {};

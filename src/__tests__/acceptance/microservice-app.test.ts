@@ -1,7 +1,6 @@
 import axios from "axios";
 import path from "path";
-import {controller, get, HttpStatus} from "../..";
-import {MicroserviceApp} from "../../core/app";
+import {controller, get, HttpStatus, MicroserviceTestApp} from "../..";
 import {MicroserviceConfig} from "../../core/config";
 
 /** Dummy application config*/
@@ -30,7 +29,7 @@ class TestController {
 }
 
 /** The test app, has an API and Callback Controller */
-class TestApp extends MicroserviceApp<TestAppConfig> {
+class TestApp extends MicroserviceTestApp<TestAppConfig> {
   constructor() {
     super(ROOT_FOLDER, {
       apiControllers: [TestController],
