@@ -61,27 +61,30 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: "Setup node.js envioremnt"
+    
+      - name: "Configure cache" 
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-prod-${{ hashFiles('**/yarn.lock') }}
+    
+      - name: "Setup node.js environment"
         uses: "actions/setup-node@v2"
         with:
           node-version: "14.x"
           registry-url: https://npm.pkg.github.com/
           scope: "@waytrade"
           always-auth: true 
-          
-      - name: "Install typescript" 
-        run: sudo npm install typescript -g
-   
+
+      - name: "Install tools" 
+        run: |
+          yarn global add typescript
+          yarn global add tsc
+
       - name: "Checkout source code"
         uses: "actions/checkout@v2"
         with:
           ref: ${{ github.ref }}
-          
-      - name: "Configure cache" 
-        uses: actions/cache@v2
-        with:
-          path: '**/node_modules'
-          key: ${{ runner.os }}-modules-prod-${{ hashFiles('**/yarn.lock') }}
           
       - name: "Install production dependencies"
         run: yarn install --prod
