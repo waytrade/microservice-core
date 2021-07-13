@@ -48,8 +48,9 @@ module.exports = {
       //"json",
       //"json-summary",
       "lcov",
+      //"html",
       //"text",
-      //"text-summary"
+      "text-summary"
    ],
 
   // Report coverage in lcov for Code Climate
