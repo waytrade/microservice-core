@@ -78,8 +78,8 @@ jobs:
 
       - name: "Install tools" 
         run: |
-          npm install typescript -g
-          npm install tsc -g
+          sudo npm install typescript -g
+          sudo npm install tsc -g
 
       - name: "Checkout source code"
         uses: "actions/checkout@v2"
