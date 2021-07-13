@@ -52,7 +52,7 @@ jobs:
       - name: 'Unpack Artifact Archive'
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r test_report.zip test-report    
+          args: unzip -qq build_files.zip -d vendor .   
           
       - name: "Run Tests"
         run: sudo yarn test
