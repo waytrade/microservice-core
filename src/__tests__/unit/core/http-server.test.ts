@@ -13,6 +13,7 @@ import {
 import {MicroserviceHttpServer} from "../../../core/http-server";
 import {MicroserviceRequest} from "../../../models/microservice-request";
 
+const FIXED_PORT = 3999;
 const TEST_CONTROLLER_PATH = "/api/dummy";
 
 const CUSTOMER_RESPONSE_HEADER_KEY = "x-custom-response-header";
@@ -63,7 +64,7 @@ describe("Test MicroserviceHttpServer class", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, []);
       server
-        .start(0)
+        .start()
         .then(() => {
           expect(server.listeningPort).not.toEqual(0);
           expect(server.listeningPort).not.toEqual(0);
@@ -82,9 +83,9 @@ describe("Test MicroserviceHttpServer class", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, []);
       server
-        .start(context.config.SERVER_PORT)
+        .start(FIXED_PORT)
         .then(() => {
-          expect(server.listeningPort).toEqual(context.config.SERVER_PORT);
+          expect(server.listeningPort).toEqual(FIXED_PORT);
           resolve();
         })
         .catch(error => {

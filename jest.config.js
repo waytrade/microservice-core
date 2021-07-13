@@ -8,7 +8,10 @@ module.exports = {
   // we add --reporters=default to Jest commands.
   reporters: [
     "default",
-    "jest-junit"
+    "jest-junit",
+    ["./node_modules/jest-html-reporter", {
+      "pageTitle": "Test Report"
+    }],
   ],
 
   // All imported modules in your tests should be mocked automatically
@@ -33,7 +36,7 @@ module.exports = {
   // collectCoverageFrom: null,
 
   // The directory where Jest should output its coverage files
-  coverageDirectory: "test-report",
+  coverageDirectory: "test-report/coverage",
 
   // An array of regexp pattern strings used to skip coverage collection
   // coveragePathIgnorePatterns: [
@@ -41,15 +44,15 @@ module.exports = {
   // ],
 
   // A list of reporter names that Jest uses when writing coverage reports
-  // coverageReporters: [
-  //   "json",
-  //   "text",
-  //   "lcov",
-  //   "clover"
-  // ],
+   coverageReporters: [
+    // "json",
+    // "text",
+       "lcov",
+    // "clover"
+   ],
 
   // Report coverage in lcov for Code Climate
-  coverageReporters: ["lcov"],
+  //coverageReporters:  ["text-summary", "html"],
 
   // An object that configures minimum threshold enforcement for coverage results
   // coverageThreshold: null,
@@ -100,7 +103,7 @@ module.exports = {
   // projects: null,
 
   // Use this configuration option to add custom reporters to Jest
-  // reporters: undefined,
+  // reporters: null;
 
   // Automatically reset mock state between every test
   // resetMocks: false,
@@ -175,7 +178,7 @@ module.exports = {
   // A map from regular expressions to paths to transformers
   transform: {
     "^.+\\.(js|jsx|ts|tsx)$": "ts-jest"
-  }
+  },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [

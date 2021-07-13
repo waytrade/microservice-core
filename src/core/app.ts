@@ -1,4 +1,5 @@
 import {MicroserviceContext} from "..";
+import {exportOpenApiJson} from "../util/openapi-exporter";
 import {MicroserviceConfig} from "./config";
 import {MicroserviceHttpServer} from "./http-server";
 
@@ -28,9 +29,6 @@ export class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
    * MicroserviceApp constructor.
    *
    * @param projectRootFolder App root folder. This is the folder containing the package.json.
-   * @param apiControllers List of controllers that will bound to the API (front-side) HTTP server.
-   * @param apiControllers List of controllers that will bound to the Callback (backside-side) HTTP server.
-   * @param services List of services on the app. HTTP endpoints on services will be bound to Callback (backside-side) HTTP server.
    */
   constructor(
     private projectRootFolder: string,
@@ -65,12 +63,12 @@ export class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
     return this.callbackServer?.listeningPort ?? 0;
   }
 
-  /** Start the app. */
-  async start(): Promise<void> {
+  /**  Start the app. */
+  async start(configOverwrites?: Partial<MicroserviceConfig>): Promise<void> {
     // booth context
 
     if (!this.context.isBooted) {
-      await this.context.boot();
+      await this.context.boot(configOverwrites);
     }
 
     // start webhook callback server
@@ -80,7 +78,7 @@ export class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
         this.context,
         this.params.callbackControllers,
       );
-      await this.callbackServer.start(this.config.SERVER_PORT);
+      await this.callbackServer.start(this.config.CALLBACK_PORT);
     }
 
     // boot the services
@@ -160,5 +158,14 @@ export class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
         }
       }
     }
+  }
+
+  /** Export the openapi.json the given folder */
+  exportOpenApi(destinationFolder: string): Promise<void> {
+    return exportOpenApiJson(
+      destinationFolder,
+      this.context,
+      this.params?.apiControllers ?? [],
+    );
   }
 }

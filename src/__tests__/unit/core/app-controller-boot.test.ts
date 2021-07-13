@@ -73,7 +73,7 @@ describe("Test Controller boot", () => {
       });
 
       app
-        .start()
+        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
         .then(() => {
           //expect(server.listeningPort).not.toEqual(0);
           expect(TestControllerBlockingBootFunction.bootCalled).toBeTruthy();
@@ -102,7 +102,7 @@ describe("Test Controller boot", () => {
       });
 
       app
-        .start()
+        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
         .then(() => {
           reject();
         })
@@ -125,7 +125,7 @@ describe("Test Controller boot", () => {
       });
 
       app
-        .start()
+        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
         .then(() => {
           reject();
         })
@@ -148,7 +148,7 @@ describe("Test Controller boot", () => {
       });
 
       app
-        .start()
+        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
         .then(() => {
           reject();
         })
@@ -171,7 +171,7 @@ describe("Test Controller boot", () => {
       });
 
       app
-        .start()
+        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
         .then(() => {
           reject();
         })

@@ -15,7 +15,7 @@ export class PinoFileLogger implements LogObserver {
     }_${today.getDate()}.log`;
 
     if (!fs.existsSync(logFileFolderPath)) {
-      fs.mkdirSync(logFileFolderPath);
+      fs.mkdirSync(logFileFolderPath, {recursive: true});
     }
 
     const logFilePathName = path.resolve(logFileFolderPath, logFileName);

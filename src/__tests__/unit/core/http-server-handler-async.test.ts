@@ -93,7 +93,7 @@ describe("Test MicroserviceHttpServer async handlers", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, [TestController]);
       server
-        .start(0)
+        .start()
         .then(() => {
           expect(server.listeningPort).not.toEqual(0);
 
@@ -132,7 +132,7 @@ describe("Test MicroserviceHttpServer async handlers", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, [TestController]);
       server
-        .start(0)
+        .start()
         .then(() => {
           expect(server.listeningPort).not.toEqual(0);
 
@@ -175,7 +175,7 @@ describe("Test MicroserviceHttpServer async handlers", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, [TestController]);
       server
-        .start(0)
+        .start()
         .then(() => {
           expect(server.listeningPort).not.toEqual(0);
 
@@ -218,7 +218,7 @@ describe("Test MicroserviceHttpServer async handlers", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, [TestController]);
       server
-        .start(0)
+        .start()
         .then(() => {
           expect(server.listeningPort).not.toEqual(0);
 

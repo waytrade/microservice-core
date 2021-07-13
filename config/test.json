@@ -1,6 +1,7 @@
 {
-  "SERVER_PORT": 3999,
+  "SERVER_PORT": "3998",
+  "CALLBACK_PORT": "3999",
   "LOG_LEVEL": "debug",
-  "LOG_TO_CONSOLE": true,
-  "LOG_FILE_FOLDER_PATH": "./test-report"
+  "LOG_TO_CONSOLE": false,
+  "LOG_FILE_FOLDER_PATH": "./test-report/logs"
 }

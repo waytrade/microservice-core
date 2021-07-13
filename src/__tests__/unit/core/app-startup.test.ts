@@ -119,7 +119,7 @@ describe("Test MicroserviceApp class", () => {
       });
 
       app
-        .start()
+        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports)
         .then(() => {
           //expect(server.listeningPort).not.toEqual(0);
           expect(TestControllerBlockingBootFunction.bootCalled).toBeTruthy();
@@ -147,11 +147,10 @@ describe("Test MicroserviceApp class", () => {
       });
 
       app
-        .start()
+        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
         .then(() => {
           expect(app.apiServerPort).not.toEqual(0);
           expect(app.callbackServerPort).toEqual(0);
-          const urkl = `http://127.0.0.1:${app.apiServerPort}${GET_HANDLER_CONTROLLER_PATH}/`;
           axios
             .get<void>(
               `http://127.0.0.1:${app.apiServerPort}${GET_HANDLER_CONTROLLER_PATH}/`,

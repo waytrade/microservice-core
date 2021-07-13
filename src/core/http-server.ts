@@ -321,7 +321,9 @@ export class MicroserviceHttpServer {
       this.wsApp.listen(portNumber, 1, listenSocket => {
         if (listenSocket) {
           this.listenSocket = listenSocket;
-          this.context.debug(`HTTP Server listening on port ${port}`);
+          this.context.debug(
+            `HTTP Server listening on port ${this.listeningPort}`,
+          );
           resolve();
         } else {
           delete this.listenSocket;
