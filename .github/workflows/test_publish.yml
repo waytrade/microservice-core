@@ -79,6 +79,9 @@ jobs:
         with:
           path: '**/node_modules'
           key: ${{ runner.os }}-modules-prod-${{ hashFiles('**/yarn.lock') }}
+          
+      - name: "Install typescript" 
+        run: npm install typescript -g
    
       - name: "Install production dependencies"
         run: yarn install --prod
