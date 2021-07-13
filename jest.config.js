@@ -48,6 +48,7 @@ module.exports = {
       //"json",
       //"json-summary",
       "lcov",
+      //"html",
       //"text",
       //"text-summary"
    ],
