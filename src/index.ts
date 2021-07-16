@@ -1,4 +1,4 @@
-export {MicroserviceApp} from "./core/app";
+export {MicroserviceApp, MicroserviceAppParams} from "./core/app";
 export {MicroserviceConfig} from "./core/config";
 export {MicroserviceContext} from "./core/context";
 export {bearerAuth} from "./decorators/bearer-auth.decorator";
@@ -33,5 +33,6 @@ export {HttpStatusCode} from "./models/types";
 export {WebhookSubscriptionRequest} from "./models/webhook-subscription-request";
 export {DiffTools} from "./util/diff-tools";
 export {MicroserviceTestApp} from "./util/test-app";
+export {WebhookCallbackRegistry} from "./util/webhook-callback-registry";
 export {HttpStatus};
 import HttpStatus from "./models/http-status";

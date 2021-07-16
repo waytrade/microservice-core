@@ -44,10 +44,6 @@ export class WebhookCallbackRegistry<T> {
     // check if already registered
 
     const url = this.formatCallbackUrl(request, args);
-    if (!url) {
-      return HttpStatus.BAD_REQUEST;
-    }
-
     if (this.callbacks.has(url)) {
       return HttpStatus.NO_CONTENT;
     }
@@ -98,10 +94,6 @@ export class WebhookCallbackRegistry<T> {
     // unregister
 
     const url = this.formatCallbackUrl(request, args);
-    if (!url) {
-      return HttpStatus.BAD_REQUEST;
-    }
-
     const sub = this.callbacks.get(url);
     if (!sub) {
       return HttpStatus.NOT_FOUND;
@@ -126,12 +118,8 @@ export class WebhookCallbackRegistry<T> {
     return new Promise<void>((resolve, reject) => {
       axios
         .post(url, data)
-        .then(response => {
-          if (response.status !== 200) {
-            reject();
-          } else {
-            resolve();
-          }
+        .then(() => {
+          resolve();
         })
         .catch((error: AxiosError) => {
           reject(error);
@@ -143,17 +131,11 @@ export class WebhookCallbackRegistry<T> {
   private formatCallbackUrl(
     request: MicroserviceRequest,
     args: WebhookSubscriptionRequest,
-  ): string | undefined {
+  ): string {
     const remoteAddress = args.host ?? request.remoteAddress;
-    if (!remoteAddress) {
-      return;
-    }
-
     const isIPv6 = remoteAddress.indexOf(":") !== -1;
-    const url = isIPv6
+    return isIPv6
       ? `http://[${remoteAddress}]:${args.port}${args.callbackUrl}`
       : `http://${remoteAddress}:${args.port}${args.callbackUrl}`;
-
-    return url;
   }
 }

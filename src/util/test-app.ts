@@ -7,7 +7,7 @@ import {MicroserviceAppParams} from "../core/app";
 export class MicroserviceTestApp<
   CONFIG_TYPE extends MicroserviceConfig,
 > extends MicroserviceApp<CONFIG_TYPE> {
-  constructor(projectRootFolder: string, params?: MicroserviceAppParams) {
+  constructor(projectRootFolder: string, params: MicroserviceAppParams) {
     super(projectRootFolder, params);
   }
 

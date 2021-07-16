@@ -62,11 +62,11 @@ describe("Test MicroserviceHttpServer class", () => {
 
   test("Start at random port", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, []);
+      const server = new MicroserviceHttpServer(context, [DummyController]);
+      expect(server.listeningPort).toBeUndefined();
       server
         .start()
         .then(() => {
-          expect(server.listeningPort).not.toEqual(0);
           expect(server.listeningPort).not.toEqual(0);
           resolve();
         })
@@ -81,7 +81,7 @@ describe("Test MicroserviceHttpServer class", () => {
 
   test("Start at fixed port", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, []);
+      const server = new MicroserviceHttpServer(context, [DummyController]);
       server
         .start(FIXED_PORT)
         .then(() => {
@@ -107,7 +107,7 @@ describe("Test MicroserviceHttpServer class", () => {
 
           axios
             .get<void>(
-              `http://127.0.0.1:${server.listeningPort}/some/invlide/path`,
+              `http://127.0.0.1:${server.listeningPort}/some/invalid/path`,
             )
             .then(() => {
               reject();

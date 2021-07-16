@@ -12,9 +12,11 @@ import {
   post,
   put,
 } from "../../..";
+import {HttpError} from "../../../core/http-error";
 import {MicroserviceHttpServer} from "../../../core/http-server";
 
 const TEST_CONTROLLER_PATH = "/api/test";
+const ERROR_MESSAGE = "The error message";
 @controller("Controller with async request handlers", TEST_CONTROLLER_PATH)
 class TestController {
   static readonly getRequests = new Subject<[MicroserviceRequest, unknown]>();
@@ -29,6 +31,22 @@ class TestController {
     return this.getResult;
   }
 
+  @get("/error")
+  static async onGET_error(
+    request: MicroserviceRequest,
+    args: unknown,
+  ): Promise<unknown> {
+    throw new HttpError(418);
+  }
+
+  @get("/serverError")
+  static async onGET_serverError(
+    request: MicroserviceRequest,
+    args: unknown,
+  ): Promise<unknown> {
+    throw new Error("No HTTP Error");
+  }
+
   static readonly putRequests = new Subject<[MicroserviceRequest, unknown]>();
   static putResult: unknown;
 
@@ -39,6 +57,14 @@ class TestController {
   ): Promise<unknown> {
     this.putRequests.next([request, args]);
     return this.putResult;
+  }
+
+  @put("/error")
+  static async onPUT_error(
+    request: MicroserviceRequest,
+    args: unknown,
+  ): Promise<unknown> {
+    throw new HttpError(418, ERROR_MESSAGE);
   }
 
   static readonly postRequests = new Subject<[MicroserviceRequest, unknown]>();
@@ -53,6 +79,14 @@ class TestController {
     return this.postResult;
   }
 
+  @post("/error")
+  static async onPOST_error(
+    request: MicroserviceRequest,
+    args: unknown,
+  ): Promise<unknown> {
+    throw new HttpError(418, ERROR_MESSAGE);
+  }
+
   static readonly patchRequests = new Subject<[MicroserviceRequest, unknown]>();
   static patchResult: unknown;
 
@@ -63,6 +97,14 @@ class TestController {
   ): Promise<unknown> {
     this.patchRequests.next([request, args]);
     return this.patchResult;
+  }
+
+  @patch("/error")
+  static async onPATCH_error(
+    request: MicroserviceRequest,
+    args: unknown,
+  ): Promise<unknown> {
+    throw new HttpError(418, ERROR_MESSAGE);
   }
 
   static readonly deleteRequests = new Subject<
@@ -77,6 +119,14 @@ class TestController {
   ): Promise<unknown> {
     this.deleteRequests.next([request, args]);
     return this.deleteResult;
+  }
+
+  @del("/error")
+  static async onDELETE_error(
+    request: MicroserviceRequest,
+    args: unknown,
+  ): Promise<unknown> {
+    throw new HttpError(418, ERROR_MESSAGE);
   }
 }
 
@@ -116,6 +166,62 @@ describe("Test MicroserviceHttpServer async handlers", () => {
             })
             .catch(error => {
               reject(error);
+            })
+            .finally(() => {
+              server.stop();
+            });
+        })
+        .catch(error => {
+          reject(error);
+          server.stop();
+        });
+    });
+  });
+
+  test("Fail GET request (HTTP error)", () => {
+    return new Promise<void>((resolve, reject) => {
+      const server = new MicroserviceHttpServer(context, [TestController]);
+      server
+        .start()
+        .then(() => {
+          axios
+            .get<void>(
+              `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/error`,
+            )
+            .then(() => {
+              reject();
+            })
+            .catch(error => {
+              expect(error.response.status).toEqual(418);
+              resolve();
+            })
+            .finally(() => {
+              server.stop();
+            });
+        })
+        .catch(error => {
+          reject(error);
+          server.stop();
+        });
+    });
+  });
+
+  test("Fail GET request (server error)", () => {
+    return new Promise<void>((resolve, reject) => {
+      const server = new MicroserviceHttpServer(context, [TestController]);
+      server
+        .start()
+        .then(() => {
+          axios
+            .get<void>(
+              `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/serverError`,
+            )
+            .then(() => {
+              reject();
+            })
+            .catch(error => {
+              expect(error.response.status).toEqual(500);
+              resolve();
             })
             .finally(() => {
               server.stop();
@@ -171,6 +277,34 @@ describe("Test MicroserviceHttpServer async handlers", () => {
     });
   });
 
+  test("Fail PUT request", () => {
+    return new Promise<void>((resolve, reject) => {
+      const server = new MicroserviceHttpServer(context, [TestController]);
+      server
+        .start()
+        .then(() => {
+          axios
+            .put<void>(
+              `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/error`,
+            )
+            .then(() => {
+              reject();
+            })
+            .catch(error => {
+              expect(error.response.status).toEqual(418);
+              resolve();
+            })
+            .finally(() => {
+              server.stop();
+            });
+        })
+        .catch(error => {
+          reject(error);
+          server.stop();
+        });
+    });
+  });
+
   test("Handle POST request", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, [TestController]);
@@ -202,6 +336,34 @@ describe("Test MicroserviceHttpServer async handlers", () => {
             })
             .catch(error => {
               reject(error);
+            })
+            .finally(() => {
+              server.stop();
+            });
+        })
+        .catch(error => {
+          reject(error);
+          server.stop();
+        });
+    });
+  });
+
+  test("Fail POST request", () => {
+    return new Promise<void>((resolve, reject) => {
+      const server = new MicroserviceHttpServer(context, [TestController]);
+      server
+        .start()
+        .then(() => {
+          axios
+            .post<void>(
+              `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/error`,
+            )
+            .then(() => {
+              reject();
+            })
+            .catch(error => {
+              expect(error.response.status).toEqual(418);
+              resolve();
             })
             .finally(() => {
               server.stop();
@@ -257,6 +419,34 @@ describe("Test MicroserviceHttpServer async handlers", () => {
     });
   });
 
+  test("Fail PATCH request", () => {
+    return new Promise<void>((resolve, reject) => {
+      const server = new MicroserviceHttpServer(context, [TestController]);
+      server
+        .start()
+        .then(() => {
+          axios
+            .patch<void>(
+              `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/error`,
+            )
+            .then(() => {
+              reject();
+            })
+            .catch(error => {
+              expect(error.response.status).toEqual(418);
+              resolve();
+            })
+            .finally(() => {
+              server.stop();
+            });
+        })
+        .catch(error => {
+          reject(error);
+          server.stop();
+        });
+    });
+  });
+
   test("Handle DELETE request", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, [TestController]);
@@ -284,6 +474,34 @@ describe("Test MicroserviceHttpServer async handlers", () => {
             })
             .catch(error => {
               reject(error);
+            })
+            .finally(() => {
+              server.stop();
+            });
+        })
+        .catch(error => {
+          reject(error);
+          server.stop();
+        });
+    });
+  });
+
+  test("Fail DELETE request", () => {
+    return new Promise<void>((resolve, reject) => {
+      const server = new MicroserviceHttpServer(context, [TestController]);
+      server
+        .start()
+        .then(() => {
+          axios
+            .delete<void>(
+              `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/error`,
+            )
+            .then(() => {
+              reject();
+            })
+            .catch(error => {
+              expect(error.response.status).toEqual(418);
+              resolve();
             })
             .finally(() => {
               server.stop();

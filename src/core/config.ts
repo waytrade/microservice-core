@@ -10,7 +10,7 @@ export type LogLevel = "error" | "warn" | "info" | "debug" | "silent";
  */
 export interface MicroserviceConfig {
   /** The name of the service. */
-  NAME?: string;
+  NAME: string;
 
   /** The version of the service. */
   VERSION?: string;
@@ -64,6 +64,7 @@ function readJson(readPath: string): unknown {
     const data = readFileSync(readPath, "utf8");
     return JSON.parse(data);
   } catch (error) {
+    console.log(error);
     if (
       error.code !== "ENOENT" ||
       (error.errno !== -4058 && error.errno !== -2)
@@ -111,17 +112,10 @@ function loadEnvironmentConfig(
   config: MicroserviceConfig,
   environment: string,
 ): MicroserviceConfig {
-  let newConfig = config;
-  if (environment) {
-    const conf = readConfig(rootFolder, environment);
-    if (conf) {
-      newConfig = {
-        ...newConfig,
-        ...conf,
-      };
-    }
-  }
-  return newConfig;
+  return {
+    ...config,
+    ...readConfig(rootFolder, environment),
+  };
 }
 
 /**

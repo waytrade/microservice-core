@@ -69,7 +69,7 @@ export class DiffTools {
     if (a?.length !== b?.length) {
       return false;
     }
-    for (let i = 0; i < a?.length ?? 0; i++) {
+    for (let i = 0; i < a.length; i++) {
       if (typeof a[i] !== typeof b[i]) {
         return false;
       } else {

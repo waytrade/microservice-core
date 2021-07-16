@@ -28,9 +28,9 @@ export class QueryParamterMetadata {
  */
 export class MethodMetadata {
   constructor(public readonly propertyKey: string) {}
-  method?: string;
-  path?: string;
-  contentType?: string;
+  method = "";
+  path = "";
+  contentType = "application/json";
   summary?: string;
   description?: string;
   readonly queryParams: QueryParamterMetadata[] = [];
@@ -48,7 +48,7 @@ export class ControllerMetadata {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   target?: any;
   endpointName?: string;
-  baseUrl?: string;
+  baseUrl = "";
   readonly methods = new MapExt<string, MethodMetadata>();
 }
 
