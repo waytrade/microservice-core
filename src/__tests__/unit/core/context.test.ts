@@ -55,7 +55,10 @@ describe("Test MicroserviceContext class", () => {
 
   test("Invalid config file", () => {
     return new Promise<void>((resolve, reject) => {
-      const tmpRootFolder = path.resolve(__dirname, "../../../../tmp-root");
+      const tmpRootFolder = path.resolve(
+        __dirname,
+        "../../../../invalid-config-root",
+      );
       if (!fs.existsSync(tmpRootFolder)) {
         fs.mkdirSync(tmpRootFolder);
       }
@@ -79,29 +82,29 @@ describe("Test MicroserviceContext class", () => {
     });
   });
 
-  test("No config file", () => {
+  test("Missing config file", () => {
     return new Promise<void>((resolve, reject) => {
-      const rootFolder = path.resolve(__dirname, "../../../..");
-      const tmpFolder = path.resolve(rootFolder, "./tmp");
-      if (!fs.existsSync(tmpFolder)) {
-        fs.mkdirSync(tmpFolder);
-      }
-      fs.copyFileSync(
-        rootFolder + "/package.json",
-        tmpFolder + "/package.json",
+      const tmpRootFolder = path.resolve(
+        __dirname,
+        "../../../../missing-config-root",
       );
-
-      const context = new MicroserviceContext(tmpFolder);
+      if (!fs.existsSync(tmpRootFolder)) {
+        fs.mkdirSync(tmpRootFolder);
+      }
+      if (!fs.existsSync(tmpRootFolder + "/config")) {
+        fs.mkdirSync(tmpRootFolder + "/config");
+      }
+      const context = new MicroserviceContext(tmpRootFolder);
       context
         .boot()
         .then(() => {
           resolve();
         })
-        .catch(() => {
-          reject();
+        .catch(error => {
+          reject(error);
         })
         .finally(() => {
-          fs.rmSync(tmpFolder, {recursive: true});
+          fs.rmSync(tmpRootFolder, {recursive: true});
         });
     });
   });
