@@ -1,4 +1,4 @@
-export {MicroserviceApp} from "./core/app";
+export {MicroserviceApp, MicroserviceAppParams} from "./core/app";
 export {MicroserviceConfig} from "./core/config";
 export {MicroserviceContext} from "./core/context";
 export {bearerAuth} from "./decorators/bearer-auth.decorator";

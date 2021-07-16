@@ -4,6 +4,7 @@ import {
   controller,
   get,
   HttpStatus,
+  MicroserviceAppParams,
   MicroserviceContext,
   MicroserviceTestApp,
 } from "../../..";
@@ -58,14 +59,31 @@ class HandleGetTestController {
   }
 }
 
+/** App with verification steps on onBoot */
+class BootVerifyApp extends MicroserviceTestApp<MicroserviceConfig> {
+  constructor(projectRootFolder: string, params: MicroserviceAppParams) {
+    super(projectRootFolder, params);
+  }
+
+  async onBoot(): Promise<void> {
+    // config must be valid
+    expect(this.config).toBeDefined();
+    // HTTP server not booted yet, ports must be undefined
+    expect(this.apiServerPort).toEqual(undefined);
+    expect(this.callbackServerPort).toEqual(undefined);
+  }
+}
+
 describe("Test MicroserviceApp class", () => {
   test("Start / Stop App with own context", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");
 
-      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder);
+      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
+        apiControllers: [TestControllerNoBootFunction],
+      });
       app
-        .start()
+        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
         .then(() => {
           expect(app.config.NAME).toEqual("@waytrade/microservice-core");
           app.stop();
@@ -89,9 +107,8 @@ describe("Test MicroserviceApp class", () => {
             externalContext: context,
           });
           app
-            .start()
+            .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
             .then(() => {
-              //expect(server.listeningPort).not.toEqual(0);
               expect(context.config.VERSION).toEqual(context.config.VERSION);
               app.stop();
               resolve();
@@ -110,7 +127,7 @@ describe("Test MicroserviceApp class", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");
 
-      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
+      const app = new BootVerifyApp(rootFolder, {
         apiControllers: [
           TestControllerNoBootFunction,
           TestControllerBlockingBootFunction,
@@ -119,7 +136,7 @@ describe("Test MicroserviceApp class", () => {
       });
 
       app
-        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports)
+        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
         .then(() => {
           //expect(server.listeningPort).not.toEqual(0);
           expect(TestControllerBlockingBootFunction.bootCalled).toBeTruthy();
@@ -146,11 +163,14 @@ describe("Test MicroserviceApp class", () => {
         apiControllers: [HandleGetTestController],
       });
 
+      expect(app.apiServerPort).toEqual(undefined);
+      expect(app.callbackServerPort).toEqual(undefined);
+
       app
         .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
         .then(() => {
-          expect(app.apiServerPort).not.toEqual(0);
-          expect(app.callbackServerPort).toEqual(0);
+          expect(app.apiServerPort).not.toEqual(undefined);
+          expect(app.callbackServerPort).toEqual(undefined);
           axios
             .get<void>(
               `http://127.0.0.1:${app.apiServerPort}${GET_HANDLER_CONTROLLER_PATH}/`,
@@ -175,11 +195,14 @@ describe("Test MicroserviceApp class", () => {
   test("Log a via App proxies", () => {
     return new Promise<void>((resolve, reject) => {
       const errorMessage = "Error message";
+      let errorReceived = false;
       const warnMessage = "Warning message";
+      let warnReceived = false;
       const infoMessage = "Info message";
+      let infoReceived = false;
       const debugMessage = "Debug message";
+      let debugReceived = false;
 
-      let logMessagesReceived = 0;
       const rootFolder = path.resolve(__dirname, "../../../..");
 
       const context = new MicroserviceContext(rootFolder);
@@ -188,32 +211,57 @@ describe("Test MicroserviceApp class", () => {
           LOG_LEVEL: "debug",
         })
         .then(() => {
+          let infoReceived = false;
           context.registerLogObserver({
             async onDebugLog(msg: string, ...args: unknown[]): Promise<void> {
-              expect(msg).toEqual(debugMessage);
-              logMessagesReceived++;
-              if (logMessagesReceived === 4) {
+              if (msg === debugMessage) {
+                debugReceived = true;
+              }
+              if (
+                errorReceived &&
+                warnReceived &&
+                infoReceived &&
+                debugReceived
+              ) {
                 resolve();
               }
             },
             async onInfoLog(msg: string, ...args: unknown[]): Promise<void> {
-              expect(msg).toEqual(infoMessage);
-              logMessagesReceived++;
-              if (logMessagesReceived === 4) {
+              if (msg === infoMessage) {
+                infoReceived = true;
+              }
+              if (
+                errorReceived &&
+                warnReceived &&
+                infoReceived &&
+                debugReceived
+              ) {
                 resolve();
               }
             },
             async onWarnLog(msg: string, ...args: unknown[]): Promise<void> {
-              expect(msg).toEqual(warnMessage);
-              logMessagesReceived++;
-              if (logMessagesReceived === 4) {
+              if (msg === warnMessage) {
+                warnReceived = true;
+              }
+              if (
+                errorReceived &&
+                warnReceived &&
+                infoReceived &&
+                debugReceived
+              ) {
                 resolve();
               }
             },
             async onErrorLog(msg: string, ...args: unknown[]): Promise<void> {
-              expect(msg).toEqual(errorMessage);
-              logMessagesReceived++;
-              if (logMessagesReceived === 4) {
+              if (msg === errorMessage) {
+                errorReceived = true;
+              }
+              if (
+                errorReceived &&
+                warnReceived &&
+                infoReceived &&
+                debugReceived
+              ) {
                 resolve();
               }
             },

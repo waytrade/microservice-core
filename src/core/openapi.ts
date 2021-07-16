@@ -31,7 +31,7 @@ const SWAGGER_UI_BUNDLE_JS_URL = "/swagger-ui-bundle.js";
 const SWAGGER_UI_STANDALONE_PRESET_JS_URL = "/swagger-ui-standalone-preset.js";
 const OPENAPI_JSON_URL = "/openapi.json";
 
-function isNativeType(type: string): boolean {
+function isNativeType(type?: string): boolean {
   return type === "number" || type === "string" || type === "boolean";
 }
 
@@ -94,7 +94,7 @@ export class OpenApi {
 
     let usesBearerAuth = false;
     const paths = new MapExt<string, PathItemObject>();
-    const models = new Set<string>();
+    const models = new Map<string, ModelMetadata>();
 
     this.controllers.forEach(ctrl => {
       const ctrlMeta = CONTROLLER_METADATA.get(
@@ -114,11 +114,8 @@ export class OpenApi {
 
     // add models
 
-    models.forEach(model => {
-      const meta = MODEL_METADATA.get(model);
-      if (meta) {
-        this.addModelToSchemas(builder, meta.target.name, meta);
-      }
+    models.forEach((modelMetadata, name) => {
+      this.addModelToSchemas(builder, name, modelMetadata);
     });
 
     // add components
@@ -141,70 +138,69 @@ export class OpenApi {
     name: string,
     model: ModelMetadata,
   ): void {
+    const properties: Record<string, unknown> = {};
     const res: SchemaObject = {
       title: name,
       description: model.description,
       type: "object",
       additionalProperties: false,
-      properties: {},
+      properties: <SchemaObject>properties,
     };
 
     model.properties.forEach(prop => {
-      if (res.properties) {
-        const type = String(prop.type);
-        const typeLower = type.toLowerCase();
-        const nativeType = isNativeType(typeLower);
-        if (nativeType) {
-          res.properties[prop.propertyKey] = {
+      const type = String(prop.type);
+      const typeLower = type.toLowerCase();
+      const nativeType = isNativeType(typeLower);
+      if (nativeType) {
+        properties[prop.propertyKey] = {
+          description: prop.description,
+          type: typeLower as "string" | "number" | "boolean",
+        };
+      } else if (typeLower === "array") {
+        if (isNativeType(prop.arrayItemType?.toLowerCase())) {
+          properties[prop.propertyKey] = {
             description: prop.description,
-            type: typeLower as "string" | "number" | "boolean",
-          };
-        } else if (typeLower === "array") {
-          if (isNativeType((prop.arrayItemType ?? "").toLowerCase())) {
-            res.properties[prop.propertyKey] = {
-              description: prop.description,
-              type: "array",
-              items: {
-                type: prop.arrayItemType?.toLocaleLowerCase() as "string",
-              },
-            };
-          } else {
-            res.properties[prop.propertyKey] = {
-              description: prop.description,
-              type: "array",
-              items: {
-                type: "object",
-                $ref: `#/components/schemas/${prop.arrayItemType}`,
-              },
-            };
-          }
-        } else if (typeLower === "object") {
-          res.properties[prop.propertyKey] = {
-            description: prop.description,
-            type: "object",
+            type: "array",
+            items: {
+              type: prop.arrayItemType?.toLocaleLowerCase() as "string",
+            },
           };
         } else {
-          const nestedType = MODEL_METADATA.get(type);
-          if (nestedType) {
-            res.properties[prop.propertyKey] = {
-              description: prop.description,
-              $ref: `#/components/schemas/${type}`,
-            };
-            this.addModelToSchemas(builder, type, nestedType);
+          properties[prop.propertyKey] = {
+            description: prop.description,
+            type: "array",
+            items: {
+              type: "object",
+              $ref: `#/components/schemas/${prop.arrayItemType}`,
+            },
+          };
+        }
+      } else if (typeLower === "object") {
+        properties[prop.propertyKey] = {
+          description: prop.description,
+          type: "object",
+        };
+      } else {
+        const nestedType = MODEL_METADATA.get(type);
+        if (nestedType) {
+          properties[prop.propertyKey] = {
+            description: prop.description,
+            $ref: `#/components/schemas/${type}`,
+          };
+          this.addModelToSchemas(builder, type, nestedType);
+        } else {
+          const enumModelMeta = ENUM_MODEL_METADATA.get(type);
+          if (enumModelMeta) {
+            properties[prop.propertyKey] = this.addEnumModelToSchemas(
+              builder,
+              prop.type,
+              enumModelMeta,
+            );
           } else {
-            const enumModelMeta = ENUM_MODEL_METADATA.get(type);
-            if (enumModelMeta) {
-              res.properties[prop.propertyKey] = this.addEnumModelToSchemas(
-                builder,
-                prop.type,
-                enumModelMeta,
-              );
-            } else {
-              res.properties[prop.propertyKey] = {
-                description: prop.description,
-                type: "object",
-              };
-            }
+            properties[prop.propertyKey] = {
+              description: prop.description,
+              type: "object",
+            };
           }
         }
       }
@@ -269,11 +265,11 @@ export class OpenApi {
   private addControllerApi(
     ctrl: ControllerMetadata,
     allPaths: MapExt<string, PathItemObject>,
-    allModels: Set<string>,
+    allModels: Map<string, ModelMetadata>,
   ): boolean {
     let usesBearerAuth = false;
     ctrl.methods.forEach(method => {
-      const url = (ctrl.baseUrl ?? "") + method.path;
+      const url = ctrl.baseUrl + method.path;
       const pathItem: PathItemObject = allPaths.getOrAdd(url, () => {
         return {};
       });
@@ -299,14 +295,25 @@ export class OpenApi {
               },
             };
           } else {
-            allModels.add(responseMeta.ref);
-            responses[responseMeta.code].content = {
-              "application/json": {
-                schema: {
-                  $ref: `#/components/schemas/${responseMeta.ref}`,
+            const modelMeta = MODEL_METADATA.get(responseMeta.ref);
+            if (modelMeta) {
+              allModels.set(responseMeta.ref, modelMeta);
+              responses[responseMeta.code].content = {
+                "application/json": {
+                  schema: {
+                    $ref: `#/components/schemas/${responseMeta.ref}`,
+                  },
                 },
-              },
-            };
+              };
+            } else {
+              responses[responseMeta.code].content = {
+                "application/json": {
+                  schema: {
+                    type: "object",
+                  },
+                },
+              };
+            }
           }
         }
       });
@@ -369,53 +376,51 @@ export class OpenApi {
       });
 
       const methodType = method.method;
-      if (methodType && method.path && ctrl.endpointName) {
-        const item = <Record<string, unknown>>(pathItem[methodType] = {
-          responses,
-          requestBody,
-          tags: [ctrl.endpointName],
-        });
+      const item = <Record<string, unknown>>(pathItem[methodType] = {
+        responses,
+        requestBody,
+        tags: [ctrl.endpointName],
+      });
 
-        item["x-controller-name"] = ctrl.target.name;
+      item["x-controller-name"] = ctrl.target.name;
 
-        item["x-operation-name"] = method.propertyKey;
-        item["operationId"] = method.propertyKey;
+      item["x-operation-name"] = method.propertyKey;
+      item["operationId"] = method.propertyKey;
 
-        if (method.summary) {
-          item.summary = method.summary;
-        }
-
-        if (method.description) {
-          item.description = method.description;
-        }
-
-        if (method.callbackRefs.size) {
-          item.callbacks = callbacks;
-        }
-
-        if (method.bearerAuthScopes) {
-          usesBearerAuth = true;
-          item["security"] = [
-            {
-              bearerAuth: method.bearerAuthScopes,
-            },
-          ];
-        }
-
-        item.parameters = [];
-
-        method.queryParams.forEach(param => {
-          (item.parameters as Array<unknown>).push({
-            name: param.name,
-            in: param.inType,
-            required: param.required,
-            description: param.description,
-            schema: {
-              type: param.type,
-            },
-          } as ParameterObject);
-        });
+      if (method.summary) {
+        item.summary = method.summary;
       }
+
+      if (method.description) {
+        item.description = method.description;
+      }
+
+      if (method.callbackRefs.size) {
+        item.callbacks = callbacks;
+      }
+
+      if (method.bearerAuthScopes) {
+        usesBearerAuth = true;
+        item["security"] = [
+          {
+            bearerAuth: method.bearerAuthScopes,
+          },
+        ];
+      }
+
+      item.parameters = [];
+
+      method.queryParams.forEach(param => {
+        (item.parameters as Array<unknown>).push({
+          name: param.name,
+          in: param.inType,
+          required: param.required,
+          description: param.description,
+          schema: {
+            type: param.type,
+          },
+        } as ParameterObject);
+      });
     });
 
     return usesBearerAuth;

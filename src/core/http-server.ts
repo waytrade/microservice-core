@@ -64,6 +64,10 @@ export class MicroservicesHttpServerRequest implements MicroserviceRequest {
   }
 }
 
+const emptyReceive = (): void => {
+  return;
+};
+
 /** An stream on a uWebSockets server. */
 export class MicroserviceWebsocketStream implements MicroserviceStream {
   constructor(
@@ -74,8 +78,8 @@ export class MicroserviceWebsocketStream implements MicroserviceStream {
     this.url = ws.url;
   }
 
-  /** Callback handler for received messages. */
-  onReceived?: (message: string) => void;
+  /** Data ingress callback function */
+  onReceived: (message: string) => void = emptyReceive;
 
   /** The request URL. */
   readonly url: string;
@@ -84,17 +88,14 @@ export class MicroserviceWebsocketStream implements MicroserviceStream {
   readonly closed = new BehaviorSubject<boolean>(false);
 
   /** Send a message to the stream. */
-  send(msg: string): void {
-    try {
-      if (!this.ws.send(msg)) {
-        if (this.ws.getBufferedAmount() >= MAX_WEBSOCKET_BACKPRESSURE_SIZE) {
-          this.close();
-        }
+  send(msg: string): boolean {
+    if (!this.ws.send(msg)) {
+      if (this.ws.getBufferedAmount() >= MAX_WEBSOCKET_BACKPRESSURE_SIZE) {
+        this.close();
+        return false;
       }
-    } catch (e) {
-      this.context.error(`Failed to send on websocket: ${e.message}`);
-      this.onClose();
     }
+    return true;
   }
 
   /** Close the stream- */
@@ -127,8 +128,10 @@ export class MicroserviceHttpServer {
   private listenSocket?: uWS.us_listen_socket;
 
   /** Get the server listening port. */
-  get listeningPort(): number {
-    return this.listenSocket ? uWS.us_socket_local_port(this.listenSocket) : 0;
+  get listeningPort(): number | undefined {
+    return this.listenSocket
+      ? uWS.us_socket_local_port(this.listenSocket)
+      : undefined;
   }
 
   /** Register a HTTP POST route. */
@@ -266,14 +269,7 @@ export class MicroserviceHttpServer {
           ws.close();
           return;
         }
-        const stream = streams.get(ws);
-        if (stream?.onReceived) {
-          stream?.onReceived(new TextDecoder().decode(message));
-        }
-      },
-
-      drain: ws => {
-        this.context.debug("WebSocket backpressure: " + ws.getBufferedAmount());
+        streams.get(ws)?.onReceived(new TextDecoder().decode(message));
       },
 
       close: ws => {
@@ -318,7 +314,7 @@ export class MicroserviceHttpServer {
 
       this.setupRoutes();
 
-      this.wsApp.listen(portNumber, 1, listenSocket => {
+      this.wsApp.listen(portNumber, 2, listenSocket => {
         if (listenSocket) {
           this.listenSocket = listenSocket;
           this.context.debug(
@@ -343,6 +339,9 @@ export class MicroserviceHttpServer {
 
   /** Setup the routes to controllers.  */
   private setupRoutes(): void {
+    if (!this.controllers || !this.controllers.length) {
+      throw Error("No controllers registered");
+    }
     this.controllers.forEach(ctrl => {
       const meta = CONTROLLER_METADATA.get((<Record<string, string>>ctrl).name);
       if (meta) {
@@ -358,7 +357,7 @@ export class MicroserviceHttpServer {
     controller: ControllerMetadata,
     method: MethodMetadata,
   ): void {
-    const url = (controller.baseUrl ?? "") + method.path;
+    const url = controller.baseUrl + method.path;
     switch (method.method?.toLowerCase()) {
       case "get":
         if (method.websocket) {
@@ -368,7 +367,7 @@ export class MicroserviceHttpServer {
             controller.target,
             method.propertyKey,
             url,
-            method.contentType ?? "application/json",
+            method.contentType,
           );
         }
         break;
@@ -377,7 +376,7 @@ export class MicroserviceHttpServer {
           controller.target,
           method.propertyKey,
           url,
-          method.contentType ?? "application/json",
+          method.contentType,
         );
         break;
       case "post":
@@ -385,7 +384,7 @@ export class MicroserviceHttpServer {
           controller.target,
           method.propertyKey,
           url,
-          method.contentType ?? "application/json",
+          method.contentType,
         );
         break;
       case "patch":
@@ -393,7 +392,7 @@ export class MicroserviceHttpServer {
           controller.target,
           method.propertyKey,
           url,
-          method.contentType ?? "application/json",
+          method.contentType,
         );
         break;
       case "delete":
@@ -401,7 +400,7 @@ export class MicroserviceHttpServer {
           controller.target,
           method.propertyKey,
           url,
-          method.contentType ?? "application/json",
+          method.contentType,
         );
         break;
     }
@@ -418,9 +417,6 @@ export class MicroserviceHttpServer {
   ): void {
     res.onAborted(() => {
       res.done = true;
-      if (res.abortEvents) {
-        res.abortEvents.forEach((f: () => unknown) => f());
-      }
     });
 
     const request = new MicroservicesHttpServerRequest(res, req);

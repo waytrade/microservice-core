@@ -43,9 +43,13 @@ const TEST_CONTROLLER_DESCRIPTION = "The test controller.";
 const STRING_PATH_PARAM_NAME = "stringPathArgument";
 const NUMBER_PATH_PARAM_NAME = "numberPathArgument";
 const BOOLEAN_PATH_PARAM_NAME = "booleanPathArgument";
+const OBJECT_PATH_PARAM_NAME = "objectPathArgument";
+const NO_MODEL_PATH_PARAM_NAME = "noModelPathArgument";
 const PATH_PARAM_DESCRIPTION_TEXT = "This is a path parameter" + Math.random();
 const ROOT_METHOD_PATH = `/${STRING_PATH_PARAM_NAME}`;
 const REST_METHOD_PATH_STRING_ARG = `/testMethod/${STRING_PATH_PARAM_NAME}`;
+const REST_METHOD_PATH_OBJECT_ARG = `/testMethod/${OBJECT_PATH_PARAM_NAME}`;
+const REST_METHOD_PATH_NO_MODEL_ARG = `/testMethod/${NO_MODEL_PATH_PARAM_NAME}`;
 const REST_METHOD_PATH_NUMBER_ARG = `/testMethod/${NUMBER_PATH_PARAM_NAME}`;
 const REST_METHOD_PATH_BOOLEAN_ARG = `/testMethod/${BOOLEAN_PATH_PARAM_NAME}`;
 const WEBHOOK_SUBSCRIBE_METHOD_PATH = `/webhook/subscribe/${STRING_PATH_PARAM_NAME}`;
@@ -124,6 +128,11 @@ class TestModel {
   numberEnumProp?: TestNumberEnum;
 }
 
+/* this must not appear on openapi.json as it is not decorated with anything */
+class NoTestModel {
+  dummy?: string;
+}
+
 @controller(TEST_CONTROLLER_DESCRIPTION, TEST_CONTROLLER_PATH)
 class TestController {
   @get(ROOT_METHOD_PATH)
@@ -166,6 +175,42 @@ class TestController {
   @responseBody(TestModel)
   @response(CUSTOM_HTTP_ERROR, CUSTOM_HTTP_ERROR_TEXT)
   static get(): void {
+    return;
+  }
+
+  @get(REST_METHOD_PATH_OBJECT_ARG)
+  @bearerAuth([])
+  @summary(TEST_SUMMARY_TEXT)
+  @description(TEST_DESCRIPTION_TEXT)
+  @pathParameter(STRING_PATH_PARAM_NAME, String, PATH_PARAM_DESCRIPTION_TEXT)
+  @queryParameter(
+    STRING_QUERY_PARAMETER_NAME,
+    String,
+    true,
+    QUERY_PARAMETER_DESC,
+  )
+  @requestBody(Object)
+  @responseBody(Object)
+  @response(CUSTOM_HTTP_ERROR, CUSTOM_HTTP_ERROR_TEXT)
+  static get_object(): void {
+    return;
+  }
+
+  @get(REST_METHOD_PATH_NO_MODEL_ARG)
+  @bearerAuth([])
+  @summary(TEST_SUMMARY_TEXT)
+  @description(TEST_DESCRIPTION_TEXT)
+  @pathParameter(STRING_PATH_PARAM_NAME, String, PATH_PARAM_DESCRIPTION_TEXT)
+  @queryParameter(
+    STRING_QUERY_PARAMETER_NAME,
+    String,
+    true,
+    QUERY_PARAMETER_DESC,
+  )
+  @requestBody(NoTestModel) // NoTestModel must convert to object type as it is not decorated
+  @responseBody(NoTestModel) // NoTestModel must convert to object type as it is not decorated
+  @response(CUSTOM_HTTP_ERROR, CUSTOM_HTTP_ERROR_TEXT)
+  static get_no_model(): void {
     return;
   }
 
@@ -269,6 +314,11 @@ class TestController {
   }
 }
 
+/* this must not appear on openapi.json as it is not decorated with anything */
+class NoTestController {
+  static dummy(): void {}
+}
+
 describe("Test decorators and OpenAPI", () => {
   const context = new MicroserviceContext(
     path.resolve(__dirname, "../../../.."),
@@ -280,7 +330,10 @@ describe("Test decorators and OpenAPI", () => {
 
   test("Verify info", () => {
     return new Promise<void>((resolve, reject) => {
-      const controllers = [TestController];
+      const controllers = [
+        TestController,
+        NoTestController, // this must not appear on openapi.json as it is not decorated with anything
+      ];
       const server = new MicroserviceHttpServer(context, controllers);
       const openApiGenerator = new OpenApi(context, controllers, server);
 
@@ -345,11 +398,22 @@ describe("Test decorators and OpenAPI", () => {
                 expect(obj.security[0]).toEqual({bearerAuth: []});
 
                 expect(obj.responses[200].description).toEqual("OK");
-                expect(
-                  obj.responses[200]["content"]["application/json"]["schema"][
-                    "$ref"
-                  ],
-                ).toEqual("#/components/schemas/TestModel");
+                if (
+                  operationName === "get_object" ||
+                  operationName === "get_no_model"
+                ) {
+                  expect(
+                    obj.responses[200]["content"]["application/json"]["schema"]
+                      ?.type,
+                  ).toEqual("object");
+                } else {
+                  expect(
+                    obj.responses[200]["content"]["application/json"]["schema"][
+                      "$ref"
+                    ],
+                  ).toEqual("#/components/schemas/TestModel");
+                }
+
                 expect(obj.responses[CUSTOM_HTTP_ERROR].description).toEqual(
                   CUSTOM_HTTP_ERROR_TEXT,
                 );
@@ -412,6 +476,20 @@ describe("Test decorators and OpenAPI", () => {
                 TEST_CONTROLLER_PATH + REST_METHOD_PATH_STRING_ARG
               ]["get"] as PathItemObject;
               verifyPathObject(path, "get", REST_METHOD_PATH_STRING_ARG);
+
+              path = openapi.paths[
+                TEST_CONTROLLER_PATH + REST_METHOD_PATH_OBJECT_ARG
+              ]["get"] as PathItemObject;
+              verifyPathObject(path, "get_object", REST_METHOD_PATH_OBJECT_ARG);
+
+              path = openapi.paths[
+                TEST_CONTROLLER_PATH + REST_METHOD_PATH_NO_MODEL_ARG
+              ]["get"] as PathItemObject;
+              verifyPathObject(
+                path,
+                "get_no_model",
+                REST_METHOD_PATH_OBJECT_ARG,
+              );
 
               path = openapi.paths[
                 TEST_CONTROLLER_PATH + REST_METHOD_PATH_NUMBER_ARG

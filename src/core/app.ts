@@ -32,11 +32,10 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
    */
   constructor(
     private projectRootFolder: string,
-    private readonly params?: MicroserviceAppParams,
+    private readonly params: MicroserviceAppParams,
   ) {
     this.context =
-      params?.externalContext ??
-      new MicroserviceContext(this.projectRootFolder);
+      params.externalContext ?? new MicroserviceContext(this.projectRootFolder);
   }
 
   /** The service context. */
@@ -77,13 +76,13 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
   }
 
   /** Get the listening port for number of the REST API server. */
-  get apiServerPort(): number {
-    return this.apiServer?.listeningPort ?? 0;
+  get apiServerPort(): number | undefined {
+    return this.apiServer?.listeningPort;
   }
 
   /** Get the listening port for number of the Webhook callback I server. */
-  get callbackServerPort(): number {
-    return this.callbackServer?.listeningPort ?? 0;
+  get callbackServerPort(): number | undefined {
+    return this.callbackServer?.listeningPort;
   }
 
   /**  Start the app. */
@@ -102,7 +101,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
 
     // start webhook callback server
 
-    if (this.params?.callbackControllers) {
+    if (this.params.callbackControllers) {
       this.callbackServer = new MicroserviceHttpServer(
         this.context,
         this.params.callbackControllers,
@@ -112,7 +111,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
 
     // boot the services
 
-    if (this.params?.services) {
+    if (this.params.services) {
       for (let i = 0; i < this.params.services?.length; i++) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const service = this.params.services[i] as any;
@@ -124,7 +123,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
 
     // boot the callback controllers
 
-    if (this.params?.callbackControllers) {
+    if (this.params.callbackControllers) {
       for (let i = 0; i < this.params.callbackControllers?.length; i++) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const ctrl = this.params.callbackControllers[i] as any;
@@ -136,7 +135,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
 
     // boot the API controllers
 
-    if (this.params?.apiControllers) {
+    if (this.params.apiControllers) {
       for (let i = 0; i < this.params.apiControllers?.length; i++) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const ctrl = this.params.apiControllers[i] as any;
@@ -148,7 +147,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
 
     // start API server
 
-    if (this.params?.apiControllers) {
+    if (this.params.apiControllers) {
       this.apiServer = new MicroserviceHttpServer(
         this.context,
         this.params.apiControllers,
@@ -168,7 +167,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
 
     // shutdown the controllers
 
-    if (this.params?.apiControllers) {
+    if (this.params.apiControllers) {
       for (let i = 0; i < this.params.apiControllers.length; i++) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const ctrl = this.params.apiControllers[i] as any;
@@ -180,7 +179,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
 
     // shutdown the services
 
-    if (this.params?.services) {
+    if (this.params.services) {
       for (let i = 0; i < this.params.services.length; i++) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const service = this.params.services[i] as any;
@@ -218,7 +217,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
     return exportOpenApiJson(
       destinationFolder,
       this.context,
-      this.params?.apiControllers ?? [],
+      this.params.apiControllers ?? [],
     );
   }
 }

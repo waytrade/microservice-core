@@ -75,7 +75,7 @@ export class MicroserviceContext {
 
     if (config.LOG_TO_CONSOLE) {
       this.registerLogObserver(
-        new PinoConsoleLogger(config.NAME ?? "", this.logLevel),
+        new PinoConsoleLogger(config.NAME, this.logLevel),
       );
     }
 
@@ -85,11 +85,11 @@ export class MicroserviceContext {
         config.LOG_FILE_FOLDER_PATH,
       );
       this.registerLogObserver(
-        new PinoFileLogger(folderPath, config.NAME ?? "", this.logLevel),
+        new PinoFileLogger(folderPath, config.NAME, this.logLevel),
       );
     } else {
       this.registerLogObserver(
-        new PinoConsoleLogger(config.NAME ?? "", this.logLevel),
+        new PinoConsoleLogger(config.NAME, this.logLevel),
       );
     }
 

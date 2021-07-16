@@ -38,6 +38,13 @@ class CustomApp extends MicroserviceTestApp<CustomAppConfig> {
   }
 }
 
+/** An app w/o controllers, won't start */
+class NoControllersApp extends MicroserviceTestApp<CustomAppConfig> {
+  constructor() {
+    super(ROOT_FOLDER, {});
+  }
+}
+
 /**
  * The test code.
  */
@@ -65,7 +72,7 @@ describe("Test Custom App", () => {
             });
         })
         .catch(error => {
-          fail(error);
+          reject(error);
         });
     });
   });
@@ -94,16 +101,15 @@ describe("Test Custom App", () => {
               });
           })
           .catch(error => {
-            fail(error);
+            reject(error);
           });
       });
     });
   });
 
-  test("Export openapi.json", () => {
+  test("Download openapi.json", () => {
     return new Promise<void>((resolve, reject) => {
       const app = new CustomApp();
-      app.exportOpenApi(ROOT_FOLDER + "test-report/tmp/openapi.json");
       app
         .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
         .then(() => {
@@ -124,7 +130,21 @@ describe("Test Custom App", () => {
             });
         })
         .catch(error => {
-          fail(error);
+          reject(error);
+        });
+    });
+  });
+
+  test("Export openapi.json (no controllers)", () => {
+    return new Promise<void>((resolve, reject) => {
+      const app = new NoControllersApp();
+      app
+        .exportOpenApi(ROOT_FOLDER + "test-report/tmp/openapi.json")
+        .then(() => {
+          reject();
+        })
+        .catch(() => {
+          resolve();
         });
     });
   });

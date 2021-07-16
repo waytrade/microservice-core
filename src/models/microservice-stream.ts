@@ -11,7 +11,7 @@ export interface MicroserviceStream {
   onReceived?: (message: string) => void;
 
   /** Send a message to the stream. */
-  send(msg: string): void;
+  send(msg: string): boolean;
 
   /** Close the stream. */
   close(): void;
