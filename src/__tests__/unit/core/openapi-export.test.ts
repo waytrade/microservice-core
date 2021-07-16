@@ -31,7 +31,7 @@ class TestController {
 describe("OpenAPI export", () => {
   test("Export to openapi.json file", () => {
     return new Promise<void>((resolve, reject) => {
-      const rootFolder = path.resolve(__dirname, "../../..");
+      const rootFolder = path.resolve(__dirname, "../../../..");
       const context = new MicroserviceContext(rootFolder);
 
       const outputFolder = path.resolve(rootFolder, "./tmp");
@@ -57,14 +57,17 @@ describe("OpenAPI export", () => {
 
   test("Export to openapi.json file (fail download)", () => {
     return new Promise<void>((resolve, reject) => {
-      const rootFolder = path.resolve(__dirname, "../../..");
+      const rootFolder = path.resolve(__dirname, "../../../..");
       const context = new MicroserviceContext(rootFolder);
+
+      const outputFolder = path.resolve(rootFolder, "./tmp");
+      if (!fs.existsSync(outputFolder)) {
+        fs.mkdirSync(outputFolder);
+      }
 
       injectAxiosResponseError = new Error("Injected Error");
       context.boot().then(() => {
-        exportOpenApiJson(ROOT_FOLDER + "/test-report/tmp", context, [
-          TestController,
-        ])
+        exportOpenApiJson(outputFolder, context, [TestController])
           .then(() => {
             reject();
           })
@@ -81,7 +84,7 @@ describe("OpenAPI export", () => {
 
   test("Export to openapi.json file (no controllers)", () => {
     return new Promise<void>((resolve, reject) => {
-      const rootFolder = path.resolve(__dirname, "../../..");
+      const rootFolder = path.resolve(__dirname, "../../../..");
       const context = new MicroserviceContext(rootFolder);
       context.boot().then(() => {
         exportOpenApiJson(ROOT_FOLDER + "/test-report/tmp", context, [])
