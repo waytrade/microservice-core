@@ -67,8 +67,7 @@ function readJson(readPath: string): unknown {
     console.log(error);
     if (
       error.code !== "ENOENT" ||
-      error.errno !== -4058 ||
-      error.errno !== -2
+      (error.errno !== -4058 && error.errno !== -2)
     ) {
       throw error;
     }
