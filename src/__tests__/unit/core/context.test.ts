@@ -81,14 +81,17 @@ describe("Test MicroserviceContext class", () => {
 
   test("No config file", () => {
     return new Promise<void>((resolve, reject) => {
-      const tmpRootFolder = path.resolve(__dirname, "../../../../tmp-root");
-      if (!fs.existsSync(tmpRootFolder)) {
-        fs.mkdirSync(tmpRootFolder);
+      const rootFolder = path.resolve(__dirname, "../../../..");
+      const tmpFolder = path.resolve(rootFolder, "./tmp");
+      if (!fs.existsSync(tmpFolder)) {
+        fs.mkdirSync(tmpFolder);
       }
-      if (!fs.existsSync(tmpRootFolder + "/config")) {
-        fs.mkdirSync(tmpRootFolder + "/config");
-      }
-      const context = new MicroserviceContext(tmpRootFolder);
+      fs.copyFileSync(
+        rootFolder + "/package.json",
+        tmpFolder + "/package.json",
+      );
+
+      const context = new MicroserviceContext(tmpFolder);
       context
         .boot()
         .then(() => {
@@ -98,7 +101,7 @@ describe("Test MicroserviceContext class", () => {
           reject();
         })
         .finally(() => {
-          fs.rmSync(tmpRootFolder, {recursive: true});
+          fs.rmSync(tmpFolder, {recursive: true});
         });
     });
   });
