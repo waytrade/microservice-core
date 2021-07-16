@@ -64,6 +64,7 @@ function readJson(readPath: string): unknown {
     const data = readFileSync(readPath, "utf8");
     return JSON.parse(data);
   } catch (error) {
+    console.log(error);
     if (
       error.code !== "ENOENT" ||
       error.errno !== -4058 ||
