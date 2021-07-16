@@ -12,7 +12,7 @@ export function controller(endpointName: string, baseUrl?: string) {
     meta.endpointName = endpointName;
     meta.baseUrl = baseUrl ?? "/api";
     if (!meta.baseUrl.startsWith("/")) {
-      meta.baseUrl += "/" + meta.baseUrl;
+      meta.baseUrl = "/" + meta.baseUrl;
     }
 
     return target;

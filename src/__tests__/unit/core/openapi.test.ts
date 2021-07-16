@@ -77,6 +77,8 @@ class CallbackModel {
   stringProp?: string;
 }
 
+class UnknownModel {}
+
 @model(TEST_SUB_MODEL_DESCRIPTION)
 class TestSubModel {
   @property(TEST_MODEL_PROPERTY_DESCRIPTION)
@@ -95,7 +97,13 @@ class TestModel {
   booleanProp?: boolean;
 
   @property(TEST_MODEL_PROPERTY_DESCRIPTION)
-  objectProp?: TestSubModel;
+  objectProp?: Object;
+
+  @property(TEST_MODEL_PROPERTY_DESCRIPTION)
+  unknownModelProp?: UnknownModel; // unknown models must become objects
+
+  @property(TEST_MODEL_PROPERTY_DESCRIPTION)
+  modelProp?: TestSubModel;
 
   @arrayProperty(String, TEST_MODEL_PROPERTY_DESCRIPTION)
   stringArrayProp?: string[];
@@ -568,10 +576,26 @@ describe("Test decorators and OpenAPI", () => {
                 const objectProp = testModel.properties[
                   "objectProp"
                 ] as SchemaObject;
-                expect(objectProp["$ref"]).toEqual(
+                expect(objectProp.type).toEqual("object");
+                expect(objectProp.description).toEqual(
+                  TEST_MODEL_PROPERTY_DESCRIPTION,
+                );
+
+                const unknownModelProp = testModel.properties[
+                  "unknownModelProp"
+                ] as SchemaObject;
+                expect(unknownModelProp.type).toEqual("object"); // unknown models must become objects
+                expect(unknownModelProp.description).toEqual(
+                  TEST_MODEL_PROPERTY_DESCRIPTION,
+                );
+
+                const modelProp = testModel.properties[
+                  "modelProp"
+                ] as SchemaObject;
+                expect(modelProp["$ref"]).toEqual(
                   "#/components/schemas/TestSubModel",
                 );
-                expect(objectProp.description).toEqual(
+                expect(modelProp.description).toEqual(
                   TEST_MODEL_PROPERTY_DESCRIPTION,
                 );
 
