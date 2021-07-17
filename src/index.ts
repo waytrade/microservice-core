@@ -1,6 +1,7 @@
 export {MicroserviceApp} from "./core/app";
 export {MicroserviceConfig} from "./core/config";
 export {MicroserviceContext} from "./core/context";
+export {HttpError} from "./core/http-error";
 export {bearerAuth} from "./decorators/bearer-auth.decorator";
 export {callback} from "./decorators/callback.decorator";
 export {controller} from "./decorators/controller.decorator";

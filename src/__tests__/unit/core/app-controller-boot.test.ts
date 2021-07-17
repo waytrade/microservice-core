@@ -3,7 +3,7 @@ import {controller} from "../../..";
 import {MicroserviceConfig} from "../../../core/config";
 import {MicroserviceTestApp} from "../../../util/test-app";
 
-@controller("Dummy controller without boot and shutdown functions")
+@controller("Dummy controller without start and stop functions")
 class TestControllerNoBootFunction {
   static dummy() {
     return;
@@ -12,32 +12,32 @@ class TestControllerNoBootFunction {
 
 @controller("Controller with blocking boot function")
 class TestControllerBlockingBootFunction {
-  static bootCalled = false;
-  static shutCalled = false;
+  static startCalled = false;
+  static stopCalled = false;
 
-  static boot(): void {
-    this.bootCalled = true;
+  static start(): void {
+    this.startCalled = true;
     return;
   }
-  static shutdown(): void {
-    this.shutCalled = true;
+  static stop(): void {
+    this.stopCalled = true;
     return;
   }
 }
 
 @controller("Controller with async boot function")
 class TestControllerAsyncBootFunction {
-  static bootCalled = false;
-  static shutCalled = false;
+  static startCalled = false;
+  static stopCalled = false;
 
-  static boot(): Promise<void> {
+  static start(): Promise<void> {
     return new Promise<void>(resolve => {
-      this.bootCalled = true;
+      this.startCalled = true;
       resolve();
     });
   }
-  static shutdown(): void {
-    this.shutCalled = true;
+  static stop(): void {
+    this.stopCalled = true;
     return;
   }
 }
@@ -46,7 +46,7 @@ const CONTROLLER_BOOT_FAILURE_TEXT = "Controller booth failed";
 
 @controller("Controller with failing async boot function")
 class TestControllerFailedAsyncBoot {
-  static boot(): Promise<void> {
+  static start(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       reject(new Error(CONTROLLER_BOOT_FAILURE_TEXT));
     });
@@ -55,13 +55,13 @@ class TestControllerFailedAsyncBoot {
 
 @controller("Controller with failed blocking boot function")
 class TestControllerFailedBlockingBoot {
-  static boot(): Promise<void> {
+  static start(): Promise<void> {
     throw new Error(CONTROLLER_BOOT_FAILURE_TEXT);
   }
 }
 
 describe("Test Controller boot", () => {
-  test("Boot / Shutdown controllers", () => {
+  test("Start / Stop controllers", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");
 
@@ -77,15 +77,15 @@ describe("Test Controller boot", () => {
         .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
         .then(() => {
           //expect(server.listeningPort).not.toEqual(0);
-          expect(TestControllerBlockingBootFunction.bootCalled).toBeTruthy();
-          expect(TestControllerBlockingBootFunction.shutCalled).toBeFalsy();
-          expect(TestControllerAsyncBootFunction.bootCalled).toBeTruthy();
-          expect(TestControllerAsyncBootFunction.shutCalled).toBeFalsy();
+          expect(TestControllerBlockingBootFunction.startCalled).toBeTruthy();
+          expect(TestControllerBlockingBootFunction.stopCalled).toBeFalsy();
+          expect(TestControllerAsyncBootFunction.startCalled).toBeTruthy();
+          expect(TestControllerAsyncBootFunction.stopCalled).toBeFalsy();
           app.stop();
-          expect(TestControllerBlockingBootFunction.bootCalled).toBeTruthy();
-          expect(TestControllerBlockingBootFunction.shutCalled).toBeTruthy();
-          expect(TestControllerAsyncBootFunction.bootCalled).toBeTruthy();
-          expect(TestControllerAsyncBootFunction.shutCalled).toBeTruthy();
+          expect(TestControllerBlockingBootFunction.startCalled).toBeTruthy();
+          expect(TestControllerBlockingBootFunction.stopCalled).toBeTruthy();
+          expect(TestControllerAsyncBootFunction.startCalled).toBeTruthy();
+          expect(TestControllerAsyncBootFunction.stopCalled).toBeTruthy();
           resolve();
         })
         .catch(error => {

@@ -11,32 +11,32 @@ class TestServiceNoBootFunction {
 
 @service()
 class TestServiceBlockingBootFunction {
-  static bootCalled = false;
-  static shutCalled = false;
+  static startCalled = false;
+  static stopCalled = false;
 
-  static boot(): void {
-    this.bootCalled = true;
+  static start(): void {
+    this.startCalled = true;
     return;
   }
-  static shutdown(): void {
-    this.shutCalled = true;
+  static stop(): void {
+    this.stopCalled = true;
     return;
   }
 }
 
 @service()
 class TestServiceAsyncBootFunction {
-  static bootCalled = false;
-  static shutCalled = false;
+  static startCalled = false;
+  static stopCalled = false;
 
-  static boot(): Promise<void> {
+  static start(): Promise<void> {
     return new Promise<void>(resolve => {
-      this.bootCalled = true;
+      this.startCalled = true;
       resolve();
     });
   }
-  static shutdown(): void {
-    this.shutCalled = true;
+  static stop(): void {
+    this.stopCalled = true;
     return;
   }
 }
@@ -45,7 +45,7 @@ const SERVICE_BOOT_FAILURE_TEXT = "Controller booth failed";
 
 @service()
 class TestServiceFailedAsyncBoot {
-  static boot(): Promise<void> {
+  static start(): Promise<void> {
     return new Promise<void>((resolve, reject) => {
       reject(new Error(SERVICE_BOOT_FAILURE_TEXT));
     });
@@ -54,13 +54,13 @@ class TestServiceFailedAsyncBoot {
 
 @service()
 class TestServiceFailedBlockingBoot {
-  static boot(): Promise<void> {
+  static start(): Promise<void> {
     throw new Error(SERVICE_BOOT_FAILURE_TEXT);
   }
 }
 
 describe("Test Service boot", () => {
-  test("Boot / Shutdown services", () => {
+  test("Start / Stop services", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");
 
@@ -76,15 +76,15 @@ describe("Test Service boot", () => {
         .start()
         .then(() => {
           //expect(server.listeningPort).not.toEqual(0);
-          expect(TestServiceBlockingBootFunction.bootCalled).toBeTruthy();
-          expect(TestServiceBlockingBootFunction.shutCalled).toBeFalsy();
-          expect(TestServiceAsyncBootFunction.bootCalled).toBeTruthy();
-          expect(TestServiceAsyncBootFunction.shutCalled).toBeFalsy();
+          expect(TestServiceBlockingBootFunction.startCalled).toBeTruthy();
+          expect(TestServiceBlockingBootFunction.stopCalled).toBeFalsy();
+          expect(TestServiceAsyncBootFunction.startCalled).toBeTruthy();
+          expect(TestServiceAsyncBootFunction.stopCalled).toBeFalsy();
           app.stop();
-          expect(TestServiceBlockingBootFunction.bootCalled).toBeTruthy();
-          expect(TestServiceBlockingBootFunction.shutCalled).toBeTruthy();
-          expect(TestServiceAsyncBootFunction.bootCalled).toBeTruthy();
-          expect(TestServiceAsyncBootFunction.shutCalled).toBeTruthy();
+          expect(TestServiceBlockingBootFunction.startCalled).toBeTruthy();
+          expect(TestServiceBlockingBootFunction.stopCalled).toBeTruthy();
+          expect(TestServiceAsyncBootFunction.startCalled).toBeTruthy();
+          expect(TestServiceAsyncBootFunction.stopCalled).toBeTruthy();
           resolve();
         })
         .catch(error => {

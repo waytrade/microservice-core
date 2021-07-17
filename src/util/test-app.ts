@@ -11,7 +11,7 @@ export class MicroserviceTestApp<
     super(projectRootFolder, params);
   }
 
-  async onBoot(): Promise<void> {
+  protected async boot(): Promise<void> {
     return;
   }
 }

@@ -49,7 +49,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
   private callbackServer?: MicroserviceHttpServer;
 
   /** Called when the app shall boot up. */
-  abstract onBoot(): Promise<void>;
+  protected abstract boot(): Promise<void>;
 
   /** Called when the microservice has been started. */
   onStarted(): void {
@@ -66,7 +66,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
     return;
   }
 
-  /** Called when the microservice has been started. */
+  /** Called when the microservice has been stopped. */
   onStopped(): void {
     this.info("App stopped.");
   }
@@ -96,7 +96,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
 
     // start the app
 
-    await this.onBoot();
+    await this.boot();
 
     this.info("Starting App...");
 
@@ -116,8 +116,8 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
       for (let i = 0; i < this.params.services?.length; i++) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const service = this.params.services[i] as any;
-        if (service.boot) {
-          await service.boot();
+        if (service.start) {
+          await service.start();
         }
       }
     }
@@ -128,8 +128,8 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
       for (let i = 0; i < this.params.callbackControllers?.length; i++) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const ctrl = this.params.callbackControllers[i] as any;
-        if (ctrl.boot) {
-          await ctrl.boot();
+        if (ctrl.start) {
+          await ctrl.start();
         }
       }
     }
@@ -140,8 +140,8 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
       for (let i = 0; i < this.params.apiControllers?.length; i++) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const ctrl = this.params.apiControllers[i] as any;
-        if (ctrl.boot) {
-          await ctrl.boot();
+        if (ctrl.start) {
+          await ctrl.start();
         }
       }
     }
@@ -161,31 +161,31 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
 
   /** Stop the app. */
   stop(): void {
-    // shutdown the HTTP server
+    // stop the HTTP servers
 
     this.apiServer?.stop();
     this.callbackServer?.stop();
 
-    // shutdown the controllers
+    // stop the controllers
 
     if (this.params?.apiControllers) {
       for (let i = 0; i < this.params.apiControllers.length; i++) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const ctrl = this.params.apiControllers[i] as any;
-        if (ctrl.shutdown) {
-          ctrl.shutdown();
+        if (ctrl.stop) {
+          ctrl.stop();
         }
       }
     }
 
-    // shutdown the services
+    // stop the services
 
     if (this.params?.services) {
       for (let i = 0; i < this.params.services.length; i++) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const service = this.params.services[i] as any;
-        if (service.shutdown) {
-          service.shutdown();
+        if (service.stop) {
+          service.stop();
         }
       }
     }
