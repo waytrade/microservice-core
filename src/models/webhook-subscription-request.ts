@@ -12,7 +12,7 @@ export class WebhookSubscriptionRequest {
   @property(
     "Hostname of the callback server. The peer address of the connection will be used if not specified.",
   )
-  host!: string;
+  host?: string;
 
   /** The port number of the callback server. */
   @property("The port number of the callback server.")

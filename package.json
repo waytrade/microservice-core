@@ -1,6 +1,6 @@
 {
   "name": "@waytrade/microservice-core",
-  "version": "0.9.11",
+  "version": "0.9.13",
   "description": "Microservice Core Library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -24,7 +24,7 @@
     "build:watch": "tsc --watch",
     "lint": "yarn eslint && yarn prettier:check",
     "lint:fix": "yarn eslint:fix && yarn prettier:fix",
-    "jest": "rm -rf test-report && jest --reporters=default --useStderr --detectOpenHandles --runInBand --verbose --coverage --no-cache",
+    "jest": "rm -rf test-report && jest --maxConcurrency=1 --reporters=default --useStderr --detectOpenHandles --runInBand --verbose --coverage --no-cache",
     "create-lcov-badge": "lcov-badge2 -o ./test-report/coverage/coverage.svg -l \"Code Coverage\" ./test-report/coverage/lcov.info",
     "test": "yarn jest && yarn create-lcov-badge",
     "prettier:cli": "prettier \"**/*.ts\"",

@@ -10,7 +10,7 @@ export type LogLevel = "error" | "warn" | "info" | "debug" | "silent";
  */
 export interface MicroserviceConfig {
   /** The name of the service. */
-  NAME?: string;
+  NAME: string;
 
   /** The version of the service. */
   VERSION?: string;
@@ -111,17 +111,10 @@ function loadEnvironmentConfig(
   config: MicroserviceConfig,
   environment: string,
 ): MicroserviceConfig {
-  let newConfig = config;
-  if (environment) {
-    const conf = readConfig(rootFolder, environment);
-    if (conf) {
-      newConfig = {
-        ...newConfig,
-        ...conf,
-      };
-    }
-  }
-  return newConfig;
+  return {
+    ...config,
+    ...readConfig(rootFolder, environment),
+  };
 }
 
 /**

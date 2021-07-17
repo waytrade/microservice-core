@@ -1,3 +1,4 @@
+import fs from "fs";
 import path from "path";
 import {MicroserviceContext} from "../../..";
 
@@ -48,6 +49,83 @@ describe("Test MicroserviceContext class", () => {
         })
         .catch(error => {
           reject(error);
+        });
+    });
+  });
+
+  test("Invalid config file", () => {
+    return new Promise<void>((resolve, reject) => {
+      const tmpRootFolder = path.resolve(
+        __dirname,
+        "../../../../invalid-config-root",
+      );
+      if (!fs.existsSync(tmpRootFolder)) {
+        fs.mkdirSync(tmpRootFolder);
+      }
+      if (!fs.existsSync(tmpRootFolder + "/config")) {
+        fs.mkdirSync(tmpRootFolder + "/config");
+      }
+      const testConfigFile = path.resolve(tmpRootFolder, "./config/test.json");
+      fs.writeFileSync(testConfigFile, "this is no json");
+      const context = new MicroserviceContext(tmpRootFolder);
+      context
+        .boot()
+        .then(() => {
+          reject();
+        })
+        .catch(() => {
+          resolve();
+        })
+        .finally(() => {
+          fs.rmSync(tmpRootFolder, {recursive: true});
+        });
+    });
+  });
+
+  test("Missing config file", () => {
+    return new Promise<void>((resolve, reject) => {
+      const tmpRootFolder = path.resolve(
+        __dirname,
+        "../../../../missing-config-root",
+      );
+      if (!fs.existsSync(tmpRootFolder)) {
+        fs.mkdirSync(tmpRootFolder);
+      }
+      if (!fs.existsSync(tmpRootFolder + "/config")) {
+        fs.mkdirSync(tmpRootFolder + "/config");
+      }
+      const context = new MicroserviceContext(tmpRootFolder);
+      context
+        .boot()
+        .then(() => {
+          resolve();
+        })
+        .catch(error => {
+          reject(error);
+        })
+        .finally(() => {
+          fs.rmSync(tmpRootFolder, {recursive: true});
+        });
+    });
+  });
+
+  test("No environment", () => {
+    return new Promise<void>((resolve, reject) => {
+      const oldEnv = process.env.NODE_ENV;
+      delete process.env.NODE_ENV;
+
+      const rootFolder = path.resolve(__dirname, "../../../..");
+      const context = new MicroserviceContext(rootFolder);
+      context
+        .boot()
+        .then(() => {
+          resolve();
+        })
+        .catch(() => {
+          reject();
+        })
+        .finally(() => {
+          process.env.NODE_ENV = oldEnv;
         });
     });
   });

@@ -1,6 +1,20 @@
 import {DiffTools} from "../../..";
 
 describe("Test DiffTools class", () => {
+  test("no diff", () => {
+    const a: any = {
+      prop: {
+        nestedProp: {
+          stringProp: "stingVal",
+        },
+      },
+    };
+
+    const diffResult = DiffTools.diff(a, a);
+    expect(diffResult.changed).toBeUndefined();
+    expect(diffResult.removed).toBeUndefined();
+  });
+
   test("diff with undefined update", () => {
     const a: any = {
       stringProp: "stingVal",
@@ -112,13 +126,14 @@ describe("Test DiffTools class", () => {
 
   test("DiffTools.diff complex arrays", () => {
     const a: any = {
-      testArray: [3, {val: 3}, 0],
+      testArray: [3, {val: 3}, {val: "same"}, 0],
     };
     const b: any = {
-      testArray: [3, {val: 4}, 0],
+      testArray: [3, {val: 4}, {val: "same"}, 0],
     };
 
     const diffResult = DiffTools.diff(a, b);
+    expect(Object.keys(diffResult.changed).length).toEqual(1);
     expect(diffResult.changed.testArray).toEqual(b.testArray);
   });
 });
