@@ -73,7 +73,7 @@ describe("Test Service boot", () => {
       });
 
       app
-        .start()
+        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined})
         .then(() => {
           //expect(server.listeningPort).not.toEqual(0);
           expect(TestServiceBlockingBootFunction.startCalled).toBeTruthy();
@@ -102,7 +102,7 @@ describe("Test Service boot", () => {
       });
 
       app
-        .start()
+        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined})
         .then(() => {
           reject();
         })
@@ -125,7 +125,7 @@ describe("Test Service boot", () => {
       });
 
       app
-        .start()
+        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined})
         .then(() => {
           reject();
         })

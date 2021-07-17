@@ -6,6 +6,7 @@ export {bearerAuth} from "./decorators/bearer-auth.decorator";
 export {callback} from "./decorators/callback.decorator";
 export {controller} from "./decorators/controller.decorator";
 export {description} from "./decorators/description.decorator";
+export {inject} from "./decorators/inject.decorator";
 export {model} from "./decorators/model.decorator";
 export {
   del,

@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+//import "reflect-metadata";
 import {
   ControllerMetadata,
   CONTROLLER_METADATA,
-  MethodMetadata,
+  InjectedPropertyMetadata,
 } from "../core/metadata";
 
-export function description(description: string) {
+export function inject(): any {
   return function (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     target: any,
     propertyKey: string,
     descriptor: PropertyDescriptor,
@@ -17,13 +18,13 @@ export function description(description: string) {
       () => new ControllerMetadata(),
     );
 
-    const isStatic = target.name !== undefined;
-    const propMeta = meta.methods.getOrAdd(
-      propertyKey + (isStatic ? ":static" : ""),
-      () => new MethodMetadata(propertyKey, isStatic),
+    meta.injectedProps.push(
+      new InjectedPropertyMetadata(
+        propertyKey,
+        Reflect.getMetadata("design:type", target, propertyKey)?.name,
+        target.name !== undefined,
+      ),
     );
-
-    propMeta.description = description;
 
     return descriptor;
   };

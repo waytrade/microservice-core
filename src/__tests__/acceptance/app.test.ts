@@ -1,6 +1,12 @@
 import axios from "axios";
 import path from "path";
-import {controller, get, HttpStatus, MicroserviceTestApp} from "../..";
+import {
+  controller,
+  get,
+  HttpStatus,
+  MicroserviceAppParams,
+  MicroserviceTestApp,
+} from "../..";
 import {MicroserviceConfig} from "../../core/config";
 
 /** Dummy application config*/
@@ -41,7 +47,11 @@ class CustomApp extends MicroserviceTestApp<CustomAppConfig> {
 /** An app w/o controllers, won't start */
 class NoControllersApp extends MicroserviceTestApp<CustomAppConfig> {
   constructor() {
-    super(ROOT_FOLDER, {});
+    const params: MicroserviceAppParams = {
+      apiControllers: [CustomAppController],
+    };
+    Object.assign(params, {apiControllers: undefined});
+    super(ROOT_FOLDER, params);
   }
 }
 
@@ -62,6 +72,32 @@ describe("Test Custom App", () => {
             .then(res => {
               expect(res.status).toBe(HttpStatus.OK);
               expect(res.data).toEqual(TEST_RESPONSE);
+              resolve();
+            })
+            .catch(error => {
+              reject(error);
+            })
+            .finally(() => {
+              app.stop();
+            });
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  });
+
+  test("Get SwaggerUI HTML", () => {
+    return new Promise<void>((resolve, reject) => {
+      const app = new CustomApp();
+      app
+        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
+        .then(() => {
+          axios
+            .get<CustomAppResponse>(`http://127.0.0.1:${app.apiServerPort}/`)
+            .then(res => {
+              expect(res.status).toBe(HttpStatus.OK);
+              expect(res.headers["content-type"]).toBe("text/html");
               resolve();
             })
             .catch(error => {
@@ -107,35 +143,7 @@ describe("Test Custom App", () => {
     });
   });
 
-  test("Download openapi.json", () => {
-    return new Promise<void>((resolve, reject) => {
-      const app = new CustomApp();
-      app
-        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
-        .then(() => {
-          axios
-            .get<CustomAppResponse>(
-              `http://127.0.0.1:${app.callbackServerPort}/api/`,
-            )
-            .then(res => {
-              expect(res.status).toBe(HttpStatus.OK);
-              expect(res.data).toEqual(TEST_RESPONSE);
-              resolve();
-            })
-            .catch(error => {
-              reject(error);
-            })
-            .finally(() => {
-              app.stop();
-            });
-        })
-        .catch(error => {
-          reject(error);
-        });
-    });
-  });
-
-  test("Export openapi.json (no controllers)", () => {
+  test("Fail with no controllers (export openapi.json)", () => {
     return new Promise<void>((resolve, reject) => {
       const app = new NoControllersApp();
       app

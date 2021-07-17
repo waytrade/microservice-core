@@ -8,6 +8,7 @@ import {
   WebhookSubscriptionRequest,
   websocket,
 } from "../../..";
+import {MicroserviceComponentInstance} from "../../../core/app";
 import {MicroserviceHttpServer} from "../../../core/http-server";
 import {requestBody} from "../../../decorators/request-body.decorator";
 
@@ -19,21 +20,21 @@ const TEST_CONTROLLER_PATH = "/api";
 class WebsocketTestController {
   @websocket("/echo")
   @requestBody(WebhookSubscriptionRequest)
-  static streaming(stream: MicroserviceStream): void {
+  streaming(stream: MicroserviceStream): void {
     stream.onReceived = (message): void => {
       stream.send(message);
     };
   }
 
   @websocket("/echo/{dummyPathArguments}")
-  static streaming2(stream: MicroserviceStream): void {
+  static streaming(stream: MicroserviceStream): void {
     stream.onReceived = (message): void => {
       stream.send(message);
     };
   }
 
   @websocket("/close")
-  static close(stream: MicroserviceStream): void {
+  close(stream: MicroserviceStream): void {
     setTimeout(() => {
       stream.close();
     }, 1000);
@@ -80,12 +81,16 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
 
   test("Echo message", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [
-        WebsocketTestController,
-      ]);
-
       const testData = {val: Math.random()};
+      const components: MicroserviceComponentInstance[] = [
+        {
+          type: WebsocketTestController,
+          instance: new WebsocketTestController(),
+          running: true,
+        },
+      ];
 
+      const server = new MicroserviceHttpServer(context, components);
       server
         .start()
         .then(() => {
@@ -118,10 +123,15 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
 
   test("Send binary data (must fail)", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [
-        WebsocketTestController,
-      ]);
+      const components: MicroserviceComponentInstance[] = [
+        {
+          type: WebsocketTestController,
+          instance: new WebsocketTestController(),
+          running: true,
+        },
+      ];
 
+      const server = new MicroserviceHttpServer(context, components);
       server
         .start()
         .then(() => {
@@ -157,10 +167,15 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
 
   test("Rejected connection", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [
-        WebsocketTestController,
-      ]);
+      const components: MicroserviceComponentInstance[] = [
+        {
+          type: WebsocketTestController,
+          instance: new WebsocketTestController(),
+          running: true,
+        },
+      ];
 
+      const server = new MicroserviceHttpServer(context, components);
       server
         .start()
         .then(() => {
@@ -192,10 +207,15 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
 
   test("Graceful close", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [
-        WebsocketTestController,
-      ]);
+      const components: MicroserviceComponentInstance[] = [
+        {
+          type: WebsocketTestController,
+          instance: new WebsocketTestController(),
+          running: true,
+        },
+      ];
 
+      const server = new MicroserviceHttpServer(context, components);
       server
         .start()
         .then(() => {
@@ -227,10 +247,15 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
 
   test("Close on backpressure", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [
-        WebsocketEndlessStreamController,
-      ]);
+      const components: MicroserviceComponentInstance[] = [
+        {
+          type: WebsocketEndlessStreamController,
+          instance: new WebsocketEndlessStreamController(),
+          running: true,
+        },
+      ];
 
+      const server = new MicroserviceHttpServer(context, components);
       server
         .start()
         .then(() => {
@@ -250,6 +275,11 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
               ws.close();
             }, 1000);
           };
+
+          ws.onerror = (error): void => {
+            server.stop();
+            reject(error);
+          };
         })
         .catch(error => {
           server.stop();
@@ -260,10 +290,15 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
 
   test("No stream handler", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [
-        WebsocketTestController,
-      ]);
+      const components: MicroserviceComponentInstance[] = [
+        {
+          type: WebsocketTestController,
+          instance: new WebsocketTestController(),
+          running: true,
+        },
+      ];
 
+      const server = new MicroserviceHttpServer(context, components);
       server
         .start()
         .then(() => {

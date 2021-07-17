@@ -14,13 +14,14 @@ export function requestBody(model: any) {
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
     const meta = CONTROLLER_METADATA.getOrAdd(
-      target.name,
+      target.name ?? target.constructor.name,
       () => new ControllerMetadata(),
     );
 
+    const isStatic = target.name !== undefined;
     const propMeta = meta.methods.getOrAdd(
-      propertyKey,
-      () => new MethodMetadata(propertyKey),
+      propertyKey + (isStatic ? ":static" : ""),
+      () => new MethodMetadata(propertyKey, isStatic),
     );
 
     propMeta.requestBodyRef = model.name;

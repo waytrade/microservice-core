@@ -27,7 +27,10 @@ export class QueryParamterMetadata {
  * Metadata of a controller method.
  */
 export class MethodMetadata {
-  constructor(public readonly propertyKey: string) {}
+  constructor(
+    public readonly propertyKey: string,
+    public readonly isStatic: boolean,
+  ) {}
   method = "";
   path = "";
   contentType = "application/json";
@@ -42,14 +45,24 @@ export class MethodMetadata {
 }
 
 /**
+ * Metadata of an injected property.
+ */
+export class InjectedPropertyMetadata {
+  constructor(
+    public readonly propertyKey: string,
+    public readonly type: string,
+    public readonly isStatic: boolean,
+  ) {}
+}
+
+/**
  * Metadata of a controller.
  */
 export class ControllerMetadata {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  target?: any;
   endpointName?: string;
   baseUrl = "";
   readonly methods = new MapExt<string, MethodMetadata>();
+  readonly injectedProps: InjectedPropertyMetadata[] = [];
 }
 
 /**

@@ -23,13 +23,14 @@ export function pathParameter(name: string, type: any, description?: string) {
     }
 
     const meta = CONTROLLER_METADATA.getOrAdd(
-      target.name,
+      target.name ?? target.constructor.name,
       () => new ControllerMetadata(),
     );
 
+    const isStatic = target.name !== undefined;
     const propMeta = meta.methods.getOrAdd(
-      propertyKey,
-      () => new MethodMetadata(propertyKey),
+      propertyKey + (isStatic ? ":static" : ""),
+      () => new MethodMetadata(propertyKey, isStatic),
     );
 
     propMeta.queryParams.push(

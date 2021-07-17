@@ -7,6 +7,7 @@ import {TextDecoder} from "util";
 import * as uWS from "uWebSockets.js";
 import {us_listen_socket_close} from "uWebSockets.js";
 import {MicroserviceContext, MicroserviceRequest, MicroserviceStream} from "..";
+import {MicroserviceComponentInstance} from "./app";
 import {HttpError} from "./http-error";
 import {
   ControllerMetadata,
@@ -118,7 +119,7 @@ export class MicroserviceWebsocketStream implements MicroserviceStream {
 export class MicroserviceHttpServer {
   constructor(
     private readonly context: MicroserviceContext,
-    private readonly controllers: unknown[],
+    private readonly controllers: MicroserviceComponentInstance[],
   ) {}
 
   /** The uWebSocket App. */
@@ -136,9 +137,9 @@ export class MicroserviceHttpServer {
 
   /** Register a HTTP POST route. */
   registerPostRoute(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    target: any,
+    component: MicroserviceComponentInstance,
     propertyKey: string,
+    isStatic: boolean,
     path: string,
     contentType: string,
   ): void {
@@ -147,15 +148,22 @@ export class MicroserviceHttpServer {
       path = path.substr(0, i) + "*";
     }
     this.wsApp.post(path, (res, req) => {
-      this.handleRequest(target, propertyKey, contentType, res, req);
+      this.handleRequest(
+        component,
+        propertyKey,
+        isStatic,
+        contentType,
+        res,
+        req,
+      );
     });
   }
 
   /** Register a HTTP PUT route. */
   registerPutRoute(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    target: any,
+    component: MicroserviceComponentInstance,
     propertyKey: string,
+    isStatic: boolean,
     path: string,
     contentType: string,
   ): void {
@@ -164,15 +172,22 @@ export class MicroserviceHttpServer {
       path = path.substr(0, i) + "*";
     }
     this.wsApp.put(path, (res, req) => {
-      this.handleRequest(target, propertyKey, contentType, res, req);
+      this.handleRequest(
+        component,
+        propertyKey,
+        isStatic,
+        contentType,
+        res,
+        req,
+      );
     });
   }
 
   /** Register a HTTP GET route. */
   registerGetRoute(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    target: any,
+    component: MicroserviceComponentInstance,
     propertyKey: string,
+    isStatic: boolean,
     path: string,
     contentType: string,
   ): void {
@@ -181,15 +196,22 @@ export class MicroserviceHttpServer {
       path = path.substr(0, i) + "*";
     }
     this.wsApp.get(path, (res, req) => {
-      this.handleRequest(target, propertyKey, contentType, res, req);
+      this.handleRequest(
+        component,
+        propertyKey,
+        isStatic,
+        contentType,
+        res,
+        req,
+      );
     });
   }
 
   /** Register a HTTP PATCH route. */
   registerPatchRoute(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    target: any,
+    component: MicroserviceComponentInstance,
     propertyKey: string,
+    isStatic: boolean,
     path: string,
     contentType: string,
   ): void {
@@ -198,15 +220,22 @@ export class MicroserviceHttpServer {
       path = path.substr(0, i) + "*";
     }
     this.wsApp.patch(path, (res, req) => {
-      this.handleRequest(target, propertyKey, contentType, res, req);
+      this.handleRequest(
+        component,
+        propertyKey,
+        isStatic,
+        contentType,
+        res,
+        req,
+      );
     });
   }
 
   /** Register a HTTP DELETE route. */
   registerDeleteRoute(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    target: any,
+    component: MicroserviceComponentInstance,
     propertyKey: string,
+    isStatic: boolean,
     path: string,
     contentType: string,
   ): void {
@@ -215,15 +244,22 @@ export class MicroserviceHttpServer {
       path = path.substr(0, i) + "*";
     }
     this.wsApp.del(path, (res, req) => {
-      this.handleRequest(target, propertyKey, contentType, res, req);
+      this.handleRequest(
+        component,
+        propertyKey,
+        isStatic,
+        contentType,
+        res,
+        req,
+      );
     });
   }
 
   /** Register a websocket route. */
   registerWsRoute(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    target: any,
+    component: MicroserviceComponentInstance,
     propertyKey: string,
+    isStatic: boolean,
     path: string,
   ): void {
     const i = path.indexOf("{");
@@ -241,6 +277,14 @@ export class MicroserviceHttpServer {
         req: uWS.HttpRequest,
         context: uWS.us_socket_context_t,
       ) => {
+        if (!component.running) {
+          res.cork(() => {
+            res.writeStatus("404 Not Found");
+            this.addCORSResponseHeaders(res);
+            res.end();
+          });
+          return;
+        }
         req.forEach((key, value) => {
           headers.set(key, value);
         });
@@ -260,7 +304,12 @@ export class MicroserviceHttpServer {
           headers,
         );
         streams.set(ws, stream);
-        target[propertyKey](stream);
+
+        if (isStatic) {
+          component.type[propertyKey](stream);
+        } else {
+          component.instance[propertyKey](stream);
+        }
       },
 
       message: (ws, message, isBinary) => {
@@ -339,14 +388,11 @@ export class MicroserviceHttpServer {
 
   /** Setup the routes to controllers.  */
   private setupRoutes(): void {
-    if (!this.controllers || !this.controllers.length) {
-      throw Error("No controllers registered");
-    }
-    this.controllers.forEach(ctrl => {
-      const meta = CONTROLLER_METADATA.get((<Record<string, string>>ctrl).name);
+    this.controllers?.forEach(ctrl => {
+      const meta = CONTROLLER_METADATA.get(ctrl.type.name);
       if (meta) {
         meta.methods.forEach(method => {
-          this.registerRoute(meta, method);
+          this.registerRoute(ctrl, meta, method);
         });
       }
     });
@@ -354,18 +400,25 @@ export class MicroserviceHttpServer {
 
   /** Register route as describe by method metadata. */
   private registerRoute(
-    controller: ControllerMetadata,
+    component: MicroserviceComponentInstance,
+    metadata: ControllerMetadata,
     method: MethodMetadata,
   ): void {
-    const url = controller.baseUrl + method.path;
+    const url = metadata.baseUrl + method.path;
     switch (method.method?.toLowerCase()) {
       case "get":
         if (method.websocket) {
-          this.registerWsRoute(controller.target, method.propertyKey, url);
+          this.registerWsRoute(
+            component,
+            method.propertyKey,
+            method.isStatic,
+            url,
+          );
         } else {
           this.registerGetRoute(
-            controller.target,
+            component,
             method.propertyKey,
+            method.isStatic,
             url,
             method.contentType,
           );
@@ -373,32 +426,36 @@ export class MicroserviceHttpServer {
         break;
       case "put":
         this.registerPutRoute(
-          controller.target,
+          component,
           method.propertyKey,
+          method.isStatic,
           url,
           method.contentType,
         );
         break;
       case "post":
         this.registerPostRoute(
-          controller.target,
+          component,
           method.propertyKey,
+          method.isStatic,
           url,
           method.contentType,
         );
         break;
       case "patch":
         this.registerPatchRoute(
-          controller.target,
+          component,
           method.propertyKey,
+          method.isStatic,
           url,
           method.contentType,
         );
         break;
       case "delete":
         this.registerDeleteRoute(
-          controller.target,
+          component,
           method.propertyKey,
+          method.isStatic,
           url,
           method.contentType,
         );
@@ -408,9 +465,9 @@ export class MicroserviceHttpServer {
 
   /** Handle a HTTP request. */
   private handleRequest(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    target: any,
+    component: MicroserviceComponentInstance,
     propertyKey: string,
+    isStatic: boolean,
     contentType: string,
     res: uWS.HttpResponse,
     req: uWS.HttpRequest,
@@ -418,6 +475,15 @@ export class MicroserviceHttpServer {
     res.onAborted(() => {
       res.done = true;
     });
+
+    if (!component.running) {
+      res.cork(() => {
+        res.writeStatus("404 Not Found");
+        this.addCORSResponseHeaders(res);
+        res.end();
+      });
+      return;
+    }
 
     const request = new MicroservicesHttpServerRequest(res, req);
     const startTime = Date.now();
@@ -442,7 +508,17 @@ export class MicroserviceHttpServer {
         }
 
         let resultCode = 0;
-        this.respond(() => target[propertyKey](request, data), res, contentType)
+        this.respond(
+          () => {
+            if (isStatic) {
+              return component.type[propertyKey](request, data);
+            } else {
+              return component.instance[propertyKey](request, data);
+            }
+          },
+          res,
+          contentType,
+        )
           .then(code => (resultCode = code))
           .catch(error => (resultCode = error.code))
           .finally(() => {

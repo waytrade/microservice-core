@@ -14,16 +14,16 @@ export function websocket(path: string) {
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
     const meta = CONTROLLER_METADATA.getOrAdd(
-      target.name,
+      target.name ?? target.constructor.name,
       () => new ControllerMetadata(),
     );
 
-    meta.target = target;
-
+    const isStatic = target.name !== undefined;
     const propMeta = meta.methods.getOrAdd(
-      propertyKey,
-      () => new MethodMetadata(propertyKey),
+      propertyKey + (isStatic ? ":static" : ""),
+      () => new MethodMetadata(propertyKey, isStatic),
     );
+
     propMeta.path = path;
     propMeta.method = "get";
     propMeta.contentType = "application/json";

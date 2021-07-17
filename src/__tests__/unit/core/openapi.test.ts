@@ -30,6 +30,7 @@ import {
   summary,
   webhookCallback,
 } from "../../..";
+import {MicroserviceComponentInstance} from "../../../core/app";
 import {MicroserviceHttpServer} from "../../../core/http-server";
 import {OpenApi} from "../../../core/openapi";
 
@@ -330,10 +331,19 @@ describe("Test decorators and OpenAPI", () => {
 
   test("Verify info", () => {
     return new Promise<void>((resolve, reject) => {
-      const controllers = [
-        TestController,
-        NoTestController, // this must not appear on openapi.json as it is not decorated with anything
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+        {
+          type: NoTestController,
+          instance: new NoTestController(),
+          running: true,
+        },
       ];
+
       const server = new MicroserviceHttpServer(context, controllers);
       const openApiGenerator = new OpenApi(context, controllers, server);
 
@@ -368,7 +378,13 @@ describe("Test decorators and OpenAPI", () => {
 
   test("Verify paths", () => {
     return new Promise<void>((resolve, reject) => {
-      const controllers = [TestController];
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
       const server = new MicroserviceHttpServer(context, controllers);
       const openApiGenerator = new OpenApi(context, controllers, server);
 
@@ -548,7 +564,13 @@ describe("Test decorators and OpenAPI", () => {
 
   test("Verify models", () => {
     return new Promise<void>((resolve, reject) => {
-      const controllers = [TestController];
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
       const server = new MicroserviceHttpServer(context, controllers);
       const openApiGenerator = new OpenApi(context, controllers, server);
 
@@ -785,7 +807,13 @@ describe("Test decorators and OpenAPI", () => {
 
   test("Download SwaggerUI index.html", () => {
     return new Promise<void>((resolve, reject) => {
-      const controllers = [TestController];
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
       const server = new MicroserviceHttpServer(context, controllers);
       const openApiGenerator = new OpenApi(context, controllers, server);
 
@@ -816,7 +844,13 @@ describe("Test decorators and OpenAPI", () => {
 
   test("Download SwaggerUI swagger-ui.css", () => {
     return new Promise<void>((resolve, reject) => {
-      const controllers = [TestController];
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
       const server = new MicroserviceHttpServer(context, controllers);
       const openApiGenerator = new OpenApi(context, controllers, server);
 
@@ -849,7 +883,13 @@ describe("Test decorators and OpenAPI", () => {
 
   test("Download SwaggerUI swagger-ui-bundle.js", () => {
     return new Promise<void>((resolve, reject) => {
-      const controllers = [TestController];
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
       const server = new MicroserviceHttpServer(context, controllers);
       const openApiGenerator = new OpenApi(context, controllers, server);
 
@@ -882,7 +922,13 @@ describe("Test decorators and OpenAPI", () => {
 
   test("Download SwaggerUI swagger-ui-standalone-preset.jss", () => {
     return new Promise<void>((resolve, reject) => {
-      const controllers = [TestController];
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
       const server = new MicroserviceHttpServer(context, controllers);
       const openApiGenerator = new OpenApi(context, controllers, server);
 

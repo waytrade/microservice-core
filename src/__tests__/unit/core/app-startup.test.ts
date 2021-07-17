@@ -101,9 +101,10 @@ describe("Test MicroserviceApp class", () => {
 
       const context = new MicroserviceContext(rootFolder);
       context
-        .boot()
+        .boot({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
         .then(() => {
           const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
+            apiControllers: [TestControllerNoBootFunction],
             externalContext: context,
           });
           app
@@ -118,6 +119,35 @@ describe("Test MicroserviceApp class", () => {
             });
         })
         .catch(error => {
+          reject(error);
+        });
+    });
+  });
+
+  test("Fail on double-start", () => {
+    return new Promise<void>((resolve, reject) => {
+      const rootFolder = path.resolve(__dirname, "../../../..");
+
+      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
+        apiControllers: [TestControllerNoBootFunction],
+      });
+      app
+        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined})
+        .then(() => {
+          app
+            .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined})
+            .then(() => {
+              reject();
+            })
+            .catch(() => {
+              resolve();
+            })
+            .finally(() => {
+              app.stop();
+            });
+        })
+        .catch(error => {
+          app.stop();
           reject(error);
         });
     });
@@ -208,10 +238,11 @@ describe("Test MicroserviceApp class", () => {
       const context = new MicroserviceContext(rootFolder);
       context
         .boot({
+          SERVER_PORT: undefined,
+          CALLBACK_PORT: undefined,
           LOG_LEVEL: "debug",
         })
         .then(() => {
-          let infoReceived = false;
           context.registerLogObserver({
             async onDebugLog(msg: string, ...args: unknown[]): Promise<void> {
               if (msg === debugMessage) {
@@ -268,6 +299,7 @@ describe("Test MicroserviceApp class", () => {
           });
 
           const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {
+            apiControllers: [TestControllerNoBootFunction],
             externalContext: context,
           });
           app

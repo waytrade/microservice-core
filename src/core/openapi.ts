@@ -14,6 +14,7 @@ import {
 import path from "path";
 import SwaggerUI from "swagger-ui-dist";
 import {MapExt} from "../util/map-ext";
+import {MicroserviceComponentInstance} from "./app";
 import {MicroserviceContext} from "./context";
 import {MicroserviceHttpServer} from "./http-server";
 import {SWAGGER_INDEX_HTML} from "./index.html";
@@ -46,28 +47,38 @@ export class OpenApi {
     private readonly controllers: unknown[],
     server: MicroserviceHttpServer,
   ) {
-    server.registerGetRoute(this, "getHtml", "/", "text/html");
+    const component: MicroserviceComponentInstance = {
+      instance: this,
+      type: OpenApi,
+      running: true,
+    };
+
+    server.registerGetRoute(component, "getHtml", false, "/", "text/html");
     server.registerGetRoute(
-      this,
+      component,
       "getSwaggerUiCss",
+      false,
       SWAGGER_UI_CSS_URL,
       "text/css",
     );
     server.registerGetRoute(
-      this,
+      component,
       "getSwaggerUiBundleJs",
+      false,
       SWAGGER_UI_BUNDLE_JS_URL,
       "text/javascript",
     );
     server.registerGetRoute(
-      this,
+      component,
       "getSwaggerUiStandalonePresetJs",
+      false,
       SWAGGER_UI_STANDALONE_PRESET_JS_URL,
       "text/javascript",
     );
     server.registerGetRoute(
-      this,
+      component,
       "getOpenApiModel",
+      false,
       OPENAPI_JSON_URL,
       "application/json",
     );
@@ -97,11 +108,11 @@ export class OpenApi {
     const models = new Map<string, ModelMetadata>();
 
     this.controllers.forEach(ctrl => {
-      const ctrlMeta = CONTROLLER_METADATA.get(
-        (<Record<string, string>>ctrl).name,
-      );
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const name = (<any>ctrl).name ?? (<any>ctrl).type.name;
+      const ctrlMeta = CONTROLLER_METADATA.get(name);
       if (ctrlMeta) {
-        const hasAuth = this.addControllerApi(ctrlMeta, paths, models);
+        const hasAuth = this.addControllerApi(name, ctrlMeta, paths, models);
         usesBearerAuth = usesBearerAuth || hasAuth;
       }
     });
@@ -263,6 +274,7 @@ export class OpenApi {
 
   /** Create openapi of a controller. */
   private addControllerApi(
+    name: string,
     ctrl: ControllerMetadata,
     allPaths: MapExt<string, PathItemObject>,
     allModels: Map<string, ModelMetadata>,
@@ -382,8 +394,7 @@ export class OpenApi {
         tags: [ctrl.endpointName],
       });
 
-      item["x-controller-name"] = ctrl.target.name;
-
+      item["x-controller-name"] = name;
       item["x-operation-name"] = method.propertyKey;
       item["operationId"] = method.propertyKey;
 

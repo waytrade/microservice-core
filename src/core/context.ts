@@ -33,14 +33,6 @@ export class MicroserviceContext {
   /** The log level. */
   private logLevel?: LogLevel;
 
-  /** True of the context has been successfully booted, false otherwise. */
-  private booted = false;
-
-  /** Returns true of the context has been successfully booted, false otherwise. */
-  get isBooted(): boolean {
-    return this.booted;
-  }
-
   /** Get the app root folder. */
   get rootFolder(): string {
     return this.projectRootFolder;
@@ -87,13 +79,7 @@ export class MicroserviceContext {
       this.registerLogObserver(
         new PinoFileLogger(folderPath, config.NAME, this.logLevel),
       );
-    } else {
-      this.registerLogObserver(
-        new PinoConsoleLogger(config.NAME, this.logLevel),
-      );
     }
-
-    this.booted = true;
   }
 
   /** Log a debug message. */

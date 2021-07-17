@@ -1,7 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import fs from "fs";
 import {MicroserviceContext} from "..";
 import {MicroserviceConfig} from "./config";
 import {MicroserviceHttpServer} from "./http-server";
-import {exportOpenApiJson} from "./openapi-exporter";
+import {CONTROLLER_METADATA, InjectedPropertyMetadata} from "./metadata";
+import {OpenApi} from "./openapi";
 
 /** MicroserviceApp initialization parameters. */
 export interface MicroserviceAppParams {
@@ -19,6 +22,13 @@ export interface MicroserviceAppParams {
    * context that is owner by the app.
    */
   externalContext?: MicroserviceContext;
+}
+
+/** A component instance with its type */
+export interface MicroserviceComponentInstance {
+  instance: any;
+  type: any;
+  running: boolean;
 }
 
 /**
@@ -41,22 +51,33 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
   /** The service context. */
   private readonly context: MicroserviceContext;
 
+  /** List of service instances. */
+  private services: MicroserviceComponentInstance[] = [];
+
+  /** List of callback controller instances. */
+  private callbackControllers: MicroserviceComponentInstance[] = [];
+
+  /** List of api controller instances. */
+  private apiControllers: MicroserviceComponentInstance[] = [];
+
   /** The REST API server. */
   private apiServer?: MicroserviceHttpServer;
 
+  /** The OpenAPI generator. */
+  private openApi?: OpenApi;
+
   /** The Webhook callbacks server. */
   private callbackServer?: MicroserviceHttpServer;
+
+  /** true if the app is running, false otherwise. */
+  private running = false;
 
   /** Called when the app shall boot up. */
   protected abstract boot(): Promise<void>;
 
   /** Called when the microservice has been started. */
   onStarted(): void {
-    if (this.apiServer) {
-      this.info(
-        `REST API Server started at port ${this.apiServer.listeningPort}`,
-      );
-    }
+    this.info(`API Server started at port ${this.apiServer?.listeningPort}`);
     if (this.callbackServer) {
       this.info(
         `Webhook Callback Server started at port ${this.callbackServer.listeningPort}`,
@@ -85,77 +106,230 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
     return this.callbackServer?.listeningPort;
   }
 
+  /** Get an API controller instance. */
+  getApiController(type: unknown): unknown {
+    let instance: unknown | undefined = undefined;
+    for (let i = 0; i < this.apiControllers.length; i++) {
+      if (this.apiControllers[i].type === type) {
+        instance = this.apiControllers[i].instance;
+        break;
+      }
+    }
+    return instance;
+  }
+
+  /** Get an API controller instance by class name. */
+  getApiControllerByName(name: string): unknown {
+    let instance: unknown | undefined = undefined;
+    for (let i = 0; i < this.apiControllers.length; i++) {
+      if (this.apiControllers[i].type.name === name) {
+        instance = this.apiControllers[i].instance;
+        break;
+      }
+    }
+    return instance;
+  }
+
+  /** Get a callback controller instance. */
+  getCallbackController(type: unknown): unknown {
+    let instance: unknown | undefined = undefined;
+    for (let i = 0; i < this.callbackControllers.length; i++) {
+      if (this.callbackControllers[i].type === type) {
+        instance = this.callbackControllers[i].instance;
+        break;
+      }
+    }
+    return instance;
+  }
+
+  /** Get a callback controller instance by class name. */
+  getCallbackControllerByName(name: string): unknown {
+    let instance: unknown | undefined = undefined;
+    for (let i = 0; i < this.callbackControllers.length; i++) {
+      if (this.callbackControllers[i].type.name === name) {
+        instance = this.callbackControllers[i].instance;
+        break;
+      }
+    }
+    return instance;
+  }
+
+  /** Get a service instance. */
+  getService(type: unknown): unknown {
+    let instance: unknown | undefined = undefined;
+    for (let i = 0; i < this.services.length; i++) {
+      if (this.services[i].type === type) {
+        instance = this.services[i].instance;
+        break;
+      }
+    }
+    return instance;
+  }
+
+  /** Get a service instance by class name. */
+  getServiceByName(name: unknown): unknown {
+    let instance: unknown | undefined = undefined;
+    for (let i = 0; i < this.services.length; i++) {
+      if (this.services[i].type.name === name) {
+        instance = this.services[i].instance;
+        break;
+      }
+    }
+    return instance;
+  }
+
   /**  Start the app. */
   async start(configOverwrites?: Partial<MicroserviceConfig>): Promise<void> {
-    // booth context
-
-    if (!this.context.isBooted) {
-      await this.context.boot(configOverwrites);
+    if (this.running) {
+      throw new Error("App is running already.");
     }
-
-    // start the app
-
-    await this.boot();
 
     this.info("Starting App...");
 
-    // start webhook callback server
+    // boot the app
+
+    if (!this.params.externalContext) {
+      await this.context.boot(configOverwrites);
+    }
+
+    await this.boot();
+
+    // create component instances
+
+    if (this.params.apiControllers) {
+      this.params.apiControllers.forEach(ctrl => {
+        const instance = new (<any>ctrl)();
+        this.apiControllers.push({
+          instance,
+          type: ctrl,
+          running: false,
+        });
+      });
+    }
 
     if (this.params.callbackControllers) {
+      this.params.callbackControllers.forEach(ctrl => {
+        const instance = new (<any>ctrl)();
+        this.callbackControllers.push({
+          instance,
+          type: ctrl,
+          running: false,
+        });
+      });
+    }
+
+    if (this.params.services) {
+      this.params.services.forEach(service => {
+        const instance = new (<any>service)();
+        this.services.push({
+          instance,
+          type: service,
+          running: false,
+        });
+      });
+    }
+
+    // boot components
+
+    for (let i = 0; i < this.apiControllers.length; i++) {
+      const ctrl = this.apiControllers[i];
+      const metadata = CONTROLLER_METADATA.get(ctrl.type.name);
+      this.injectProperties(ctrl.type, ctrl.instance, metadata?.injectedProps);
+      if (ctrl.type.boot) {
+        await ctrl.type.boot();
+      }
+      if (ctrl.instance.boot) {
+        await ctrl.instance.boot();
+      }
+    }
+
+    for (let i = 0; i < this.callbackControllers.length; i++) {
+      const ctrl = this.callbackControllers[i];
+      const metadata = CONTROLLER_METADATA.get(ctrl.type.name);
+      this.injectProperties(ctrl.type, ctrl.instance, metadata?.injectedProps);
+      if (ctrl.type.boot) {
+        await ctrl.type.boot();
+      }
+      if (ctrl.instance.boot) {
+        await ctrl.instance.boot();
+      }
+    }
+
+    for (let i = 0; i < this.services.length; i++) {
+      const service = this.services[i];
+      const metadata = CONTROLLER_METADATA.get(service.type.name);
+      this.injectProperties(
+        service.type,
+        service.instance,
+        metadata?.injectedProps,
+      );
+      if (service.type.boot) {
+        await service.type.boot();
+      }
+      if (service.instance.boot) {
+        await service.instance.boot();
+      }
+    }
+
+    // start servers
+
+    this.apiServer = new MicroserviceHttpServer(
+      this.context,
+      this.apiControllers,
+    );
+    this.openApi = new OpenApi(
+      this.context,
+      this.params.apiControllers ?? [],
+      this.apiServer,
+    );
+
+    await this.apiServer.start(this.config.SERVER_PORT);
+
+    if (this.callbackControllers.length) {
       this.callbackServer = new MicroserviceHttpServer(
         this.context,
-        this.params.callbackControllers,
+        this.callbackControllers,
       );
       await this.callbackServer.start(this.config.CALLBACK_PORT);
     }
 
-    // boot the services
+    // start components
 
-    if (this.params.services) {
-      for (let i = 0; i < this.params.services?.length; i++) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const service = this.params.services[i] as any;
-        if (service.start) {
-          await service.start();
-        }
+    for (let i = 0; i < this.apiControllers.length; i++) {
+      const ctrl = this.apiControllers[i];
+      if (ctrl.type.start) {
+        await ctrl.type.start();
       }
+      if (ctrl.instance.start) {
+        await ctrl.instance.start();
+      }
+      ctrl.running = true;
     }
 
-    // boot the callback controllers
-
-    if (this.params.callbackControllers) {
-      for (let i = 0; i < this.params.callbackControllers?.length; i++) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const ctrl = this.params.callbackControllers[i] as any;
-        if (ctrl.start) {
-          await ctrl.start();
-        }
+    for (let i = 0; i < this.callbackControllers.length; i++) {
+      const ctrl = this.callbackControllers[i];
+      if (ctrl.type.start) {
+        await ctrl.type.start();
       }
+      if (ctrl.instance.start) {
+        await ctrl.instance.start();
+      }
+      ctrl.running = true;
     }
 
-    // boot the API controllers
-
-    if (this.params.apiControllers) {
-      for (let i = 0; i < this.params.apiControllers?.length; i++) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const ctrl = this.params.apiControllers[i] as any;
-        if (ctrl.start) {
-          await ctrl.start();
-        }
+    for (let i = 0; i < this.services.length; i++) {
+      const service = this.services[i];
+      if (service.type.start) {
+        await service.type.start();
       }
-    }
-
-    // start API server
-
-    if (this.params.apiControllers) {
-      this.apiServer = new MicroserviceHttpServer(
-        this.context,
-        this.params.apiControllers,
-      );
-      await this.apiServer.start(this.config.SERVER_PORT);
+      if (service.instance.start) {
+        await service.instance.start();
+      }
+      service.running = true;
     }
 
     this.onStarted();
+    this.running = true;
   }
 
   /** Stop the app. */
@@ -165,31 +339,47 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
     this.apiServer?.stop();
     this.callbackServer?.stop();
 
-    // stop the controllers
+    // stop the api controllers
 
-    if (this.params.apiControllers) {
-      for (let i = 0; i < this.params.apiControllers.length; i++) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const ctrl = this.params.apiControllers[i] as any;
-        if (ctrl.stop) {
-          ctrl.stop();
-        }
+    for (let i = 0; i < this.apiControllers.length; i++) {
+      if (this.apiControllers[i].instance.stop) {
+        this.apiControllers[i].instance.stop();
+      }
+      if (this.apiControllers[i].type.stop) {
+        this.apiControllers[i].type.stop();
       }
     }
+
+    this.apiControllers = [];
+
+    // stop the callback controllers
+
+    for (let i = 0; i < this.callbackControllers.length; i++) {
+      if (this.callbackControllers[i].instance.stop) {
+        this.callbackControllers[i].instance.stop();
+      }
+      if (this.callbackControllers[i].type.stop) {
+        this.callbackControllers[i].type.stop();
+      }
+    }
+
+    this.callbackControllers = [];
 
     // stop the services
 
-    if (this.params.services) {
-      for (let i = 0; i < this.params.services.length; i++) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const service = this.params.services[i] as any;
-        if (service.stop) {
-          service.stop();
-        }
+    for (let i = 0; i < this.services.length; i++) {
+      if (this.services[i].instance.stop) {
+        this.services[i].instance.stop();
+      }
+      if (this.services[i].type.stop) {
+        this.services[i].type.stop();
       }
     }
 
+    this.services = [];
+
     this.onStopped();
+    this.running = false;
   }
 
   /** Log a debug message. */
@@ -213,11 +403,41 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
   }
 
   /** Export the openapi.json the given folder */
-  exportOpenApi(destinationFolder: string): Promise<void> {
-    return exportOpenApiJson(
-      destinationFolder,
-      this.context,
-      this.params.apiControllers ?? [],
+  async exportOpenApi(destinationFolder: string): Promise<void> {
+    if (!this.openApi) {
+      throw new Error("App not running. Call start() first!");
+    }
+
+    const model = await this.openApi.getOpenApiModel();
+    fs.writeFileSync(
+      destinationFolder + "/openapi.json",
+      JSON.stringify(model),
     );
+  }
+
+  private injectProperties(
+    type: any,
+    instance: any,
+    injectedProps?: InjectedPropertyMetadata[],
+  ): void {
+    injectedProps?.forEach(prop => {
+      if (prop.type === this.constructor.name) {
+        if (prop.isStatic) {
+          type[prop.propertyKey] = this;
+        } else {
+          instance[prop.propertyKey] = this;
+        }
+      } else {
+        const val =
+          this.getServiceByName(prop.type) ??
+          this.getCallbackControllerByName(prop.type) ??
+          this.getApiControllerByName(prop.type);
+        if (prop.isStatic) {
+          type[prop.propertyKey] = val;
+        } else {
+          instance[prop.propertyKey] = val;
+        }
+      }
+    });
   }
 }

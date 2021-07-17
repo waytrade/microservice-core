@@ -12,6 +12,7 @@ import {
   post,
   put,
 } from "../../..";
+import {MicroserviceComponentInstance} from "../../../core/app";
 import {HttpError} from "../../../core/http-error";
 import {MicroserviceHttpServer} from "../../../core/http-server";
 
@@ -102,7 +103,14 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
 
   test("Handle GET request", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [TestController]);
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, controllers);
       server
         .start()
         .then(() => {
@@ -141,7 +149,14 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
 
   test("Fail GET request", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [TestController]);
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, controllers);
       server
         .start()
         .then(() => {
@@ -171,7 +186,14 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
 
   test("Handle PUT request", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [TestController]);
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, controllers);
       server
         .start()
         .then(() => {
@@ -214,7 +236,14 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
 
   test("Fail PUT request", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [TestController]);
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, controllers);
       server
         .start()
         .then(() => {
@@ -244,7 +273,14 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
 
   test("Handle POST request", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [TestController]);
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, controllers);
       server
         .start()
         .then(() => {
@@ -287,7 +323,14 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
 
   test("Fail POST request", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [TestController]);
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, controllers);
       server
         .start()
         .then(() => {
@@ -317,7 +360,14 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
 
   test("Handle PATCH request", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [TestController]);
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, controllers);
       server
         .start()
         .then(() => {
@@ -360,7 +410,14 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
 
   test("Fail PATCH request", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [TestController]);
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, controllers);
       server
         .start()
         .then(() => {
@@ -390,7 +447,14 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
 
   test("Handle DELETE request", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [TestController]);
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, controllers);
       server
         .start()
         .then(() => {
@@ -429,7 +493,14 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
 
   test("Fail DELETE request", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [TestController]);
+      const controllers: MicroserviceComponentInstance[] = [
+        {
+          type: TestController,
+          instance: new TestController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, controllers);
       server
         .start()
         .then(() => {

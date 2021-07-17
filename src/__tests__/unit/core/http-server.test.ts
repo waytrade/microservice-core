@@ -10,6 +10,7 @@ import {
   post,
   put,
 } from "../../../";
+import {MicroserviceComponentInstance} from "../../../core/app";
 import {MicroserviceHttpServer} from "../../../core/http-server";
 import {MicroserviceRequest} from "../../../models/microservice-request";
 
@@ -62,7 +63,14 @@ describe("Test MicroserviceHttpServer class", () => {
 
   test("Start at random port", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [DummyController]);
+      const component: MicroserviceComponentInstance[] = [
+        {
+          type: DummyController,
+          instance: new DummyController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, component);
       expect(server.listeningPort).toBeUndefined();
       server
         .start()
@@ -81,7 +89,14 @@ describe("Test MicroserviceHttpServer class", () => {
 
   test("Start at fixed port", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [DummyController]);
+      const component: MicroserviceComponentInstance[] = [
+        {
+          type: DummyController,
+          instance: new DummyController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, component);
       server
         .start(FIXED_PORT)
         .then(() => {
@@ -99,7 +114,14 @@ describe("Test MicroserviceHttpServer class", () => {
 
   test("Test 404 not found", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [DummyController]);
+      const component: MicroserviceComponentInstance[] = [
+        {
+          type: DummyController,
+          instance: new DummyController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, component);
       server
         .start()
         .then(() => {
@@ -129,7 +151,14 @@ describe("Test MicroserviceHttpServer class", () => {
 
   test("Test 400 bad request", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [DummyController]);
+      const component: MicroserviceComponentInstance[] = [
+        {
+          type: DummyController,
+          instance: new DummyController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, component);
       server
         .start()
         .then(() => {
@@ -160,7 +189,14 @@ describe("Test MicroserviceHttpServer class", () => {
 
   test("Test OPTIONS request", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [DummyController]);
+      const component: MicroserviceComponentInstance[] = [
+        {
+          type: DummyController,
+          instance: new DummyController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, component);
       server
         .start()
         .then(() => {
@@ -194,7 +230,14 @@ describe("Test MicroserviceHttpServer class", () => {
 
   test("Custom response header", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, [DummyController]);
+      const component: MicroserviceComponentInstance[] = [
+        {
+          type: DummyController,
+          instance: new DummyController(),
+          running: true,
+        },
+      ];
+      const server = new MicroserviceHttpServer(context, component);
       server
         .start()
         .then(() => {

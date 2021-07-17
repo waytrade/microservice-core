@@ -14,13 +14,14 @@ export function callback(url: string, model: any) {
     descriptor: PropertyDescriptor,
   ): PropertyDescriptor {
     const meta = CONTROLLER_METADATA.getOrAdd(
-      target.name,
+      target.name ?? target.constructor.name,
       () => new ControllerMetadata(),
     );
-    meta.target = target;
+
+    const isStatic = target.name !== undefined;
     const propMeta = meta.methods.getOrAdd(
-      propertyKey,
-      () => new MethodMetadata(propertyKey),
+      propertyKey + (isStatic ? ":static" : ""),
+      () => new MethodMetadata(propertyKey, isStatic),
     );
 
     propMeta.callbackRefs.set(url, model.name);

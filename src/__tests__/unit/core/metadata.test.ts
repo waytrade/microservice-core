@@ -59,11 +59,19 @@ class TestController_get {
   static testMethod() {
     return;
   }
+  @get("/")
+  testMethod() {
+    return;
+  }
 }
 
 class TestController_put {
   @put("/")
   static testMethod() {
+    return;
+  }
+  @put("/")
+  testMethod() {
     return;
   }
 }
@@ -73,11 +81,19 @@ class TestController_post {
   static testMethod() {
     return;
   }
+  @post("/")
+  testMethod() {
+    return;
+  }
 }
 
 class TestController_patch {
   @patch("/")
   static testMethod() {
+    return;
+  }
+  @patch("/")
+  testMethod() {
     return;
   }
 }
@@ -87,11 +103,19 @@ class TestController_del {
   static testMethod() {
     return;
   }
+  @del("/")
+  testMethod() {
+    return;
+  }
 }
 
 class TestController_bearerAuth {
   @bearerAuth([])
   static testMethod() {
+    return;
+  }
+  @bearerAuth([])
+  testMethod() {
     return;
   }
 }
@@ -102,12 +126,20 @@ class TestController_callback {
   static testMethod() {
     return;
   }
+  @callback(TEST_CONTROLLER_CALLBACK_URL, TestModel)
+  testMethod() {
+    return;
+  }
 }
 
 const TEST_CONTROLLER_METHOD_DESCRIPTION = "Description " + Math.random();
 class TestController_description {
   @description(TEST_CONTROLLER_METHOD_DESCRIPTION)
   static testMethod() {
+    return;
+  }
+  @description(TEST_CONTROLLER_METHOD_DESCRIPTION)
+  testMethod() {
     return;
   }
 }
@@ -121,6 +153,14 @@ class TestController_pathParameter {
     TEST_CONTROLLER_PATH_PARAM_DESCRIPTION,
   )
   static testMethod() {
+    return;
+  }
+  @pathParameter(
+    TEST_CONTROLLER_PATH_PARAM_NAME,
+    String,
+    TEST_CONTROLLER_PATH_PARAM_DESCRIPTION,
+  )
+  testMethod() {
     return;
   }
 }
@@ -137,6 +177,15 @@ class TestController_queryParameter {
   static testMethod() {
     return;
   }
+  @queryParameter(
+    TEST_CONTROLLER_QUERY_PARAM_NAME,
+    String,
+    true,
+    TEST_CONTROLLER_QUERY_PARAM_DESCRIPTION,
+  )
+  testMethod() {
+    return;
+  }
 }
 
 class TestController_requestBody {
@@ -144,11 +193,19 @@ class TestController_requestBody {
   static testMethod() {
     return;
   }
+  @requestBody(TestModel)
+  testMethod() {
+    return;
+  }
 }
 
 class TestController_responseBody {
   @responseBody(TestModel)
   static testMethod() {
+    return;
+  }
+  @responseBody(TestModel)
+  testMethod() {
     return;
   }
 }
@@ -160,6 +217,10 @@ class TestController_response {
   static testMethod() {
     return;
   }
+  @response(TEST_CONTROLLER_RESPONSE_CODE, TEST_CONTROLLER_RESPONSE_DESCRIPTION)
+  testMethod() {
+    return;
+  }
 }
 
 const TEST_CONTROLLER_METHOD_SUMMARY = "Summary " + Math.random();
@@ -168,12 +229,20 @@ class TestController_summary {
   static testMethod() {
     return;
   }
+  @summary(TEST_CONTROLLER_METHOD_SUMMARY)
+  testMethod() {
+    return;
+  }
 }
 
 const TEST_CONTROLLER_WEBSOCKET_PATH = "/some/path ";
 class TestController_websocket {
   @websocket(TEST_CONTROLLER_WEBSOCKET_PATH)
   static testMethod() {
+    return;
+  }
+  @websocket(TEST_CONTROLLER_WEBSOCKET_PATH)
+  testMethod() {
     return;
   }
 }
@@ -186,7 +255,14 @@ describe("Test decorator metadata ", () => {
 
     controllerMetadata = CONTROLLER_METADATA.get("TestController_get");
     expect(controllerMetadata).toBeDefined();
-    let methodMetadata = controllerMetadata?.methods.get("testMethod");
+    let methodMetadata = controllerMetadata?.methods.get("testMethod:static");
+    expect(methodMetadata?.isStatic).toBeTruthy();
+    expect(methodMetadata?.method).toEqual("get");
+    expect(methodMetadata?.contentType).toEqual("application/json");
+    expect(methodMetadata?.propertyKey).toEqual("testMethod");
+    expect(methodMetadata?.path).toEqual("/");
+    methodMetadata = controllerMetadata?.methods.get("testMethod");
+    expect(methodMetadata?.isStatic).toBeFalsy();
     expect(methodMetadata?.method).toEqual("get");
     expect(methodMetadata?.contentType).toEqual("application/json");
     expect(methodMetadata?.propertyKey).toEqual("testMethod");
@@ -194,7 +270,14 @@ describe("Test decorator metadata ", () => {
 
     controllerMetadata = CONTROLLER_METADATA.get("TestController_put");
     expect(controllerMetadata).toBeDefined();
+    methodMetadata = controllerMetadata?.methods.get("testMethod:static");
+    expect(methodMetadata?.isStatic).toBeTruthy();
+    expect(methodMetadata?.method).toEqual("put");
+    expect(methodMetadata?.contentType).toEqual("application/json");
+    expect(methodMetadata?.propertyKey).toEqual("testMethod");
+    expect(methodMetadata?.path).toEqual("/");
     methodMetadata = controllerMetadata?.methods.get("testMethod");
+    expect(methodMetadata?.isStatic).toBeFalsy();
     expect(methodMetadata?.method).toEqual("put");
     expect(methodMetadata?.contentType).toEqual("application/json");
     expect(methodMetadata?.propertyKey).toEqual("testMethod");
@@ -202,7 +285,14 @@ describe("Test decorator metadata ", () => {
 
     controllerMetadata = CONTROLLER_METADATA.get("TestController_post");
     expect(controllerMetadata).toBeDefined();
+    methodMetadata = controllerMetadata?.methods.get("testMethod:static");
+    expect(methodMetadata?.isStatic).toBeTruthy();
+    expect(methodMetadata?.method).toEqual("post");
+    expect(methodMetadata?.contentType).toEqual("application/json");
+    expect(methodMetadata?.propertyKey).toEqual("testMethod");
+    expect(methodMetadata?.path).toEqual("/");
     methodMetadata = controllerMetadata?.methods.get("testMethod");
+    expect(methodMetadata?.isStatic).toBeFalsy();
     expect(methodMetadata?.method).toEqual("post");
     expect(methodMetadata?.contentType).toEqual("application/json");
     expect(methodMetadata?.propertyKey).toEqual("testMethod");
@@ -210,7 +300,14 @@ describe("Test decorator metadata ", () => {
 
     controllerMetadata = CONTROLLER_METADATA.get("TestController_patch");
     expect(controllerMetadata).toBeDefined();
+    methodMetadata = controllerMetadata?.methods.get("testMethod:static");
+    expect(methodMetadata?.isStatic).toBeTruthy();
+    expect(methodMetadata?.method).toEqual("patch");
+    expect(methodMetadata?.contentType).toEqual("application/json");
+    expect(methodMetadata?.propertyKey).toEqual("testMethod");
+    expect(methodMetadata?.path).toEqual("/");
     methodMetadata = controllerMetadata?.methods.get("testMethod");
+    expect(methodMetadata?.isStatic).toBeFalsy();
     expect(methodMetadata?.method).toEqual("patch");
     expect(methodMetadata?.contentType).toEqual("application/json");
     expect(methodMetadata?.propertyKey).toEqual("testMethod");
@@ -218,7 +315,14 @@ describe("Test decorator metadata ", () => {
 
     controllerMetadata = CONTROLLER_METADATA.get("TestController_del");
     expect(controllerMetadata).toBeDefined();
+    methodMetadata = controllerMetadata?.methods.get("testMethod:static");
+    expect(methodMetadata?.isStatic).toBeTruthy();
+    expect(methodMetadata?.method).toEqual("delete");
+    expect(methodMetadata?.contentType).toEqual("application/json");
+    expect(methodMetadata?.propertyKey).toEqual("testMethod");
+    expect(methodMetadata?.path).toEqual("/");
     methodMetadata = controllerMetadata?.methods.get("testMethod");
+    expect(methodMetadata?.isStatic).toBeFalsy();
     expect(methodMetadata?.method).toEqual("delete");
     expect(methodMetadata?.contentType).toEqual("application/json");
     expect(methodMetadata?.propertyKey).toEqual("testMethod");
@@ -226,12 +330,23 @@ describe("Test decorator metadata ", () => {
 
     controllerMetadata = CONTROLLER_METADATA.get("TestController_bearerAuth");
     expect(controllerMetadata).toBeDefined();
+    methodMetadata = controllerMetadata?.methods.get("testMethod:static");
+    expect(methodMetadata?.isStatic).toBeTruthy();
+    expect(methodMetadata?.bearerAuthScopes).toEqual([]);
     methodMetadata = controllerMetadata?.methods.get("testMethod");
+    expect(methodMetadata?.isStatic).toBeFalsy();
     expect(methodMetadata?.bearerAuthScopes).toEqual([]);
 
     controllerMetadata = CONTROLLER_METADATA.get("TestController_callback");
     expect(controllerMetadata).toBeDefined();
+    methodMetadata = controllerMetadata?.methods.get("testMethod:static");
+    expect(methodMetadata?.isStatic).toBeTruthy();
+    expect(methodMetadata?.callbackRefs?.size).toEqual(1);
+    expect(
+      methodMetadata?.callbackRefs?.get(TEST_CONTROLLER_CALLBACK_URL),
+    ).toEqual("TestModel");
     methodMetadata = controllerMetadata?.methods.get("testMethod");
+    expect(methodMetadata?.isStatic).toBeFalsy();
     expect(methodMetadata?.callbackRefs?.size).toEqual(1);
     expect(
       methodMetadata?.callbackRefs?.get(TEST_CONTROLLER_CALLBACK_URL),
@@ -239,7 +354,13 @@ describe("Test decorator metadata ", () => {
 
     controllerMetadata = CONTROLLER_METADATA.get("TestController_description");
     expect(controllerMetadata).toBeDefined();
+    methodMetadata = controllerMetadata?.methods.get("testMethod:static");
+    expect(methodMetadata?.isStatic).toBeTruthy();
+    expect(methodMetadata?.description).toEqual(
+      TEST_CONTROLLER_METHOD_DESCRIPTION,
+    );
     methodMetadata = controllerMetadata?.methods.get("testMethod");
+    expect(methodMetadata?.isStatic).toBeFalsy();
     expect(methodMetadata?.description).toEqual(
       TEST_CONTROLLER_METHOD_DESCRIPTION,
     );
@@ -248,7 +369,20 @@ describe("Test decorator metadata ", () => {
       "TestController_pathParameter",
     );
     expect(controllerMetadata).toBeDefined();
+    methodMetadata = controllerMetadata?.methods.get("testMethod:static");
+    expect(methodMetadata?.isStatic).toBeTruthy();
+    expect(methodMetadata?.queryParams?.length).toEqual(1);
+    expect(methodMetadata?.queryParams[0].name).toEqual(
+      TEST_CONTROLLER_PATH_PARAM_NAME,
+    );
+    expect(methodMetadata?.queryParams[0].type).toEqual("string");
+    expect(methodMetadata?.queryParams[0].inType).toEqual("path");
+    expect(methodMetadata?.queryParams[0].required).toBeTruthy();
+    expect(methodMetadata?.queryParams[0].description).toEqual(
+      TEST_CONTROLLER_PATH_PARAM_DESCRIPTION,
+    );
     methodMetadata = controllerMetadata?.methods.get("testMethod");
+    expect(methodMetadata?.isStatic).toBeFalsy();
     expect(methodMetadata?.queryParams?.length).toEqual(1);
     expect(methodMetadata?.queryParams[0].name).toEqual(
       TEST_CONTROLLER_PATH_PARAM_NAME,
@@ -264,7 +398,20 @@ describe("Test decorator metadata ", () => {
       "TestController_queryParameter",
     );
     expect(controllerMetadata).toBeDefined();
+    methodMetadata = controllerMetadata?.methods.get("testMethod:static");
+    expect(methodMetadata?.isStatic).toBeTruthy();
+    expect(methodMetadata?.queryParams?.length).toEqual(1);
+    expect(methodMetadata?.queryParams[0].name).toEqual(
+      TEST_CONTROLLER_QUERY_PARAM_NAME,
+    );
+    expect(methodMetadata?.queryParams[0].type).toEqual("string");
+    expect(methodMetadata?.queryParams[0].inType).toEqual("query");
+    expect(methodMetadata?.queryParams[0].required).toBeTruthy();
+    expect(methodMetadata?.queryParams[0].description).toEqual(
+      TEST_CONTROLLER_QUERY_PARAM_DESCRIPTION,
+    );
     methodMetadata = controllerMetadata?.methods.get("testMethod");
+    expect(methodMetadata?.isStatic).toBeFalsy();
     expect(methodMetadata?.queryParams?.length).toEqual(1);
     expect(methodMetadata?.queryParams[0].name).toEqual(
       TEST_CONTROLLER_QUERY_PARAM_NAME,
@@ -278,19 +425,40 @@ describe("Test decorator metadata ", () => {
 
     controllerMetadata = CONTROLLER_METADATA.get("TestController_requestBody");
     expect(controllerMetadata).toBeDefined();
+    methodMetadata = controllerMetadata?.methods.get("testMethod:static");
+    expect(methodMetadata?.isStatic).toBeTruthy();
+    expect(methodMetadata?.requestBodyRef).toEqual("TestModel");
     methodMetadata = controllerMetadata?.methods.get("testMethod");
+    expect(methodMetadata?.isStatic).toBeFalsy();
     expect(methodMetadata?.requestBodyRef).toEqual("TestModel");
 
     controllerMetadata = CONTROLLER_METADATA.get("TestController_responseBody");
     expect(controllerMetadata).toBeDefined();
+    methodMetadata = controllerMetadata?.methods.get("testMethod:static");
+    expect(methodMetadata?.isStatic).toBeTruthy();
+    expect(methodMetadata?.responses?.size).toEqual(1);
+    expect(methodMetadata?.responses?.get(200)?.code).toEqual(200);
+    expect(methodMetadata?.responses?.get(200)?.ref).toEqual("TestModel");
     methodMetadata = controllerMetadata?.methods.get("testMethod");
+    expect(methodMetadata?.isStatic).toBeFalsy();
     expect(methodMetadata?.responses?.size).toEqual(1);
     expect(methodMetadata?.responses?.get(200)?.code).toEqual(200);
     expect(methodMetadata?.responses?.get(200)?.ref).toEqual("TestModel");
 
     controllerMetadata = CONTROLLER_METADATA.get("TestController_response");
     expect(controllerMetadata).toBeDefined();
+    methodMetadata = controllerMetadata?.methods.get("testMethod:static");
+    expect(methodMetadata?.isStatic).toBeTruthy();
+    expect(methodMetadata?.responses?.size).toEqual(1);
+    expect(
+      methodMetadata?.responses?.get(TEST_CONTROLLER_RESPONSE_CODE)?.code,
+    ).toEqual(TEST_CONTROLLER_RESPONSE_CODE);
+    expect(
+      methodMetadata?.responses?.get(TEST_CONTROLLER_RESPONSE_CODE)
+        ?.description,
+    ).toEqual(TEST_CONTROLLER_RESPONSE_DESCRIPTION);
     methodMetadata = controllerMetadata?.methods.get("testMethod");
+    expect(methodMetadata?.isStatic).toBeFalsy();
     expect(methodMetadata?.responses?.size).toEqual(1);
     expect(
       methodMetadata?.responses?.get(TEST_CONTROLLER_RESPONSE_CODE)?.code,
@@ -302,12 +470,22 @@ describe("Test decorator metadata ", () => {
 
     controllerMetadata = CONTROLLER_METADATA.get("TestController_summary");
     expect(controllerMetadata).toBeDefined();
+    methodMetadata = controllerMetadata?.methods.get("testMethod:static");
+    expect(methodMetadata?.isStatic).toBeTruthy();
+    expect(methodMetadata?.summary).toEqual(TEST_CONTROLLER_METHOD_SUMMARY);
     methodMetadata = controllerMetadata?.methods.get("testMethod");
+    expect(methodMetadata?.isStatic).toBeFalsy();
     expect(methodMetadata?.summary).toEqual(TEST_CONTROLLER_METHOD_SUMMARY);
 
     controllerMetadata = CONTROLLER_METADATA.get("TestController_websocket");
     expect(controllerMetadata).toBeDefined();
+    methodMetadata = controllerMetadata?.methods.get("testMethod:static");
+    expect(methodMetadata?.isStatic).toBeTruthy();
+    expect(methodMetadata?.method).toEqual("get");
+    expect(methodMetadata?.path).toEqual(TEST_CONTROLLER_WEBSOCKET_PATH);
+    expect(methodMetadata?.contentType).toEqual("application/json");
     methodMetadata = controllerMetadata?.methods.get("testMethod");
+    expect(methodMetadata?.isStatic).toBeFalsy();
     expect(methodMetadata?.method).toEqual("get");
     expect(methodMetadata?.path).toEqual(TEST_CONTROLLER_WEBSOCKET_PATH);
     expect(methodMetadata?.contentType).toEqual("application/json");
