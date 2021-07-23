@@ -106,11 +106,11 @@ class ExampleService {
 @controller("Example Controller", "/api")
 class ExampleController {
   /** App instance can be injected by adding @inject() */
-  @inject()
+  @inject("ExampleApp")
   app?: ExampleApp;
 
   /** Service instances be injected by adding @inject() */
-  @inject()
+  @inject("ExampleService")
   service?: ExampleService;
 
   /** This (optional) function is called when the controller shall start up. */

@@ -50,7 +50,7 @@ export class MethodMetadata {
 export class InjectedPropertyMetadata {
   constructor(
     public readonly propertyKey: string,
-    public readonly type: string,
+    public readonly typeName: string,
     public readonly isStatic: boolean,
   ) {}
 }

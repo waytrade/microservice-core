@@ -16,37 +16,37 @@ class InjectedTestController {
 
 @service()
 class TestServiceStatic {
-  @inject()
+  @inject("MicroserviceTestApp")
   static app?: MicroserviceTestApp<MicroserviceConfig>;
 
-  @inject()
+  @inject("InjectedTestController")
   static controller?: InjectedTestController;
 }
 
 @service()
 class TestServiceInstance {
-  @inject()
+  @inject("MicroserviceTestApp")
   app?: MicroserviceTestApp<MicroserviceConfig>;
 
-  @inject()
+  @inject("InjectedTestController")
   controller?: InjectedTestController;
 }
 
 @controller("Test Controller Static")
 class TestControllerStatic {
-  @inject()
+  @inject("MicroserviceTestApp")
   static app?: MicroserviceTestApp<MicroserviceConfig>;
 
-  @inject()
+  @inject("InjectedTestController")
   static controller?: InjectedTestController;
 }
 
 @controller("Test Controller Instance")
 class TestControllerInstance {
-  @inject()
+  @inject("MicroserviceTestApp")
   app?: MicroserviceTestApp<MicroserviceConfig>;
 
-  @inject()
+  @inject("InjectedTestController")
   controller?: InjectedTestController;
 }
 

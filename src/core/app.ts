@@ -416,24 +416,24 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
   }
 
   private injectProperties(
-    type: any,
+    parentType: any,
     instance: any,
     injectedProps?: InjectedPropertyMetadata[],
   ): void {
     injectedProps?.forEach(prop => {
-      if (prop.type === this.constructor.name) {
+      if (prop.typeName === this.constructor.name) {
         if (prop.isStatic) {
-          type[prop.propertyKey] = this;
+          parentType[prop.propertyKey] = this;
         } else {
           instance[prop.propertyKey] = this;
         }
       } else {
         const val =
-          this.getServiceByName(prop.type) ??
-          this.getCallbackControllerByName(prop.type) ??
-          this.getApiControllerByName(prop.type);
+          this.getServiceByName(prop.typeName) ??
+          this.getCallbackControllerByName(prop.typeName) ??
+          this.getApiControllerByName(prop.typeName);
         if (prop.isStatic) {
-          type[prop.propertyKey] = val;
+          parentType[prop.propertyKey] = val;
         } else {
           instance[prop.propertyKey] = val;
         }

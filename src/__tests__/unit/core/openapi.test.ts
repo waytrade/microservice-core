@@ -584,54 +584,6 @@ describe("Test decorators and OpenAPI", () => {
             .then(res => {
               expect(res.status).toBe(HttpStatus.OK);
 
-              const verifyPathObject = (
-                obj: PathItemObject,
-                operationName: string,
-                path: string,
-              ): void => {
-                expect(obj).toBeDefined();
-                expect(obj["x-controller-name"]).toEqual("TestController");
-                expect(obj["x-operation-name"]).toEqual(operationName);
-                expect(obj.tags.length).toEqual(1);
-                expect(obj.tags[0]).toEqual(TEST_CONTROLLER_DESCRIPTION);
-                expect(obj.operationId).toEqual(operationName);
-                expect(obj.summary).toEqual(TEST_SUMMARY_TEXT);
-                expect(obj.description).toEqual(TEST_DESCRIPTION_TEXT);
-                expect(obj.security.length).toEqual(1);
-                expect(obj.security[0]).toEqual({bearerAuth: []});
-                expect(
-                  obj.responses[200]["content"]["application/json"]["schema"][
-                    "$ref"
-                  ],
-                ).toEqual("#/components/schemas/TestModel");
-                expect(obj.parameters?.length).toEqual(2);
-                obj.parameters?.forEach(param => {
-                  expect(param).toBeDefined();
-                  const pathParam = param as ParameterObject;
-                  if (pathParam) {
-                    expect(pathParam.in).toEqual("path");
-                    switch (path) {
-                      case ROOT_METHOD_PATH:
-                      case REST_METHOD_PATH_STRING_ARG:
-                        expect(pathParam.name).toEqual(STRING_PATH_PARAM_NAME);
-                        break;
-                      case REST_METHOD_PATH_NUMBER_ARG:
-                        expect(pathParam.name).toEqual(NUMBER_PATH_PARAM_NAME);
-                        break;
-                      case REST_METHOD_PATH_BOOLEAN_ARG:
-                        expect(pathParam.name).toEqual(BOOLEAN_PATH_PARAM_NAME);
-                        break;
-                      default:
-                        reject();
-                    }
-                    expect(pathParam.description).toEqual(
-                      PATH_PARAM_DESCRIPTION_TEXT,
-                    );
-                    expect(pathParam.required).toEqual(true);
-                  }
-                });
-              };
-
               const openapi = (<unknown>res.data) as OpenAPIObject;
 
               if (!openapi?.components?.schemas) {

@@ -358,6 +358,10 @@ export class OpenApi {
               },
             },
           };
+          const modelMeta = MODEL_METADATA.get(method.requestBodyRef);
+          if (modelMeta) {
+            allModels.set(method.requestBodyRef, modelMeta);
+          }
         }
       }
 
@@ -366,6 +370,10 @@ export class OpenApi {
       };
 
       method.callbackRefs.forEach((ref, callbackUrl) => {
+        const modelMeta = MODEL_METADATA.get(ref);
+        if (modelMeta) {
+          allModels.set(ref, modelMeta);
+        }
         callbacks.onEvent[callbackUrl] = {
           post: {
             requestBody: {
