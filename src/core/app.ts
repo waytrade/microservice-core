@@ -76,7 +76,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
   protected abstract boot(): Promise<void>;
 
   /** Called when the microservice has been started. */
-  onStarted(): void {
+  protected onStarted(): void {
     this.info(`API Server started at port ${this.apiServer?.listeningPort}`);
     if (this.callbackServer) {
       this.info(
@@ -87,7 +87,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
   }
 
   /** Called when the microservice has been stopped. */
-  onStopped(): void {
+  protected onStopped(): void {
     this.info("App stopped.");
   }
 
