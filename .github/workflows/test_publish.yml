@@ -73,6 +73,7 @@ jobs:
           retention-days: 1
           path: |
             dist/
+            Dockerfile
             package.json
 
   publish-npm:
@@ -114,11 +115,16 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME
-
+      - name: "Download Build Artifact"
+        uses: actions/download-artifact@v2
+        with:
+          name: dist-files
+          
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+          
+      - name: Build image
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
       - name: Push image
         run: |
