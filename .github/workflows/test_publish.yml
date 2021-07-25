@@ -37,11 +37,11 @@ jobs:
       - name: "Install dependencies"
         run: yarn install
 
-      - name: "Build App"
-        run: yarn build
-
       - name: "Run Tests"
         run: sudo yarn test
+
+      - name: "Build App"
+        run: yarn build
 
       - name: "Bump Version"
         if: github.ref == 'refs/heads/master'
@@ -73,7 +73,8 @@ jobs:
           retention-days: 1
           path: |
             dist/
-            Dockerfile
+            Dockerfile.build
+            Dockerfile.prod
             package.json
 
   publish-npm:
@@ -82,12 +83,6 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - name: "Configure cache"
-        uses: actions/cache@v2
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-modules-prod-${{ hashFiles('**/yarn.lock') }}
-
       - name: "Setup node.js environment"
         uses: "actions/setup-node@v2"
         with:
@@ -115,16 +110,16 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
+      - name: Log into registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
       - name: "Download Build Artifact"
         uses: actions/download-artifact@v2
         with:
           name: dist-files
 
-      - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-
       - name: Build production image
-        run: docker build . --file Dockerfile.build --tag microservice-production
+        run: docker build . --file Dockerfile.prod --tag microservice-production
 
       - name: Push production image
         run: |
@@ -135,7 +130,7 @@ jobs:
           docker push $IMAGE_ID:$VERSION
 
       - name: Build build image
-        run: docker build . --file Dockerfile.prod --tag microservice-build
+        run: docker build . --file Dockerfile.build --tag microservice-build
 
       - name: Push build image
         run: |
