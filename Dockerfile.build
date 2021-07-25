@@ -2,7 +2,7 @@
 # Docker image for building and testing microservices
 #
 
-FROM ghcr.io/waytrade/microservice-core/microservice-prodution:latest
+FROM ghcr.io/waytrade/microservice-core/prodcution:latest
 
 # install JDK
 RUN apk add openjdk11

@@ -119,22 +119,22 @@ jobs:
           name: dist-files
 
       - name: Build production image
-        run: docker build . --file Dockerfile.prod --tag microservice-production
+        run: docker build . --file Dockerfile.prod --tag production
 
       - name: Push production image
         run: |
-          IMAGE_NAME=microservice-production
+          IMAGE_NAME=production
           IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
           VERSION=latest
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 
       - name: Build build image
-        run: docker build . --file Dockerfile.build --tag microservice-build
+        run: docker build . --file Dockerfile.build --tag build
 
       - name: Push build image
         run: |
-          IMAGE_NAME=microservice-build
+          IMAGE_NAME=build
           IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
           VERSION=latest
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
