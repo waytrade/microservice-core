@@ -45,7 +45,7 @@ export class OpenApi {
   constructor(
     private context: MicroserviceContext,
     private readonly controllers: unknown[],
-    server: MicroserviceHttpServer,
+    server?: MicroserviceHttpServer,
   ) {
     const component: MicroserviceComponentInstance = {
       instance: this,
@@ -53,29 +53,29 @@ export class OpenApi {
       running: true,
     };
 
-    server.registerGetRoute(component, "getHtml", false, "/", "text/html");
-    server.registerGetRoute(
+    server?.registerGetRoute(component, "getHtml", false, "/", "text/html");
+    server?.registerGetRoute(
       component,
       "getSwaggerUiCss",
       false,
       SWAGGER_UI_CSS_URL,
       "text/css",
     );
-    server.registerGetRoute(
+    server?.registerGetRoute(
       component,
       "getSwaggerUiBundleJs",
       false,
       SWAGGER_UI_BUNDLE_JS_URL,
       "text/javascript",
     );
-    server.registerGetRoute(
+    server?.registerGetRoute(
       component,
       "getSwaggerUiStandalonePresetJs",
       false,
       SWAGGER_UI_STANDALONE_PRESET_JS_URL,
       "text/javascript",
     );
-    server.registerGetRoute(
+    server?.registerGetRoute(
       component,
       "getOpenApiModel",
       false,
