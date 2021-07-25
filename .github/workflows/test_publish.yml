@@ -109,7 +109,7 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  publish-docker:
+  publish-build-docker:
     name: "Publish Docker Image"
     if: github.ref == 'refs/heads/master'
     needs: test
@@ -119,25 +119,28 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: dist-files
-          
+
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          
-      - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME
 
-      - name: Push image
+      - name: Build production image
+        run: docker build . --file Dockerfile.build --tag microservice-production
+
+      - name: Push production image
         run: |
+          IMAGE_NAME=microservice-production
           IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
-          # Change all uppercase to lowercase
-          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          # Strip git ref prefix from version
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
-          # Strip "v" prefix from tag name
-          [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
-          # Use Docker `latest` tag convention
-          [ "$VERSION" == "master" ] && VERSION=latest
-          echo IMAGE_ID=$IMAGE_ID
-          echo VERSION=$VERSION
+          VERSION=latest
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
+
+      - name: Build build image
+        run: docker build . --file Dockerfile.prod --tag microservice-build
+
+      - name: Push build image
+        run: |
+          IMAGE_NAME=microservice-build
+          IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
+          VERSION=latest
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION

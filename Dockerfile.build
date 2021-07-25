@@ -2,11 +2,7 @@
 # Docker image for building and testing microservices
 #
 
-FROM node:14-alpine
-
-# ld-linux-x86-64 is required by uWebsocket
-RUN apk update && apk add --no-cache libc6-compat
-RUN ln -s /lib64/ld-linux-x86-64.so.2 /lib/ld-linux-x86-64.so.2
+FROM ghcr.io/waytrade/microservice-core/microservice-prodution:latest
 
 # install JDK
 RUN apk add openjdk11
