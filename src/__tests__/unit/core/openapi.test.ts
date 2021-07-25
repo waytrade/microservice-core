@@ -313,6 +313,11 @@ class TestController {
   static callback(): void {
     return;
   }
+
+  @post("/noMetadata")
+  static noMetadata(): void {
+    return;
+  }
 }
 
 /* this must not appear on openapi.json as it is not decorated with anything */

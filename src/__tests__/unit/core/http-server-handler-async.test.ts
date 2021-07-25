@@ -5,6 +5,7 @@ import {
   controller,
   del,
   get,
+  HttpError,
   HttpStatus,
   MicroserviceContext,
   MicroserviceRequest,
@@ -13,7 +14,6 @@ import {
   put,
 } from "../../..";
 import {MicroserviceComponentInstance} from "../../../core/app";
-import {HttpError} from "../../../core/http-error";
 import {MicroserviceHttpServer} from "../../../core/http-server";
 
 const TEST_CONTROLLER_PATH = "/api/test";

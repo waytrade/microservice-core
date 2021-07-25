@@ -153,6 +153,24 @@ describe("Test MicroserviceApp class", () => {
     });
   });
 
+  test("Start with no controllers", () => {
+    return new Promise<void>((resolve, reject) => {
+      const rootFolder = path.resolve(__dirname, "../../../..");
+
+      const app = new MicroserviceTestApp<MicroserviceConfig>(rootFolder, {});
+      app
+        .start({SERVER_PORT: undefined, CALLBACK_PORT: undefined}) // use random ports
+        .then(() => {
+          expect(app.config.NAME).toEqual("@waytrade/microservice-core");
+          app.stop();
+          resolve();
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  });
+
   test("Start / Stop controllers", () => {
     return new Promise<void>((resolve, reject) => {
       const rootFolder = path.resolve(__dirname, "../../../..");

@@ -404,11 +404,20 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
 
   /** Export the openapi.json the given folder */
   async exportOpenApi(destinationFolder: string): Promise<void> {
-    if (!this.openApi) {
-      throw new Error("App not running. Call start() first!");
-    }
+    // start servers
 
-    const model = await this.openApi.getOpenApiModel();
+    const apiServer = new MicroserviceHttpServer(
+      this.context,
+      this.apiControllers,
+    );
+
+    const openApi = new OpenApi(
+      this.context,
+      this.params.apiControllers ?? [],
+      apiServer,
+    );
+
+    const model = openApi.getOpenApiModel();
     fs.writeFileSync(
       destinationFolder + "/openapi.json",
       JSON.stringify(model),
