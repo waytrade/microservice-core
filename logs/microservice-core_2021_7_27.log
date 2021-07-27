@@ -1,416 +1,416 @@
-{"level":20,"time":1627413863043,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 55741"}
-{"level":20,"time":1627413863068,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get /openapi.json -> 200 (2ms)"}
-{"level":20,"time":1627413863073,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 55741 stopped"}
-{"level":20,"time":1627413863076,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 55735"}
-{"level":20,"time":1627413863080,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get /openapi.json -> 200 (1ms)"}
-{"level":20,"time":1627413863100,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 55735 stopped"}
-{"level":20,"time":1627413863106,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 58851"}
-{"level":20,"time":1627413863109,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 33657"}
-{"level":20,"time":1627413863114,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get /openapi.json -> 200 (1ms)"}
-{"level":20,"time":1627413863114,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get / -> 200 (0ms)"}
-{"level":20,"time":1627413863121,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 58851 stopped"}
-{"level":20,"time":1627413863123,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 33657 stopped"}
-{"level":20,"time":1627413863125,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 43721"}
-{"level":20,"time":1627413863131,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get /swagger-ui.css -> 200 (3ms)"}
-{"level":20,"time":1627413863134,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 43721 stopped"}
-{"level":20,"time":1627413863136,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 48789"}
-{"level":20,"time":1627413863159,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get /swagger-ui-bundle.js -> 200 (19ms)"}
-{"level":20,"time":1627413863173,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 48789 stopped"}
-{"level":20,"time":1627413863175,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 33739"}
-{"level":20,"time":1627413863186,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get /swagger-ui-standalone-preset.js -> 200 (7ms)"}
-{"level":20,"time":1627413863191,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 33739 stopped"}
-{"level":20,"time":1627413864428,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 53415"}
-{"level":20,"time":1627413864429,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 35607"}
-{"level":30,"time":1627413864429,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 53415"}
-{"level":30,"time":1627413864429,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 35607"}
-{"level":20,"time":1627413864477,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 400 (1ms)"}
-{"level":20,"time":1627413864493,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 53415 stopped"}
-{"level":20,"time":1627413864493,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 35607 stopped"}
-{"level":30,"time":1627413864493,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413864510,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 59123"}
-{"level":20,"time":1627413864527,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 56771"}
-{"level":30,"time":1627413864527,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 59123"}
-{"level":30,"time":1627413864527,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 56771"}
-{"level":20,"time":1627413864546,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (12ms)"}
-{"level":20,"time":1627413864589,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 204 (0ms)"}
-{"level":20,"time":1627413864621,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 59123 stopped"}
-{"level":20,"time":1627413864621,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 56771 stopped"}
-{"level":30,"time":1627413864621,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413864624,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 56575"}
-{"level":20,"time":1627413864624,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 33091"}
-{"level":30,"time":1627413864624,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 56575"}
-{"level":30,"time":1627413864624,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 33091"}
-{"level":20,"time":1627413864635,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (0ms)"}
-{"level":20,"time":1627413864641,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (0ms)"}
-{"level":20,"time":1627413864643,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 56575 stopped"}
-{"level":20,"time":1627413864643,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 33091 stopped"}
-{"level":30,"time":1627413864643,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413864646,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 57351"}
-{"level":20,"time":1627413864646,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 45691"}
-{"level":30,"time":1627413864646,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 57351"}
-{"level":30,"time":1627413864646,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 45691"}
-{"level":20,"time":1627413864650,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (0ms)"}
-{"level":20,"time":1627413864655,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /unsubscribe -> 200 (0ms)"}
-{"level":20,"time":1627413864657,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 57351 stopped"}
-{"level":20,"time":1627413864658,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 45691 stopped"}
-{"level":30,"time":1627413864658,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413864660,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 41121"}
-{"level":20,"time":1627413864660,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 56145"}
-{"level":30,"time":1627413864661,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 41121"}
-{"level":30,"time":1627413864661,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 56145"}
-{"level":20,"time":1627413864664,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /unsubscribe -> 400 (0ms)"}
-{"level":20,"time":1627413864666,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 41121 stopped"}
-{"level":20,"time":1627413864666,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 56145 stopped"}
-{"level":30,"time":1627413864666,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413864668,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 55929"}
-{"level":20,"time":1627413864669,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 40251"}
-{"level":30,"time":1627413864669,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 55929"}
-{"level":30,"time":1627413864669,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 40251"}
-{"level":20,"time":1627413864674,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /unsubscribe -> 404 (1ms)"}
-{"level":20,"time":1627413864676,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 55929 stopped"}
-{"level":20,"time":1627413864676,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 40251 stopped"}
-{"level":30,"time":1627413864676,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413864678,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 51959"}
-{"level":20,"time":1627413864679,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 58161"}
-{"level":30,"time":1627413864679,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 51959"}
-{"level":30,"time":1627413864679,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 58161"}
-{"level":20,"time":1627413864683,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (1ms)"}
-{"level":20,"time":1627413864692,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 51959 stopped"}
-{"level":20,"time":1627413864692,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 58161 stopped"}
-{"level":30,"time":1627413864692,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413864692,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /callback -> 200 (0ms)"}
-{"level":20,"time":1627413864694,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 52483"}
-{"level":20,"time":1627413864695,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 36207"}
-{"level":30,"time":1627413864695,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 52483"}
-{"level":30,"time":1627413864695,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 36207"}
-{"level":20,"time":1627413864700,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (0ms)"}
-{"level":20,"time":1627413864707,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 52483 stopped"}
-{"level":20,"time":1627413864707,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 36207 stopped"}
-{"level":30,"time":1627413864707,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413864707,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /callback -> 200 (0ms)"}
-{"level":20,"time":1627413864709,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 46679"}
-{"level":20,"time":1627413864710,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 51373"}
-{"level":30,"time":1627413864710,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 46679"}
-{"level":30,"time":1627413864710,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 51373"}
-{"level":20,"time":1627413864716,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (0ms)"}
-{"level":20,"time":1627413864724,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /callback -> 418 (1ms)"}
-{"level":20,"time":1627413864728,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (0ms)"}
-{"level":20,"time":1627413864730,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 46679 stopped"}
-{"level":20,"time":1627413864730,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 51373 stopped"}
-{"level":30,"time":1627413864730,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413864732,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 58953"}
-{"level":20,"time":1627413864733,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 45167"}
-{"level":30,"time":1627413864733,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 58953"}
-{"level":30,"time":1627413864733,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 45167"}
-{"level":20,"time":1627413864736,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (0ms)"}
-{"level":20,"time":1627413864742,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (1ms)"}
-{"level":20,"time":1627413864748,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 58953 stopped"}
-{"level":20,"time":1627413864748,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 45167 stopped"}
-{"level":30,"time":1627413864749,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413865250,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 49797"}
-{"level":20,"time":1627413865265,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get /api/test/ -> 200 (0ms)"}
-{"level":20,"time":1627413865267,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 49797 stopped"}
-{"level":20,"time":1627413865269,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 56315"}
-{"level":20,"time":1627413865272,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get /api/test/error -> 418 (0ms)"}
-{"level":20,"time":1627413865274,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 56315 stopped"}
-{"level":20,"time":1627413865276,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 51279"}
-{"level":20,"time":1627413865325,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get /api/test/serverError -> 500 (47ms)"}
-{"level":20,"time":1627413865328,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 51279 stopped"}
-{"level":20,"time":1627413865329,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 37639"}
-{"level":20,"time":1627413865333,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP put /api/test/ -> 200 (0ms)"}
-{"level":20,"time":1627413865344,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 37639 stopped"}
-{"level":20,"time":1627413865345,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 58571"}
-{"level":20,"time":1627413865348,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP put /api/test/error -> 418 (0ms)"}
-{"level":20,"time":1627413865350,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 58571 stopped"}
-{"level":20,"time":1627413865352,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 51213"}
-{"level":20,"time":1627413865356,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /api/test/ -> 200 (1ms)"}
-{"level":20,"time":1627413865358,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 51213 stopped"}
-{"level":20,"time":1627413865359,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 50979"}
-{"level":20,"time":1627413865362,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /api/test/error -> 418 (0ms)"}
-{"level":20,"time":1627413865364,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 50979 stopped"}
-{"level":20,"time":1627413865366,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 37559"}
-{"level":20,"time":1627413865369,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP patch /api/test/ -> 200 (0ms)"}
-{"level":20,"time":1627413865372,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 37559 stopped"}
-{"level":20,"time":1627413865373,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 33323"}
-{"level":20,"time":1627413865376,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP patch /api/test/error -> 418 (0ms)"}
-{"level":20,"time":1627413865378,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 33323 stopped"}
-{"level":20,"time":1627413865379,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 37569"}
-{"level":20,"time":1627413865384,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP delete /api/test/ -> 200 (0ms)"}
-{"level":20,"time":1627413865387,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 37569 stopped"}
-{"level":20,"time":1627413865388,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 53957"}
-{"level":20,"time":1627413865391,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP delete /api/test/error -> 418 (0ms)"}
-{"level":20,"time":1627413865393,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 53957 stopped"}
-{"level":20,"time":1627413865992,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 53347"}
-{"level":20,"time":1627413865997,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get /api/test/ -> 200 (0ms)"}
-{"level":20,"time":1627413866000,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 53347 stopped"}
-{"level":20,"time":1627413866001,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 39139"}
-{"level":20,"time":1627413866005,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get /api/test/notImplemented -> 501 (0ms)"}
-{"level":20,"time":1627413866007,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 39139 stopped"}
-{"level":20,"time":1627413866008,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 51911"}
-{"level":20,"time":1627413866020,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP put /api/test/ -> 200 (0ms)"}
-{"level":20,"time":1627413866023,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 51911 stopped"}
-{"level":20,"time":1627413866024,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 57247"}
-{"level":20,"time":1627413866027,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP put /api/test/notImplemented -> 501 (0ms)"}
-{"level":20,"time":1627413866029,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 57247 stopped"}
-{"level":20,"time":1627413866031,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 43995"}
-{"level":20,"time":1627413866035,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /api/test/ -> 200 (1ms)"}
-{"level":20,"time":1627413866037,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 43995 stopped"}
-{"level":20,"time":1627413866038,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 44077"}
-{"level":20,"time":1627413866041,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /api/test/notImplemented -> 501 (0ms)"}
-{"level":20,"time":1627413866043,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 44077 stopped"}
-{"level":20,"time":1627413866045,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 35179"}
-{"level":20,"time":1627413866048,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP patch /api/test/ -> 200 (0ms)"}
-{"level":20,"time":1627413866050,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 35179 stopped"}
-{"level":20,"time":1627413866052,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 59523"}
-{"level":20,"time":1627413866058,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /api/test/notImplemented -> 501 (0ms)"}
-{"level":20,"time":1627413866060,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 59523 stopped"}
-{"level":20,"time":1627413866061,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 53617"}
-{"level":20,"time":1627413866069,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP delete /api/test/ -> 200 (0ms)"}
-{"level":20,"time":1627413866072,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 53617 stopped"}
-{"level":20,"time":1627413866073,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 44473"}
-{"level":20,"time":1627413866076,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP post /api/test/notImplemented -> 501 (0ms)"}
-{"level":20,"time":1627413866078,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 44473 stopped"}
-{"level":20,"time":1627413866620,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Debug message"}
-{"level":30,"time":1627413866623,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Info message"}
-{"level":40,"time":1627413866623,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Warning message"}
-{"level":50,"time":1627413866623,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Error message"}
-{"level":30,"time":1627413866625,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Info message"}
-{"level":40,"time":1627413866626,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Warning message"}
-{"level":50,"time":1627413866626,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Error message"}
-{"level":40,"time":1627413866628,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Warning message"}
-{"level":50,"time":1627413866628,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Error message"}
-{"level":50,"time":1627413866630,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Error message"}
-{"level":20,"time":1627413866638,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Debug message"}
-{"level":30,"time":1627413866639,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Info message"}
-{"level":40,"time":1627413866639,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Warning message"}
-{"level":50,"time":1627413866640,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Error message"}
-{"level":20,"time":1627413866986,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 45999"}
-{"level":30,"time":1627413866987,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 45999"}
-{"level":20,"time":1627413866987,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 45999 stopped"}
-{"level":30,"time":1627413866987,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":30,"time":1627413866989,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Starting App..."}
-{"level":20,"time":1627413866991,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 50383"}
-{"level":30,"time":1627413866991,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 50383"}
-{"level":20,"time":1627413866992,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 50383 stopped"}
-{"level":30,"time":1627413866992,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413866994,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 39125"}
-{"level":30,"time":1627413866994,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 39125"}
-{"level":20,"time":1627413866994,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 39125 stopped"}
-{"level":30,"time":1627413866994,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413866996,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 58481"}
-{"level":30,"time":1627413866997,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 58481"}
-{"level":20,"time":1627413866997,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 58481 stopped"}
-{"level":30,"time":1627413866997,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413867000,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 40491"}
-{"level":30,"time":1627413867000,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 40491"}
-{"level":20,"time":1627413867001,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 40491 stopped"}
-{"level":30,"time":1627413867001,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413867004,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 36587"}
-{"level":30,"time":1627413867004,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 36587"}
-{"level":20,"time":1627413867019,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get /test/get/ -> 200 (0ms)"}
-{"level":20,"time":1627413867021,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 36587 stopped"}
-{"level":30,"time":1627413867021,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":30,"time":1627413867023,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Starting App..."}
-{"level":20,"time":1627413867024,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 57935"}
-{"level":30,"time":1627413867024,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 57935"}
-{"level":20,"time":1627413867024,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Debug message"}
-{"level":30,"time":1627413867024,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Info message"}
-{"level":40,"time":1627413867024,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Warning message"}
-{"level":50,"time":1627413867024,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Error message"}
-{"level":20,"time":1627413867025,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 57935 stopped"}
-{"level":30,"time":1627413867025,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413867410,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 54583"}
-{"level":20,"time":1627413867410,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 44753"}
-{"level":30,"time":1627413867410,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 54583"}
-{"level":30,"time":1627413867411,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 44753"}
-{"level":20,"time":1627413867411,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 54583 stopped"}
-{"level":20,"time":1627413867411,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 44753 stopped"}
-{"level":30,"time":1627413867412,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413867414,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 55689"}
-{"level":20,"time":1627413867415,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 53021"}
-{"level":30,"time":1627413867415,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 55689"}
-{"level":30,"time":1627413867415,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 53021"}
-{"level":20,"time":1627413867416,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 55689 stopped"}
-{"level":20,"time":1627413867416,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 53021 stopped"}
-{"level":30,"time":1627413867416,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413867418,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 48399"}
-{"level":20,"time":1627413867429,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 57631"}
-{"level":20,"time":1627413867429,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 48399 stopped"}
-{"level":20,"time":1627413867429,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 57631 stopped"}
-{"level":30,"time":1627413867430,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413867432,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 47713"}
-{"level":20,"time":1627413867432,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 43153"}
-{"level":20,"time":1627413867433,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 47713 stopped"}
-{"level":20,"time":1627413867433,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 43153 stopped"}
-{"level":30,"time":1627413867433,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413867435,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 52861"}
-{"level":20,"time":1627413867435,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 48953"}
-{"level":20,"time":1627413867436,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 52861 stopped"}
-{"level":20,"time":1627413867436,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 48953 stopped"}
-{"level":30,"time":1627413867436,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413867438,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 35487"}
-{"level":20,"time":1627413867438,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 58565"}
-{"level":20,"time":1627413867439,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 35487 stopped"}
-{"level":20,"time":1627413867439,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 58565 stopped"}
-{"level":30,"time":1627413867439,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413867738,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 33979"}
-{"level":30,"time":1627413867738,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 33979"}
-{"level":20,"time":1627413867739,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 33979 stopped"}
-{"level":30,"time":1627413867739,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413867752,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 57869"}
-{"level":30,"time":1627413867752,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 57869"}
-{"level":20,"time":1627413867753,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 57869 stopped"}
-{"level":30,"time":1627413867753,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413867755,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 41701"}
-{"level":20,"time":1627413867756,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 41701 stopped"}
-{"level":30,"time":1627413867756,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413867758,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 37573"}
-{"level":20,"time":1627413867759,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 37573 stopped"}
-{"level":30,"time":1627413867759,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413867761,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 45075"}
-{"level":20,"time":1627413867762,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 45075 stopped"}
-{"level":30,"time":1627413867762,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413867764,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 39879"}
-{"level":20,"time":1627413867764,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 39879 stopped"}
-{"level":30,"time":1627413867765,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413868141,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 52757"}
-{"level":20,"time":1627413868152,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 52757 stopped"}
-{"level":20,"time":1627413868154,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 45569"}
-{"level":50,"time":1627413868170,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Binary data on websocket not supported."}
-{"level":20,"time":1627413868172,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 45569 stopped"}
-{"level":20,"time":1627413868174,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 60241"}
-{"level":20,"time":1627413868176,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 60241 stopped"}
-{"level":20,"time":1627413868177,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port -1 stopped"}
-{"level":20,"time":1627413868179,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 54153"}
-{"level":20,"time":1627413869184,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 54153 stopped"}
-{"level":20,"time":1627413869186,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 37549"}
-{"level":20,"time":1627413869348,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 37549 stopped"}
-{"level":20,"time":1627413869350,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 35457"}
-{"level":20,"time":1627413869649,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 35457 stopped"}
-{"level":20,"time":1627413869940,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 37115"}
-{"level":30,"time":1627413869940,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 37115"}
-{"level":20,"time":1627413869941,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 37115 stopped"}
-{"level":30,"time":1627413869941,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413869944,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 38029"}
-{"level":30,"time":1627413869944,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 38029"}
-{"level":20,"time":1627413869945,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 38029 stopped"}
-{"level":30,"time":1627413869945,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":30,"time":1627413869948,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":30,"time":1627413869952,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":30,"time":1627413869971,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":30,"time":1627413869974,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413870368,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 51231"}
-{"level":20,"time":1627413870369,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 51231 stopped"}
-{"level":20,"time":1627413870370,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 3999"}
-{"level":20,"time":1627413870371,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 3999 stopped"}
-{"level":20,"time":1627413870372,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 46465"}
-{"level":20,"time":1627413870386,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"/some/invalid/path not found."}
-{"level":20,"time":1627413870388,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 46465 stopped"}
-{"level":20,"time":1627413870390,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 52985"}
-{"level":20,"time":1627413870404,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 52985 stopped"}
-{"level":20,"time":1627413870405,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 51427"}
-{"level":20,"time":1627413870411,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 51427 stopped"}
-{"level":20,"time":1627413870412,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 37533"}
-{"level":20,"time":1627413870415,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get /api/dummy/customResponseHeader -> 200 (0ms)"}
-{"level":20,"time":1627413870418,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 37533 stopped"}
-{"level":20,"time":1627413870724,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 60157"}
-{"level":20,"time":1627413870724,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 47963"}
-{"level":30,"time":1627413870725,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 60157"}
-{"level":30,"time":1627413870725,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 47963"}
-{"level":20,"time":1627413870729,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get /api/ -> 200 (0ms)"}
-{"level":20,"time":1627413870731,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 60157 stopped"}
-{"level":20,"time":1627413870731,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 47963 stopped"}
-{"level":30,"time":1627413870731,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413870734,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 45183"}
-{"level":20,"time":1627413870735,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 43533"}
-{"level":30,"time":1627413870735,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 45183"}
-{"level":30,"time":1627413870735,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 43533"}
-{"level":20,"time":1627413870737,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get / -> 200 (0ms)"}
-{"level":20,"time":1627413870740,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 45183 stopped"}
-{"level":20,"time":1627413870740,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 43533 stopped"}
-{"level":30,"time":1627413870740,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413870742,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 44301"}
-{"level":20,"time":1627413870743,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 56671"}
-{"level":30,"time":1627413870743,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 44301"}
-{"level":30,"time":1627413870743,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 56671"}
-{"level":20,"time":1627413870746,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP get /api/ -> 200 (0ms)"}
-{"level":20,"time":1627413870748,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 44301 stopped"}
-{"level":20,"time":1627413870748,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 56671 stopped"}
-{"level":30,"time":1627413870748,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413870750,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 35061"}
-{"level":20,"time":1627413870751,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 51423"}
-{"level":30,"time":1627413870751,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 35061"}
-{"level":30,"time":1627413870751,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 51423"}
-{"level":20,"time":1627413870752,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 35061 stopped"}
-{"level":20,"time":1627413870752,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 51423 stopped"}
-{"level":30,"time":1627413870752,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413870999,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 44679"}
-{"level":20,"time":1627413871000,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 35263"}
-{"level":30,"time":1627413871000,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 44679"}
-{"level":30,"time":1627413871000,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 35263"}
-{"level":20,"time":1627413871001,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 44679 stopped"}
-{"level":20,"time":1627413871001,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 35263 stopped"}
-{"level":30,"time":1627413871001,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413871003,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 50133"}
-{"level":20,"time":1627413871004,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 37303"}
-{"level":30,"time":1627413871004,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 50133"}
-{"level":30,"time":1627413871004,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 37303"}
-{"level":20,"time":1627413871004,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 50133 stopped"}
-{"level":20,"time":1627413871004,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 37303 stopped"}
-{"level":30,"time":1627413871004,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413871007,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 40631"}
-{"level":20,"time":1627413871007,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 50525"}
-{"level":30,"time":1627413871007,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 40631"}
-{"level":30,"time":1627413871007,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 50525"}
-{"level":20,"time":1627413871008,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 40631 stopped"}
-{"level":20,"time":1627413871008,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 50525 stopped"}
-{"level":30,"time":1627413871008,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413871010,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 42493"}
-{"level":20,"time":1627413871011,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 57671"}
-{"level":30,"time":1627413871011,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 42493"}
-{"level":30,"time":1627413871011,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 57671"}
-{"level":20,"time":1627413871011,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 42493 stopped"}
-{"level":20,"time":1627413871011,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 57671 stopped"}
-{"level":30,"time":1627413871011,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413871287,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 45735"}
-{"level":30,"time":1627413871287,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 45735"}
-{"level":20,"time":1627413871288,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 45735 stopped"}
-{"level":30,"time":1627413871288,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413871290,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 57359"}
-{"level":30,"time":1627413871291,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 57359"}
-{"level":20,"time":1627413871291,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 57359 stopped"}
-{"level":30,"time":1627413871291,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413871293,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 47781"}
-{"level":30,"time":1627413871294,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 47781"}
-{"level":20,"time":1627413871294,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 47781 stopped"}
-{"level":30,"time":1627413871294,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413871296,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 60855"}
-{"level":30,"time":1627413871297,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 60855"}
-{"level":20,"time":1627413871297,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 60855 stopped"}
-{"level":30,"time":1627413871297,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413871544,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 36405"}
-{"level":30,"time":1627413871545,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 36405"}
-{"level":20,"time":1627413871545,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 36405 stopped"}
-{"level":30,"time":1627413871545,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413871548,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 59857"}
-{"level":30,"time":1627413871548,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 59857"}
-{"level":20,"time":1627413871548,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 59857 stopped"}
-{"level":30,"time":1627413871549,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413871551,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 58253"}
-{"level":30,"time":1627413871551,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 58253"}
-{"level":20,"time":1627413871552,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 58253 stopped"}
-{"level":30,"time":1627413871552,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413871554,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 48783"}
-{"level":30,"time":1627413871554,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 48783"}
-{"level":20,"time":1627413871555,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 48783 stopped"}
-{"level":30,"time":1627413871555,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413872029,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 44657"}
-{"level":30,"time":1627413872029,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"API Server started at port 44657"}
-{"level":20,"time":1627413872030,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 44657 stopped"}
-{"level":30,"time":1627413872030,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413872033,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 42827"}
-{"level":20,"time":1627413872033,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 42827 stopped"}
-{"level":30,"time":1627413872034,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
-{"level":20,"time":1627413872036,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 43093"}
-{"level":20,"time":1627413872036,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"HTTP Server on port 43093 stopped"}
-{"level":30,"time":1627413872036,"pid":6057,"hostname":"fv-az83-442","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414163835,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 58977"}
+{"level":20,"time":1627414163858,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get /openapi.json -> 200 (3ms)"}
+{"level":20,"time":1627414163862,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 58977 stopped"}
+{"level":20,"time":1627414163864,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 37707"}
+{"level":20,"time":1627414163868,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get /openapi.json -> 200 (0ms)"}
+{"level":20,"time":1627414163885,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 37707 stopped"}
+{"level":20,"time":1627414163887,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 58689"}
+{"level":20,"time":1627414163890,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 45549"}
+{"level":20,"time":1627414163894,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get /openapi.json -> 200 (1ms)"}
+{"level":20,"time":1627414163894,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get / -> 200 (0ms)"}
+{"level":20,"time":1627414163901,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 58689 stopped"}
+{"level":20,"time":1627414163903,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 45549 stopped"}
+{"level":20,"time":1627414163904,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 56297"}
+{"level":20,"time":1627414163910,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get /swagger-ui.css -> 200 (3ms)"}
+{"level":20,"time":1627414163913,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 56297 stopped"}
+{"level":20,"time":1627414163914,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 47033"}
+{"level":20,"time":1627414163933,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get /swagger-ui-bundle.js -> 200 (15ms)"}
+{"level":20,"time":1627414163943,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 47033 stopped"}
+{"level":20,"time":1627414163944,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 52295"}
+{"level":20,"time":1627414163952,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get /swagger-ui-standalone-preset.js -> 200 (6ms)"}
+{"level":20,"time":1627414163956,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 52295 stopped"}
+{"level":20,"time":1627414164871,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 48475"}
+{"level":20,"time":1627414164872,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 51197"}
+{"level":30,"time":1627414164872,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 48475"}
+{"level":30,"time":1627414164872,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 51197"}
+{"level":20,"time":1627414164886,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 400 (0ms)"}
+{"level":20,"time":1627414164890,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 48475 stopped"}
+{"level":20,"time":1627414164890,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 51197 stopped"}
+{"level":30,"time":1627414164890,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414164893,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 41085"}
+{"level":20,"time":1627414164894,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 40325"}
+{"level":30,"time":1627414164894,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 41085"}
+{"level":30,"time":1627414164894,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 40325"}
+{"level":20,"time":1627414164901,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (1ms)"}
+{"level":20,"time":1627414164910,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 204 (1ms)"}
+{"level":20,"time":1627414164914,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 41085 stopped"}
+{"level":20,"time":1627414164914,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 40325 stopped"}
+{"level":30,"time":1627414164914,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414164917,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 58269"}
+{"level":20,"time":1627414164918,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 54037"}
+{"level":30,"time":1627414164918,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 58269"}
+{"level":30,"time":1627414164918,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 54037"}
+{"level":20,"time":1627414164924,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (1ms)"}
+{"level":20,"time":1627414164940,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (0ms)"}
+{"level":20,"time":1627414164948,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 58269 stopped"}
+{"level":20,"time":1627414164948,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 54037 stopped"}
+{"level":30,"time":1627414164948,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414164951,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 57813"}
+{"level":20,"time":1627414164952,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 55181"}
+{"level":30,"time":1627414164952,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 57813"}
+{"level":30,"time":1627414164952,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 55181"}
+{"level":20,"time":1627414164965,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (0ms)"}
+{"level":20,"time":1627414164982,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /unsubscribe -> 200 (0ms)"}
+{"level":20,"time":1627414164987,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 57813 stopped"}
+{"level":20,"time":1627414164987,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 55181 stopped"}
+{"level":30,"time":1627414164987,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414164998,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 40273"}
+{"level":20,"time":1627414164999,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 41101"}
+{"level":30,"time":1627414164999,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 40273"}
+{"level":30,"time":1627414164999,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 41101"}
+{"level":20,"time":1627414165005,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /unsubscribe -> 400 (0ms)"}
+{"level":20,"time":1627414165016,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 40273 stopped"}
+{"level":20,"time":1627414165016,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 41101 stopped"}
+{"level":30,"time":1627414165016,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414165018,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 40533"}
+{"level":20,"time":1627414165019,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 49467"}
+{"level":30,"time":1627414165019,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 40533"}
+{"level":30,"time":1627414165019,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 49467"}
+{"level":20,"time":1627414165022,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /unsubscribe -> 404 (0ms)"}
+{"level":20,"time":1627414165023,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 40533 stopped"}
+{"level":20,"time":1627414165024,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 49467 stopped"}
+{"level":30,"time":1627414165024,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414165025,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 50873"}
+{"level":20,"time":1627414165026,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 51649"}
+{"level":30,"time":1627414165026,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 50873"}
+{"level":30,"time":1627414165026,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 51649"}
+{"level":20,"time":1627414165029,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (0ms)"}
+{"level":20,"time":1627414165037,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 50873 stopped"}
+{"level":20,"time":1627414165038,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 51649 stopped"}
+{"level":30,"time":1627414165038,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414165038,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /callback -> 200 (1ms)"}
+{"level":20,"time":1627414165039,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 52851"}
+{"level":20,"time":1627414165040,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 36817"}
+{"level":30,"time":1627414165040,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 52851"}
+{"level":30,"time":1627414165040,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 36817"}
+{"level":20,"time":1627414165044,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (0ms)"}
+{"level":20,"time":1627414165051,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 52851 stopped"}
+{"level":20,"time":1627414165051,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 36817 stopped"}
+{"level":30,"time":1627414165051,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414165051,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /callback -> 200 (1ms)"}
+{"level":20,"time":1627414165053,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 59123"}
+{"level":20,"time":1627414165053,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 60451"}
+{"level":30,"time":1627414165053,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 59123"}
+{"level":30,"time":1627414165053,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 60451"}
+{"level":20,"time":1627414165059,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (0ms)"}
+{"level":20,"time":1627414165066,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /callback -> 418 (1ms)"}
+{"level":20,"time":1627414165069,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (0ms)"}
+{"level":20,"time":1627414165072,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 59123 stopped"}
+{"level":20,"time":1627414165072,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 60451 stopped"}
+{"level":30,"time":1627414165072,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414165074,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 43351"}
+{"level":20,"time":1627414165074,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 59175"}
+{"level":30,"time":1627414165074,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 43351"}
+{"level":30,"time":1627414165074,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 59175"}
+{"level":20,"time":1627414165077,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (0ms)"}
+{"level":20,"time":1627414165081,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /subscribe -> 201 (0ms)"}
+{"level":20,"time":1627414165083,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 43351 stopped"}
+{"level":20,"time":1627414165084,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 59175 stopped"}
+{"level":30,"time":1627414165084,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414165451,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 46345"}
+{"level":20,"time":1627414165462,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get /api/test/ -> 200 (0ms)"}
+{"level":20,"time":1627414165464,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 46345 stopped"}
+{"level":20,"time":1627414165466,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 36855"}
+{"level":20,"time":1627414165468,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get /api/test/error -> 418 (0ms)"}
+{"level":20,"time":1627414165470,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 36855 stopped"}
+{"level":20,"time":1627414165472,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 56911"}
+{"level":20,"time":1627414165514,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get /api/test/serverError -> 500 (40ms)"}
+{"level":20,"time":1627414165516,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 56911 stopped"}
+{"level":20,"time":1627414165517,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 34777"}
+{"level":20,"time":1627414165525,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP put /api/test/ -> 200 (1ms)"}
+{"level":20,"time":1627414165527,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 34777 stopped"}
+{"level":20,"time":1627414165528,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 59389"}
+{"level":20,"time":1627414165530,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP put /api/test/error -> 418 (0ms)"}
+{"level":20,"time":1627414165532,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 59389 stopped"}
+{"level":20,"time":1627414165533,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 45009"}
+{"level":20,"time":1627414165536,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /api/test/ -> 200 (0ms)"}
+{"level":20,"time":1627414165538,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 45009 stopped"}
+{"level":20,"time":1627414165539,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 57671"}
+{"level":20,"time":1627414165542,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /api/test/error -> 418 (0ms)"}
+{"level":20,"time":1627414165544,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 57671 stopped"}
+{"level":20,"time":1627414165545,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 49763"}
+{"level":20,"time":1627414165548,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP patch /api/test/ -> 200 (0ms)"}
+{"level":20,"time":1627414165550,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 49763 stopped"}
+{"level":20,"time":1627414165551,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 35145"}
+{"level":20,"time":1627414165553,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP patch /api/test/error -> 418 (0ms)"}
+{"level":20,"time":1627414165555,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 35145 stopped"}
+{"level":20,"time":1627414165556,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 53547"}
+{"level":20,"time":1627414165561,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP delete /api/test/ -> 200 (0ms)"}
+{"level":20,"time":1627414165564,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 53547 stopped"}
+{"level":20,"time":1627414165565,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 35439"}
+{"level":20,"time":1627414165567,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP delete /api/test/error -> 418 (0ms)"}
+{"level":20,"time":1627414165569,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 35439 stopped"}
+{"level":20,"time":1627414165916,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 46385"}
+{"level":20,"time":1627414165921,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get /api/test/ -> 200 (0ms)"}
+{"level":20,"time":1627414165923,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 46385 stopped"}
+{"level":20,"time":1627414165925,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 45609"}
+{"level":20,"time":1627414165927,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get /api/test/notImplemented -> 501 (0ms)"}
+{"level":20,"time":1627414165929,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 45609 stopped"}
+{"level":20,"time":1627414165930,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 35435"}
+{"level":20,"time":1627414165938,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP put /api/test/ -> 200 (1ms)"}
+{"level":20,"time":1627414165940,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 35435 stopped"}
+{"level":20,"time":1627414165941,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 37025"}
+{"level":20,"time":1627414165943,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP put /api/test/notImplemented -> 501 (0ms)"}
+{"level":20,"time":1627414165945,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 37025 stopped"}
+{"level":20,"time":1627414165946,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 56821"}
+{"level":20,"time":1627414165950,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /api/test/ -> 200 (0ms)"}
+{"level":20,"time":1627414165952,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 56821 stopped"}
+{"level":20,"time":1627414165953,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 48357"}
+{"level":20,"time":1627414165955,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /api/test/notImplemented -> 501 (0ms)"}
+{"level":20,"time":1627414165957,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 48357 stopped"}
+{"level":20,"time":1627414165958,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 39327"}
+{"level":20,"time":1627414165961,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP patch /api/test/ -> 200 (0ms)"}
+{"level":20,"time":1627414165963,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 39327 stopped"}
+{"level":20,"time":1627414165964,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 36595"}
+{"level":20,"time":1627414165968,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /api/test/notImplemented -> 501 (0ms)"}
+{"level":20,"time":1627414165970,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 36595 stopped"}
+{"level":20,"time":1627414165971,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 39531"}
+{"level":20,"time":1627414165975,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP delete /api/test/ -> 200 (1ms)"}
+{"level":20,"time":1627414165976,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 39531 stopped"}
+{"level":20,"time":1627414165978,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 40101"}
+{"level":20,"time":1627414165980,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP post /api/test/notImplemented -> 501 (0ms)"}
+{"level":20,"time":1627414165982,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 40101 stopped"}
+{"level":20,"time":1627414166345,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Debug message"}
+{"level":30,"time":1627414166347,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Info message"}
+{"level":40,"time":1627414166348,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Warning message"}
+{"level":50,"time":1627414166348,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Error message"}
+{"level":30,"time":1627414166350,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Info message"}
+{"level":40,"time":1627414166350,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Warning message"}
+{"level":50,"time":1627414166351,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Error message"}
+{"level":40,"time":1627414166352,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Warning message"}
+{"level":50,"time":1627414166353,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Error message"}
+{"level":50,"time":1627414166355,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Error message"}
+{"level":20,"time":1627414166361,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Debug message"}
+{"level":30,"time":1627414166362,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Info message"}
+{"level":40,"time":1627414166362,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Warning message"}
+{"level":50,"time":1627414166362,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Error message"}
+{"level":20,"time":1627414166628,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 60997"}
+{"level":30,"time":1627414166628,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 60997"}
+{"level":20,"time":1627414166629,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 60997 stopped"}
+{"level":30,"time":1627414166629,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":30,"time":1627414166630,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Starting App..."}
+{"level":20,"time":1627414166632,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 41563"}
+{"level":30,"time":1627414166632,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 41563"}
+{"level":20,"time":1627414166633,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 41563 stopped"}
+{"level":30,"time":1627414166633,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414166634,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 50947"}
+{"level":30,"time":1627414166635,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 50947"}
+{"level":20,"time":1627414166635,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 50947 stopped"}
+{"level":30,"time":1627414166635,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414166637,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 39315"}
+{"level":30,"time":1627414166637,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 39315"}
+{"level":20,"time":1627414166637,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 39315 stopped"}
+{"level":30,"time":1627414166637,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414166640,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 44331"}
+{"level":30,"time":1627414166640,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 44331"}
+{"level":20,"time":1627414166641,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 44331 stopped"}
+{"level":30,"time":1627414166641,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414166643,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 33735"}
+{"level":30,"time":1627414166643,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 33735"}
+{"level":20,"time":1627414166655,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get /test/get/ -> 200 (0ms)"}
+{"level":20,"time":1627414166657,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 33735 stopped"}
+{"level":30,"time":1627414166657,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":30,"time":1627414166659,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Starting App..."}
+{"level":20,"time":1627414166660,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 52621"}
+{"level":30,"time":1627414166660,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 52621"}
+{"level":20,"time":1627414166660,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Debug message"}
+{"level":30,"time":1627414166660,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Info message"}
+{"level":40,"time":1627414166660,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Warning message"}
+{"level":50,"time":1627414166660,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Error message"}
+{"level":20,"time":1627414166660,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 52621 stopped"}
+{"level":30,"time":1627414166661,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414166944,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 53383"}
+{"level":20,"time":1627414166945,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 37879"}
+{"level":30,"time":1627414166945,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 53383"}
+{"level":30,"time":1627414166945,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 37879"}
+{"level":20,"time":1627414166946,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 53383 stopped"}
+{"level":20,"time":1627414166946,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 37879 stopped"}
+{"level":30,"time":1627414166946,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414166948,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 34651"}
+{"level":20,"time":1627414166949,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 57935"}
+{"level":30,"time":1627414166949,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 34651"}
+{"level":30,"time":1627414166949,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 57935"}
+{"level":20,"time":1627414166949,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 34651 stopped"}
+{"level":20,"time":1627414166950,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 57935 stopped"}
+{"level":30,"time":1627414166950,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414166952,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 47735"}
+{"level":20,"time":1627414166958,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 57347"}
+{"level":20,"time":1627414166958,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 47735 stopped"}
+{"level":20,"time":1627414166958,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 57347 stopped"}
+{"level":30,"time":1627414166958,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414166960,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 57579"}
+{"level":20,"time":1627414166960,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 38583"}
+{"level":20,"time":1627414166960,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 57579 stopped"}
+{"level":20,"time":1627414166961,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 38583 stopped"}
+{"level":30,"time":1627414166961,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414166962,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 48369"}
+{"level":20,"time":1627414166963,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 38243"}
+{"level":20,"time":1627414166963,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 48369 stopped"}
+{"level":20,"time":1627414166963,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 38243 stopped"}
+{"level":30,"time":1627414166963,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414166965,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 59525"}
+{"level":20,"time":1627414166965,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 52111"}
+{"level":20,"time":1627414166966,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 59525 stopped"}
+{"level":20,"time":1627414166966,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 52111 stopped"}
+{"level":30,"time":1627414166966,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414167214,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 34069"}
+{"level":30,"time":1627414167215,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 34069"}
+{"level":20,"time":1627414167216,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 34069 stopped"}
+{"level":30,"time":1627414167216,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414167226,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 35211"}
+{"level":30,"time":1627414167227,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 35211"}
+{"level":20,"time":1627414167227,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 35211 stopped"}
+{"level":30,"time":1627414167227,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414167229,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 38389"}
+{"level":20,"time":1627414167230,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 38389 stopped"}
+{"level":30,"time":1627414167230,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414167232,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 43431"}
+{"level":20,"time":1627414167232,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 43431 stopped"}
+{"level":30,"time":1627414167233,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414167234,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 34749"}
+{"level":20,"time":1627414167235,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 34749 stopped"}
+{"level":30,"time":1627414167235,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414167237,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 40977"}
+{"level":20,"time":1627414167237,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 40977 stopped"}
+{"level":30,"time":1627414167237,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414167529,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 46335"}
+{"level":20,"time":1627414167538,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 46335 stopped"}
+{"level":20,"time":1627414167539,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 59753"}
+{"level":50,"time":1627414167550,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Binary data on websocket not supported."}
+{"level":20,"time":1627414167552,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 59753 stopped"}
+{"level":20,"time":1627414167553,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 38839"}
+{"level":20,"time":1627414167556,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 38839 stopped"}
+{"level":20,"time":1627414167556,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port -1 stopped"}
+{"level":20,"time":1627414167557,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 58735"}
+{"level":20,"time":1627414168562,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 58735 stopped"}
+{"level":20,"time":1627414168564,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 47217"}
+{"level":20,"time":1627414168698,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 47217 stopped"}
+{"level":20,"time":1627414168699,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 37669"}
+{"level":20,"time":1627414168960,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 37669 stopped"}
+{"level":20,"time":1627414169205,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 56043"}
+{"level":30,"time":1627414169206,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 56043"}
+{"level":20,"time":1627414169207,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 56043 stopped"}
+{"level":30,"time":1627414169207,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414169209,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 38695"}
+{"level":30,"time":1627414169210,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 38695"}
+{"level":20,"time":1627414169210,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 38695 stopped"}
+{"level":30,"time":1627414169210,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":30,"time":1627414169212,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":30,"time":1627414169216,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":30,"time":1627414169231,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":30,"time":1627414169234,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414169546,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 60953"}
+{"level":20,"time":1627414169547,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 60953 stopped"}
+{"level":20,"time":1627414169548,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 3999"}
+{"level":20,"time":1627414169548,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 3999 stopped"}
+{"level":20,"time":1627414169549,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 39461"}
+{"level":20,"time":1627414169562,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"/some/invalid/path not found."}
+{"level":20,"time":1627414169564,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 39461 stopped"}
+{"level":20,"time":1627414169565,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 52515"}
+{"level":20,"time":1627414169570,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 52515 stopped"}
+{"level":20,"time":1627414169571,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 35533"}
+{"level":20,"time":1627414169576,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 35533 stopped"}
+{"level":20,"time":1627414169577,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 52123"}
+{"level":20,"time":1627414169579,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get /api/dummy/customResponseHeader -> 200 (0ms)"}
+{"level":20,"time":1627414169581,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 52123 stopped"}
+{"level":20,"time":1627414169851,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 41849"}
+{"level":20,"time":1627414169852,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 46117"}
+{"level":30,"time":1627414169852,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 41849"}
+{"level":30,"time":1627414169852,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 46117"}
+{"level":20,"time":1627414169856,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get /api/ -> 200 (0ms)"}
+{"level":20,"time":1627414169858,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 41849 stopped"}
+{"level":20,"time":1627414169858,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 46117 stopped"}
+{"level":30,"time":1627414169858,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414169860,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 41765"}
+{"level":20,"time":1627414169861,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 46841"}
+{"level":30,"time":1627414169861,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 41765"}
+{"level":30,"time":1627414169861,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 46841"}
+{"level":20,"time":1627414169863,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get / -> 200 (0ms)"}
+{"level":20,"time":1627414169865,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 41765 stopped"}
+{"level":20,"time":1627414169865,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 46841 stopped"}
+{"level":30,"time":1627414169865,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414169867,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 39629"}
+{"level":20,"time":1627414169868,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 38957"}
+{"level":30,"time":1627414169868,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 39629"}
+{"level":30,"time":1627414169868,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 38957"}
+{"level":20,"time":1627414169870,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP get /api/ -> 200 (0ms)"}
+{"level":20,"time":1627414169872,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 39629 stopped"}
+{"level":20,"time":1627414169872,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 38957 stopped"}
+{"level":30,"time":1627414169872,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414169874,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 46275"}
+{"level":20,"time":1627414169875,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 56337"}
+{"level":30,"time":1627414169875,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 46275"}
+{"level":30,"time":1627414169875,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 56337"}
+{"level":20,"time":1627414169876,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 46275 stopped"}
+{"level":20,"time":1627414169876,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 56337 stopped"}
+{"level":30,"time":1627414169876,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414170100,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 44927"}
+{"level":20,"time":1627414170101,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 55465"}
+{"level":30,"time":1627414170101,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 44927"}
+{"level":30,"time":1627414170101,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 55465"}
+{"level":20,"time":1627414170101,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 44927 stopped"}
+{"level":20,"time":1627414170102,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 55465 stopped"}
+{"level":30,"time":1627414170102,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414170104,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 47659"}
+{"level":20,"time":1627414170104,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 51887"}
+{"level":30,"time":1627414170104,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 47659"}
+{"level":30,"time":1627414170104,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 51887"}
+{"level":20,"time":1627414170105,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 47659 stopped"}
+{"level":20,"time":1627414170105,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 51887 stopped"}
+{"level":30,"time":1627414170105,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414170107,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 43601"}
+{"level":20,"time":1627414170107,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 53587"}
+{"level":30,"time":1627414170107,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 43601"}
+{"level":30,"time":1627414170107,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 53587"}
+{"level":20,"time":1627414170108,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 43601 stopped"}
+{"level":20,"time":1627414170108,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 53587 stopped"}
+{"level":30,"time":1627414170108,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414170110,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 49467"}
+{"level":20,"time":1627414170110,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 36265"}
+{"level":30,"time":1627414170110,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 49467"}
+{"level":30,"time":1627414170110,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"Webhook Callback Server started at port 36265"}
+{"level":20,"time":1627414170110,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 49467 stopped"}
+{"level":20,"time":1627414170110,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 36265 stopped"}
+{"level":30,"time":1627414170110,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414170356,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 39625"}
+{"level":30,"time":1627414170356,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 39625"}
+{"level":20,"time":1627414170357,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 39625 stopped"}
+{"level":30,"time":1627414170357,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414170359,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 55211"}
+{"level":30,"time":1627414170359,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 55211"}
+{"level":20,"time":1627414170360,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 55211 stopped"}
+{"level":30,"time":1627414170360,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414170362,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 41417"}
+{"level":30,"time":1627414170362,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 41417"}
+{"level":20,"time":1627414170363,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 41417 stopped"}
+{"level":30,"time":1627414170363,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414170364,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 60983"}
+{"level":30,"time":1627414170365,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 60983"}
+{"level":20,"time":1627414170365,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 60983 stopped"}
+{"level":30,"time":1627414170365,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414170607,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 55299"}
+{"level":30,"time":1627414170607,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 55299"}
+{"level":20,"time":1627414170608,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 55299 stopped"}
+{"level":30,"time":1627414170608,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414170610,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 55351"}
+{"level":30,"time":1627414170610,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 55351"}
+{"level":20,"time":1627414170611,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 55351 stopped"}
+{"level":30,"time":1627414170611,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414170612,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 53517"}
+{"level":30,"time":1627414170613,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 53517"}
+{"level":20,"time":1627414170613,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 53517 stopped"}
+{"level":30,"time":1627414170613,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414170615,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 39661"}
+{"level":30,"time":1627414170615,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 39661"}
+{"level":20,"time":1627414170616,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 39661 stopped"}
+{"level":30,"time":1627414170616,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414171070,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 36181"}
+{"level":30,"time":1627414171071,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"API Server started at port 36181"}
+{"level":20,"time":1627414171071,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 36181 stopped"}
+{"level":30,"time":1627414171071,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414171074,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 59379"}
+{"level":20,"time":1627414171074,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 59379 stopped"}
+{"level":30,"time":1627414171074,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
+{"level":20,"time":1627414171080,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server listening on port 43819"}
+{"level":20,"time":1627414171080,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"HTTP Server on port 43819 stopped"}
+{"level":30,"time":1627414171080,"pid":6094,"hostname":"fv-az74-824","name":"@waytrade/microservice-core","msg":"App stopped."}
