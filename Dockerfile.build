@@ -2,11 +2,18 @@
 # Docker image for building and testing microservices
 #
 
-FROM ghcr.io/waytrade/microservice-core/production:latest
+FROM ubuntu:20.04
+RUN apt-get update -y
+RUN apt-get install --no-install-recommends --yes \
+  curl \
+  ca-certificates \
+  openjdk-11-jre
 
-# install JDK
-RUN apk add openjdk11
+# Install node.js and yarn
+RUN curl -sSL https://deb.nodesource.com/setup_14.x | bash \
+  && apt-get install -y nodejs
+RUN npm install --global yarn
 
-# install OpenAPI tools
+# Install openapi-generator-cli
 RUN npm install --global @openapitools/openapi-generator-cli
 RUN openapi-generator-cli version
