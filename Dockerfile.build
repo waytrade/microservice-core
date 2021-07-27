@@ -3,11 +3,14 @@
 #
 
 FROM ubuntu:20.04
-RUN apt-get install -y software-properties-common \
-    && apt-get update -y \
-    && add-apt-repository -y ppa:git-core/ppa \
-    && apt-get update -y \
-    && apt-get install -y git curl ca-certificates openjdk-11-jre
+
+# Install tools
+RUN apt-get update -y
+RUN apt-get install --no-install-recommends --yes \
+  curl \
+  ca-certificates \
+  openjdk-11-jre \
+  git
 
 # Install node.js and yarn
 RUN curl -sSL https://deb.nodesource.com/setup_14.x | bash \
