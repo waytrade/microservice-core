@@ -1,3 +1,5 @@
+import HttpStatus from "./models/http-status";
+
 export {MicroserviceApp, MicroserviceAppParams} from "./core/app";
 export {MicroserviceConfig} from "./core/config";
 export {MicroserviceContext} from "./core/context";
@@ -37,4 +39,3 @@ export {DiffTools} from "./util/diff-tools";
 export {MicroserviceTestApp} from "./util/test-app";
 export {WebhookCallbackRegistry} from "./util/webhook-callback-registry";
 export {HttpStatus};
-import HttpStatus from "./models/http-status";

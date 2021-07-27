@@ -2,6 +2,7 @@
 
 [![Test and Publish](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml/badge.svg)](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml)
 [![Test Report](./assets/test-results.svg)](https://waytrade.github.io/microservice-core/jest/) [![Core Coverage](https://raw.githubusercontent.com/waytrade/microservice-core/gh-pages/coverage/coverage.svg)](https://waytrade.github.io/microservice-core/coverage/lcov-report)
+[![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/waytrade/microservice-core.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/waytrade/microservice-core/context:javascript)
 
 ---
 
