@@ -1,6 +1,6 @@
-# microservice-core
+# microservice-core ![GitHub package.json version](https://img.shields.io/github/package-json/v/waytrade/microservice-core)
 
-![GitHub package.json version](https://img.shields.io/github/package-json/v/waytrade/microservice-core)
+
 
 [![Test and Publish](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml/badge.svg)](https://github.com/waytrade/microservice-core/actions/workflows/test_publish.yml) 
 [![Test Report](./assets/test-results.svg)](https://waytrade.github.io/microservice-core/jest/) [![Core Coverage](https://raw.githubusercontent.com/waytrade/microservice-core/gh-pages/coverage/coverage.svg)](https://waytrade.github.io/microservice-core/coverage/lcov-report)
