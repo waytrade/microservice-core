@@ -1,4 +1,4 @@
-# microservice-core ![GitHub package.json version](https://img.shields.io/github/package-json/v/waytrade/microservice-core)
+# @waytrade/microservice-core ![GitHub package.json version](https://img.shields.io/github/package-json/v/waytrade/microservice-core)
 
 
 
