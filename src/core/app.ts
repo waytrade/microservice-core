@@ -184,13 +184,13 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
       throw new Error("App is running already.");
     }
 
-    this.info("Starting App...");
-
     // boot the app
 
     if (!this.params.externalContext) {
       await this.context.boot(configOverwrites);
     }
+
+    this.info("Starting App...");
 
     await this.boot();
 

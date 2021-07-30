@@ -337,6 +337,7 @@ export class MicroserviceHttpServer {
   /** Start the API or callback server. */
   start(port?: number): Promise<void> {
     const portNumber = port ?? 0;
+    this.context.debug(`Starting HTTP Server on port ${portNumber}`);
     return new Promise<void>((resolve, reject) => {
       this.wsApp.any("/*", (res: uWS.HttpResponse, req: uWS.HttpRequest) => {
         res.cork(() => {
