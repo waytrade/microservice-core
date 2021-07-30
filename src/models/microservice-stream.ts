@@ -1,5 +1,3 @@
-import {Subject} from "rxjs";
-
 /**
  * Stream between a microservice and a remote peer.
  */
@@ -16,6 +14,6 @@ export interface MicroserviceStream {
   /** Close the stream. */
   close(): void;
 
-  /** true if the stream has need closed, false otherwise. */
-  readonly closed: Subject<boolean>;
+  /** Promise that will resolve when the stream is closed. */
+  readonly closed: Promise<void>;
 }

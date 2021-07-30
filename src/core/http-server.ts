@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import HttpStatus from "http-status";
 import {ParsedUrlQuery} from "querystring";
-import {BehaviorSubject} from "rxjs";
+import {firstValueFrom, ReplaySubject} from "rxjs";
 import URL from "url";
 import {TextDecoder} from "util";
 import * as uWS from "uWebSockets.js";
@@ -85,8 +85,13 @@ export class MicroserviceWebsocketStream implements MicroserviceStream {
   /** The request URL. */
   readonly url: string;
 
-  /** true if the stream has need closed, false otherwise. */
-  readonly closed = new BehaviorSubject<boolean>(false);
+  /** Promise that will resolve when the stream is closed. */
+  get closed(): Promise<void> {
+    return firstValueFrom<void>(this.closedSubject);
+  }
+
+  /** Subject to signal closed state. */
+  readonly closedSubject = new ReplaySubject<void>(1);
 
   /** Send a message to the stream. */
   send(msg: string): boolean {
@@ -109,7 +114,7 @@ export class MicroserviceWebsocketStream implements MicroserviceStream {
 
   /** Called when the underlying websocket has been closed. */
   onClose(): void {
-    this.closed.next(true);
+    this.closedSubject.next();
   }
 }
 
