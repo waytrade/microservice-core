@@ -54,13 +54,34 @@ class ExampleApp extends MicroserviceApp<MicroserviceConfig> {
  * model classes. They will be serialized to JSON on the HTTP endpoint.
  * Returning "plain" data such a string or number type is NOT supported.
  */
+@model("Example Item Model")
+class ExampleItemModel {
+  @property("A string property")
+  stringProp?: string;
+
+  @arrayProperty(Number, "A number array property")
+  arrayProp?: number[];
+}
+
+/**
+ * This is example data model.
+ *
+ * A model describes data types exposed by your microservice app.
+ *
+ * Request and response bodies accepted/returned by controllers must be
+ * model classes. They will be serialized to JSON on the HTTP endpoint.
+ * Returning "plain" data such a string or number type is NOT supported.
+ */
 @model("Example Model")
 class ExampleModel {
   @property("A string property")
   stringProp?: string;
 
   @arrayProperty(Number, "A number array property")
-  arrayProp?: number[];
+  numberArrayProp?: number[];
+
+  @arrayProperty(ExampleItemModel, "A ExampleItemModel array property")
+  modelArrayProp?: ExampleItemModel[];
 }
 
 /**
@@ -88,7 +109,7 @@ class ExampleService {
   computeSomething(): ExampleModel {
     return {
       stringProp: "This the result",
-      arrayProp: [Math.random(), Math.random(), Math.random()],
+      numberArrayProp: [Math.random(), Math.random(), Math.random()],
     };
   }
 }
