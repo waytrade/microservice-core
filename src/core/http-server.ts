@@ -282,10 +282,11 @@ export class MicroserviceHttpServer {
         req: uWS.HttpRequest,
         context: uWS.us_socket_context_t,
       ) => {
+        const request = new MicroservicesHttpServerRequest(res, req);
         if (!component.running) {
           res.cork(() => {
             res.writeStatus("404 Not Found");
-            this.addCORSResponseHeaders(res);
+            this.addCORSResponseHeaders(request, res);
             res.end();
           });
           return;
@@ -337,16 +338,15 @@ export class MicroserviceHttpServer {
   /** Start the API or callback server. */
   start(port?: number): Promise<void> {
     const portNumber = port ? Number(port) : 0;
-    this.context.debug(
-      `Starting HTTP Server on port ${portNumber}`,
-    );
+    this.context.debug(`Starting HTTP Server on port ${portNumber}`);
     return new Promise<void>((resolve, reject) => {
       this.wsApp.any("/*", (res: uWS.HttpResponse, req: uWS.HttpRequest) => {
+        const request = new MicroservicesHttpServerRequest(res, req);
         res.cork(() => {
           const url = req.getUrl();
           this.context.debug(url + " not found.");
           res.writeStatus("404 Not Found");
-          this.addCORSResponseHeaders(res);
+          this.addCORSResponseHeaders(request, res);
           res.end();
         });
       });
@@ -484,17 +484,17 @@ export class MicroserviceHttpServer {
       res.done = true;
     });
 
+    const startTime = Date.now();
+    const request = new MicroservicesHttpServerRequest(res, req);
+
     if (!component.running) {
       res.cork(() => {
         res.writeStatus("404 Not Found");
-        this.addCORSResponseHeaders(res);
+        this.addCORSResponseHeaders(request, res);
         res.end();
       });
       return;
     }
-
-    const request = new MicroservicesHttpServerRequest(res, req);
-    const startTime = Date.now();
 
     let buffer = "";
     const decoder = new TextDecoder();
@@ -508,7 +508,7 @@ export class MicroserviceHttpServer {
           } catch (error) {
             res.cork(() => {
               res.writeStatus("400 Bad Request");
-              this.addCORSResponseHeaders(res);
+              this.addCORSResponseHeaders(request, res);
               res.end();
             });
             return;
@@ -524,6 +524,7 @@ export class MicroserviceHttpServer {
               return component.instance[propertyKey](request, data);
             }
           },
+          request,
           res,
           contentType,
         )
@@ -544,13 +545,14 @@ export class MicroserviceHttpServer {
 
   /** Write a success response the uWS.HttpResponse */
   private write(
+    req: MicroservicesHttpServerRequest,
     res: uWS.HttpResponse,
     contentType?: string,
     data?: unknown,
   ): void {
     res.cork(() => {
       contentType = contentType ?? "application/json";
-      this.addCORSResponseHeaders(res);
+      this.addCORSResponseHeaders(req, res);
       res.writeHeader("content-type", contentType);
       if (data) {
         if (contentType === "application/json") {
@@ -565,11 +567,15 @@ export class MicroserviceHttpServer {
   }
 
   /** Write an error response the uWS.HttpResponse */
-  private writeError(res: uWS.HttpResponse, error: HttpError): void {
+  private writeError(
+    req: MicroservicesHttpServerRequest,
+    res: uWS.HttpResponse,
+    error: HttpError,
+  ): void {
     res.cork(() => {
       const code = error.code ?? HttpStatus.INTERNAL_SERVER_ERROR;
       res.writeStatus(`${code} ${HttpStatus[code]}`);
-      this.addCORSResponseHeaders(res);
+      this.addCORSResponseHeaders(req, res);
       res.writeHeader("content-type", "application/json");
       if (error.code === undefined) {
         res.end(
@@ -596,6 +602,7 @@ export class MicroserviceHttpServer {
   private async respond(
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     func: () => any,
+    req: MicroservicesHttpServerRequest,
     res: uWS.HttpResponse,
     contentType: string,
   ): Promise<number> {
@@ -606,31 +613,49 @@ export class MicroserviceHttpServer {
           if (response.then && response.catch) {
             response
               .then((data: unknown) => {
-                this.write(res, contentType, data);
+                this.write(req, res, contentType, data);
                 resolve(200);
               })
               .catch((error: HttpError) => {
-                this.writeError(res, error);
+                this.writeError(req, res, error);
                 reject(error);
               });
           } else {
-            this.write(res, contentType, response);
+            this.write(req, res, contentType, response);
             resolve(200);
           }
         } else {
-          this.write(res);
+          this.write(req, res);
           resolve(200);
         }
       } catch (error) {
-        this.writeError(res, error);
+        this.writeError(req, res, error);
         reject(error);
       }
     });
   }
 
   /** Add CORS response headers. */
-  private addCORSResponseHeaders(res: uWS.HttpResponse): void {
-    res.writeHeader("Access-Control-Allow-Origin", "*");
-    res.writeHeader("Access-Control-Expose-Headers", "authorization");
+  private addCORSResponseHeaders(
+    req: MicroservicesHttpServerRequest,
+    res: uWS.HttpResponse,
+  ): void {
+    const actrlMethod = req.headers.get("access-control-method");
+    if (actrlMethod) {
+      res.writeHeader("access-control-request-method", actrlMethod);
+    }
+
+    const actrlHeaders = req.headers.get("access-control-request-headers");
+    if (actrlHeaders) {
+      res.writeHeader("access-control-request-headers", actrlHeaders);
+    }
+
+    const origin = req.headers.get("origin");
+    if (origin) {
+      res.writeHeader("access-control-allow-origin", origin);
+      res.writeHeader("access-control-allow-credentials", "true");
+    }
+
+    res.writeHeader("access-control-expose-headers", "authorization");
   }
 }
