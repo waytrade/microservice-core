@@ -642,20 +642,21 @@ export class MicroserviceHttpServer {
   ): void {
     const actrlMethod = req.headers.get("access-control-method");
     if (actrlMethod) {
-      res.writeHeader("access-control-request-method", actrlMethod);
+      res.writeHeader("access-control-allow-methods", actrlMethod);
     }
 
     const actrlHeaders = req.headers.get("access-control-request-headers");
     if (actrlHeaders) {
-      res.writeHeader("access-control-request-headers", actrlHeaders);
+      res.writeHeader("access-control-allow-headers", actrlHeaders);
     }
 
     const origin = req.headers.get("origin");
     if (origin) {
       res.writeHeader("access-control-allow-origin", origin);
       res.writeHeader("access-control-allow-credentials", "true");
+      res.writeHeader("access-control-expose-headers", "authorization");
     }
 
-    res.writeHeader("access-control-expose-headers", "authorization");
+    res.writeHeader("access-control-max-age", "86400");
   }
 }
