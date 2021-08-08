@@ -44,7 +44,7 @@ describe("Test MicroserviceHttpServer class", () => {
               `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/`,
               {
                 headers: {
-                  "access-control-method": "GET",
+                  "access-control-request-method": "GET",
                   "access-control-request-headers": "testHeader",
                   origin: `http://127.0.0.1:${server.listeningPort}`,
                 },
@@ -63,9 +63,6 @@ describe("Test MicroserviceHttpServer class", () => {
               );
               expect(res.headers["access-control-allow-credentials"]).toEqual(
                 "true",
-              );
-              expect(res.headers["access-control-expose-headers"]).toEqual(
-                "authorization",
               );
               expect(res.headers["access-control-max-age"]).toEqual("86400");
 

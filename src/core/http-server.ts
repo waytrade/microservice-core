@@ -640,7 +640,7 @@ export class MicroserviceHttpServer {
     req: MicroservicesHttpServerRequest,
     res: uWS.HttpResponse,
   ): void {
-    const actrlMethod = req.headers.get("access-control-method");
+    const actrlMethod = req.headers.get("access-control-request-method");
     if (actrlMethod) {
       res.writeHeader("access-control-allow-methods", actrlMethod);
     }
@@ -654,7 +654,6 @@ export class MicroserviceHttpServer {
     if (origin) {
       res.writeHeader("access-control-allow-origin", origin);
       res.writeHeader("access-control-allow-credentials", "true");
-      res.writeHeader("access-control-expose-headers", "authorization");
     }
 
     res.writeHeader("access-control-max-age", "86400");
