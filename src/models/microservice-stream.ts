@@ -5,6 +5,9 @@ export interface MicroserviceStream {
   /** The request URL. */
   readonly url: string;
 
+  /** The HTTP header fields on upgrade request. */
+  readonly requestHeader: Map<string, string>;
+
   /** Callback handler for received messages. */
   onReceived?: (message: string) => void;
 

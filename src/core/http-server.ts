@@ -23,7 +23,7 @@ export interface QueryParams {
   [name: string]: string;
 }
 
-/** An stream on a uWebSockets server. */
+/** An request on a uWebSockets server. */
 export class MicroservicesHttpServerRequest implements MicroserviceRequest {
   constructor(
     private readonly res: uWS.HttpResponse,
@@ -294,8 +294,9 @@ export class MicroserviceHttpServer {
         req.forEach((key, value) => {
           headers.set(key, value);
         });
+        const query = req.getQuery();
         res.upgrade(
-          {url: req.getUrl()},
+          {url: req.getUrl() + (query ? "?" + query : "")},
           req.getHeader("sec-websocket-key"),
           req.getHeader("sec-websocket-protocol"),
           req.getHeader("sec-websocket-extensions"),
