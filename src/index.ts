@@ -35,7 +35,16 @@ export {MicroserviceRequest} from "./models/microservice-request";
 export {MicroserviceStream} from "./models/microservice-stream";
 export {HttpStatusCode} from "./models/types";
 export {WebhookSubscriptionRequest} from "./models/webhook-subscription-request";
+export {WebSocketCloseCode} from "./models/websocket-close-code";
 export {DiffTools} from "./util/diff-tools";
+export {MapExt} from "./util/map-ext";
 export {MicroserviceTestApp} from "./util/test-app";
+export {
+  WebSocketAutoConnection,
+  WebSocketAutoConnectionCloseReason,
+  WebSocketAutoConnectionCloseSource,
+  WebSocketAutoConnectionConfig,
+  WebSocketAutoConnectionState,
+} from "./util/web-socket-auto-connection";
 export {WebhookCallbackRegistry} from "./util/webhook-callback-registry";
 export {HttpStatus};

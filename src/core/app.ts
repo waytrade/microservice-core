@@ -5,6 +5,7 @@ import {MicroserviceConfig} from "./config";
 import {MicroserviceHttpServer} from "./http-server";
 import {CONTROLLER_METADATA, InjectedPropertyMetadata} from "./metadata";
 import {OpenApi} from "./openapi";
+import {MicroserviceWebsocketStreamConfig} from "./websocket-stream";
 
 /** MicroserviceApp initialization parameters. */
 export interface MicroserviceAppParams {
@@ -22,6 +23,22 @@ export interface MicroserviceAppParams {
    * context that is owner by the app.
    */
   externalContext?: MicroserviceContext;
+
+  /** Maxmimum backpressure pre websocket in bytes. Default is 1KB (1024). */
+  websocketMaxBackpressure?: number;
+
+  /** Websocket ping headbeat interval in seconds. Default is 30s. */
+  websocketPingInterval?: number;
+
+  /**
+   * If set to true, no 'pong' text message will send to websockets when
+   * receiving 'ping' text message has been received.
+   * Pong op-code responses on protocol level will still continue to work.
+   */
+  disablePongMessageReply?: boolean;
+
+  /** If set to true, no pint/pong op-code heartbeat check will be run. */
+  disableOpCodeHeartbeat?: boolean;
 }
 
 /** A component instance with its type */
@@ -273,9 +290,17 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
 
     // start servers
 
+    const wsConfig: MicroserviceWebsocketStreamConfig = {
+      maxBackpressure: this.params.websocketMaxBackpressure,
+      pingInterval: this.params.websocketPingInterval,
+      disablePongMessageReply: this.params.disablePongMessageReply,
+      disableOpCodeHeartbeat: this.params.disableOpCodeHeartbeat,
+    };
+
     this.apiServer = new MicroserviceHttpServer(
       this.context,
       this.apiControllers,
+      wsConfig,
     );
     this.openApi = new OpenApi(
       this.context,
@@ -289,6 +314,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
       this.callbackServer = new MicroserviceHttpServer(
         this.context,
         this.callbackControllers,
+        wsConfig,
       );
       await this.callbackServer.start(this.config.CALLBACK_PORT);
     }

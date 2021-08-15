@@ -15,7 +15,7 @@ export interface MicroserviceStream {
   send(msg: string): boolean;
 
   /** Close the stream. */
-  close(): void;
+  close(code?: number, msg?: string): void;
 
   /** Promise that will resolve when the stream is closed. */
   readonly closed: Promise<void>;

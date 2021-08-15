@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import HttpStatus from "http-status";
 import {ParsedUrlQuery} from "querystring";
-import {firstValueFrom, ReplaySubject} from "rxjs";
 import URL from "url";
 import {TextDecoder} from "util";
 import * as uWS from "uWebSockets.js";
 import {us_listen_socket_close} from "uWebSockets.js";
-import {MicroserviceContext, MicroserviceRequest, MicroserviceStream} from "..";
+import {MicroserviceContext, MicroserviceRequest, WebSocketCloseCode} from "..";
 import {MicroserviceComponentInstance} from "./app";
 import {HttpError} from "./http-error";
 import {
@@ -14,9 +13,10 @@ import {
   CONTROLLER_METADATA,
   MethodMetadata,
 } from "./metadata";
-
-/** Max amount of bytes on websocket back-pressure before dropping the connection. */
-const MAX_WEBSOCKET_BACKPRESSURE_SIZE = 1024; // 1Kb
+import {
+  MicroserviceWebsocketStream,
+  MicroserviceWebsocketStreamConfig,
+} from "./websocket-stream";
 
 /** URL query parameters. */
 export interface QueryParams {
@@ -65,59 +65,6 @@ export class MicroservicesHttpServerRequest implements MicroserviceRequest {
   }
 }
 
-const emptyReceive = (): void => {
-  return;
-};
-
-/** An stream on a uWebSockets server. */
-export class MicroserviceWebsocketStream implements MicroserviceStream {
-  constructor(
-    private readonly context: MicroserviceContext,
-    private ws: uWS.WebSocket,
-    public readonly requestHeader: Map<string, string>,
-  ) {
-    this.url = ws.url;
-  }
-
-  /** Data ingress callback function */
-  onReceived: (message: string) => void = emptyReceive;
-
-  /** The request URL. */
-  readonly url: string;
-
-  /** Promise that will resolve when the stream is closed. */
-  get closed(): Promise<void> {
-    return firstValueFrom<void>(this.closedSubject);
-  }
-
-  /** Subject to signal closed state. */
-  readonly closedSubject = new ReplaySubject<void>(1);
-
-  /** Send a message to the stream. */
-  send(msg: string): boolean {
-    if (!this.ws.send(msg)) {
-      if (this.ws.getBufferedAmount() >= MAX_WEBSOCKET_BACKPRESSURE_SIZE) {
-        this.close();
-        return false;
-      }
-    }
-    return true;
-  }
-
-  /** Close the stream- */
-  close(): void {
-    try {
-      this.ws.close();
-    } catch (e) {}
-    this.onClose();
-  }
-
-  /** Called when the underlying websocket has been closed. */
-  onClose(): void {
-    this.closedSubject.next();
-  }
-}
-
 /**
  * HTTP/REST server on top uWebSockets.
  */
@@ -125,6 +72,7 @@ export class MicroserviceHttpServer {
   constructor(
     private readonly context: MicroserviceContext,
     private readonly controllers: MicroserviceComponentInstance[],
+    private readonly websocketConig?: MicroserviceWebsocketStreamConfig,
   ) {}
 
   /** The uWebSocket App. */
@@ -133,11 +81,17 @@ export class MicroserviceHttpServer {
   /** The TCP listen socket. */
   private listenSocket?: uWS.us_listen_socket;
 
+  /** All open websocket streams. */
+  private wsStreams = new Map<uWS.WebSocket, MicroserviceWebsocketStream>();
+
   /** Get the server listening port. */
   get listeningPort(): number | undefined {
-    return this.listenSocket
-      ? uWS.us_socket_local_port(this.listenSocket)
-      : undefined;
+    if (this.listenSocket) {
+      const port = uWS.us_socket_local_port(this.listenSocket);
+      if (port > 0) {
+        return port;
+      }
+    }
   }
 
   /** Register a HTTP POST route. */
@@ -272,7 +226,6 @@ export class MicroserviceHttpServer {
       path = path.substr(0, i) + "*";
     }
 
-    const streams = new Map<uWS.WebSocket, MicroserviceWebsocketStream>();
     const headers = new Map<string, string>();
 
     this.wsApp.ws(path, {
@@ -306,11 +259,12 @@ export class MicroserviceHttpServer {
 
       open: ws => {
         const stream = new MicroserviceWebsocketStream(
-          this.context,
           ws,
           headers,
+          this.websocketConig,
         );
-        streams.set(ws, stream);
+
+        this.wsStreams.set(ws, stream);
 
         if (isStatic) {
           component.type[propertyKey](stream);
@@ -319,19 +273,41 @@ export class MicroserviceHttpServer {
         }
       },
 
+      pong: ws => {
+        const stream = this.wsStreams.get(ws);
+        if (stream) {
+          stream.lastPongReceived = Date.now();
+        }
+      },
+
       message: (ws, message, isBinary) => {
-        if (isBinary) {
-          this.context.error("Binary data on websocket not supported.");
-          ws.close();
+        const stream = this.wsStreams.get(ws);
+        if (!stream) {
           return;
         }
-        streams.get(ws)?.onReceived(new TextDecoder().decode(message));
+
+        if (isBinary) {
+          this.context.error("Binary data on websocket not supported.");
+          stream.close(1003, "Binary data not supported.");
+          return;
+        }
+
+        const stringMessage = new TextDecoder().decode(message);
+        if (
+          stringMessage === "ping" &&
+          !this.websocketConig?.disablePongMessageReply
+        ) {
+          stream.send("pong");
+          return;
+        }
+
+        stream.onReceived(new TextDecoder().decode(message));
       },
 
       close: ws => {
-        const stream = streams.get(ws);
+        const stream = this.wsStreams.get(ws);
         stream?.onClose();
-        streams.delete(ws);
+        this.wsStreams.delete(ws);
       },
     });
   }
@@ -392,7 +368,12 @@ export class MicroserviceHttpServer {
     if (this.listenSocket !== undefined) {
       this.context.debug(`HTTP Server on port ${this.listeningPort} stopped`);
       us_listen_socket_close(this.listenSocket);
+      delete this.listenSocket;
     }
+    this.wsStreams.forEach(s => {
+      s.close(WebSocketCloseCode.RESTARTING, "server shutdown");
+    });
+    this.wsStreams.clear();
   }
 
   /** Setup the routes to controllers.  */

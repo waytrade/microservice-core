@@ -25,7 +25,6 @@
       "args": [
         "${fileBasename}",
         "--maxConcurrency=1",
-        "-i",
       ],
       "console": "internalConsole",
       "internalConsoleOptions": "neverOpen",

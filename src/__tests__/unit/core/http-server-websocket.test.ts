@@ -7,6 +7,7 @@ import {
   MicroserviceStream,
   WebhookSubscriptionRequest,
   websocket,
+  WebSocketAutoConnection,
 } from "../../..";
 import {MicroserviceComponentInstance} from "../../../core/app";
 import {MicroserviceHttpServer} from "../../../core/http-server";
@@ -33,8 +34,13 @@ class WebsocketTestController {
     };
   }
 
+  static closed = false;
   @websocket("/close")
   close(stream: MicroserviceStream): void {
+    stream.closed.then(() => {
+      WebsocketTestController.closed = true;
+      stream.send("alreadyClosed");
+    });
     setTimeout(() => {
       stream.close();
     }, 1000);
@@ -42,7 +48,7 @@ class WebsocketTestController {
 
   @websocket("/reject")
   static reject(stream: MicroserviceStream): void {
-    stream.close();
+    stream.close(4000, "rejected connection");
   }
 
   @websocket("/empty")
@@ -79,9 +85,8 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
     await context.boot();
   });
 
-  test("Echo message", () => {
+  test("Ping / Pong", () => {
     return new Promise<void>((resolve, reject) => {
-      const testData = {val: Math.random()};
       const components: MicroserviceComponentInstance[] = [
         {
           type: WebsocketTestController,
@@ -101,17 +106,15 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
           );
 
           ws.onopen = (): void => {
-            ws.send(JSON.stringify(testData));
+            ws.send("ping");
           };
-          ws.onmessage = (event: any): void => {
-            expect(JSON.parse(event.data)).toEqual(testData);
-            ws.close();
-            server.stop();
-            resolve();
-          };
-          ws.onerror = (event: any): void => {
-            server.stop();
-            reject(event);
+
+          ws.onmessage = message => {
+            if (message.data === "pong") {
+              ws.close();
+              server.stop();
+              resolve();
+            }
           };
         })
         .catch(error => {
@@ -121,7 +124,57 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
     });
   });
 
-  test("Send binary data (must fail)", () => {
+  test("Echo message", () => {
+    return new Promise<void>((resolve, reject) => {
+      const testData = {val: Math.random()};
+      const components: MicroserviceComponentInstance[] = [
+        {
+          type: WebsocketTestController,
+          instance: new WebsocketTestController(),
+          running: true,
+        },
+      ];
+
+      const server = new MicroserviceHttpServer(context, components);
+      server
+        .start()
+        .then(() => {
+          expect(server.listeningPort).not.toEqual(0);
+
+          const wsc = new WebSocketAutoConnection(
+            `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/echo/dummy`,
+          );
+
+          wsc.onError.then(error => {
+            server.stop();
+            reject(error);
+          });
+
+          wsc.onConnected.then(() => {
+            wsc.send(JSON.stringify(testData));
+          });
+
+          const cancel = new Subject<void>();
+          wsc.onMessage.subscribe({
+            next: msg => {
+              expect(JSON.parse(msg)).toEqual(testData);
+              cancel.next();
+              wsc.close();
+              server.stop();
+              resolve();
+            },
+          });
+
+          wsc.connect();
+        })
+        .catch(error => {
+          server.stop();
+          reject(error);
+        });
+    });
+  });
+
+  test("Send binary data (must be ignored)", () => {
     return new Promise<void>((resolve, reject) => {
       const components: MicroserviceComponentInstance[] = [
         {
@@ -137,26 +190,36 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
         .then(() => {
           expect(server.listeningPort).not.toEqual(0);
 
-          const ws = new WebSocket(
+          const wsc = new WebSocketAutoConnection(
             `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/echo/`,
           );
 
-          ws.onopen = (): void => {
-            // binary data is not supported, must close immediately.
-            ws.send(new ArrayBuffer(32));
-          };
-          ws.onclose = (): void => {
+          wsc.onError.then(error => {
+            server.stop();
+            reject(error);
+          });
+
+          wsc.onConnected.then(() => {
+            wsc.send(new ArrayBuffer(32));
+          });
+
+          const cancel = new Subject<void>();
+          wsc.onMessage.subscribe({
+            next: () => {
+              cancel.next();
+              wsc.close();
+              server.stop();
+              reject();
+            },
+          });
+
+          wsc.connect();
+
+          setTimeout(() => {
+            wsc.close();
             server.stop();
             resolve();
-          };
-          ws.onmessage = (event: any): void => {
-            server.stop();
-            reject();
-          };
-          ws.onerror = (event: any): void => {
-            server.stop();
-            reject(event);
-          };
+          }, 1000);
         })
         .catch(error => {
           server.stop();
@@ -185,17 +248,19 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
             `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/reject`,
           );
 
-          ws.onclose = (): void => {
+          ws.onclose = (e): void => {
+            expect(e.code).toEqual(4000);
+            expect(e.reason).toEqual("rejected connection");
             server.stop();
-            reject();
+            resolve();
           };
           ws.onmessage = (event: any): void => {
             server.stop();
-            reject();
+            reject(event);
           };
           ws.onerror = (event: any): void => {
             server.stop();
-            resolve();
+            reject(event);
           };
         })
         .catch(error => {
@@ -226,6 +291,8 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
           );
 
           ws.onclose = (): void => {
+            expect(WebsocketTestController.closed).toBeTruthy();
+
             server.stop();
             resolve();
           };
