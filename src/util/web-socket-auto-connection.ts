@@ -87,7 +87,7 @@ export interface WebSocketAutoConnectionCloseReason {
  */
 export class WebSocketAutoConnection {
   constructor(
-    private url: string,
+    public url: string,
     private config?: WebSocketAutoConnectionConfig,
   ) {}
 

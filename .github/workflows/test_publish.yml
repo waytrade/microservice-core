@@ -38,7 +38,7 @@ jobs:
         run: yarn install
 
       - name: "Run Tests"
-        run: sudo yarn test
+        run: sudo yarn test:ci
 
       - name: "Build App"
         run: yarn build

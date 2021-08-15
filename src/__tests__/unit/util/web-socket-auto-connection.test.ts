@@ -209,41 +209,44 @@ describe("Test WebSocketAutoConnection", () => {
         let onConnectedCounter = 0;
         let onWaitingReconnectCounter = 0;
 
-        const serverPort = server.listeningPort;
-        const ws = new WebSocketAutoConnection(
+        let serverPort = server.listeningPort;
+        const wsc = new WebSocketAutoConnection(
           `ws://127.0.0.1:${serverPort}/echo`,
           {reconnectDelay: AUTO_RECONNECT_DELAY},
         );
 
         let onWaitingReconnectPromiseResolved = false;
-        ws.onWaitingReconnect.then(delay => {
+        wsc.onWaitingReconnect.then(delay => {
           expect(delay).toEqual(AUTO_RECONNECT_DELAY);
           onWaitingReconnectPromiseResolved = true;
         });
 
         let restarted = false;
-        const connectionState$ = ws.connectionState.subscribe({
+        const connectionState$ = wsc.connectionState.subscribe({
           next: state => {
             switch (state) {
               case WebSocketAutoConnectionState.CONNECTED:
-                expect(ws.connectionCloseReason).toBeUndefined();
+                expect(wsc.connectionCloseReason).toBeUndefined();
                 if (!onConnectedCounter) {
                   // stop server after socket is connected
                   server.stop();
                 } else {
                   // close socket (client side) after re-connection
-                  ws.close(CLOSE_CODE, CLOSE_REASON);
+                  wsc.close(CLOSE_CODE, CLOSE_REASON);
                 }
                 onConnectedCounter++;
                 break;
               case WebSocketAutoConnectionState.CONNECTION_LOST:
-                expect(ws.connectionCloseReason?.source).toEqual(
+                expect(wsc.connectionCloseReason?.source).toEqual(
                   WebSocketAutoConnectionCloseSource.SERVER,
                 );
                 if (!restarted) {
                   restarted = true;
                   setTimeout(() => {
-                    server.start(serverPort);
+                    server.start().then(() => {
+                      serverPort = server.listeningPort;
+                      wsc.url = `ws://127.0.0.1:${serverPort}/echo`;
+                    });
                   }, AUTO_RECONNECT_DELAY * 2 * 1000);
                 }
                 break;
@@ -253,11 +256,11 @@ describe("Test WebSocketAutoConnection", () => {
               case WebSocketAutoConnectionState.CLOSED:
                 expect(onWaitingReconnectCounter).toBeGreaterThan(0);
                 expect(onWaitingReconnectPromiseResolved).toBeTruthy();
-                expect(ws.connectionCloseReason?.source).toEqual(
+                expect(wsc.connectionCloseReason?.source).toEqual(
                   WebSocketAutoConnectionCloseSource.USER,
                 );
-                expect(ws.connectionCloseReason?.code).toEqual(CLOSE_CODE);
-                expect(ws.connectionCloseReason?.reason).toEqual(CLOSE_REASON);
+                expect(wsc.connectionCloseReason?.code).toEqual(CLOSE_CODE);
+                expect(wsc.connectionCloseReason?.reason).toEqual(CLOSE_REASON);
 
                 connectionState$.unsubscribe();
                 server.stop();
@@ -267,7 +270,7 @@ describe("Test WebSocketAutoConnection", () => {
           },
         });
 
-        ws.connect();
+        wsc.connect();
       });
     });
   });
@@ -382,7 +385,7 @@ describe("Test WebSocketAutoConnection", () => {
     });
   });
 
-  test("Ping / Pong timeout re-connect", () => {
+  test("Ping / Pong timeout", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, components, {
         disablePongMessageReply: true,
@@ -393,7 +396,6 @@ describe("Test WebSocketAutoConnection", () => {
           `ws://127.0.0.1:${server.listeningPort}/echo`,
           {
             pingInterval: 1,
-            reconnectDelay: 1,
           },
         );
 
@@ -517,7 +519,7 @@ describe("Test WebSocketAutoConnection", () => {
       server.start().then(() => {
         const AUTO_RECONNECT_DELAY = 1;
 
-        const serverPort = server.listeningPort;
+        let serverPort = server.listeningPort;
         expect(serverPort).not.toEqual(0);
 
         const wsc = new WebSocketAutoConnection(
@@ -583,7 +585,10 @@ describe("Test WebSocketAutoConnection", () => {
                 } else {
                   server.stop();
                   setTimeout(() => {
-                    server.start(serverPort);
+                    server.start().then(() => {
+                      serverPort = server.listeningPort;
+                      wsc.url = `ws://127.0.0.1:${server.listeningPort}/echo`;
+                    });
                   }, AUTO_RECONNECT_DELAY * 2 * 1000);
                 }
                 break;
