@@ -247,7 +247,11 @@ export class WebSocketAutoConnection {
     }
 
     if (this.ws) {
-      this.ws.close(closeCode, closeReason);
+      if (closeCode) {
+        this.ws.close(closeCode, closeReason);
+      } else {
+        this.ws.terminate();
+      }
       delete this.ws;
     } else {
       if (this.permanentlyClosed) {
@@ -268,21 +272,22 @@ export class WebSocketAutoConnection {
       return;
     }
 
-    this.ws.on("message", (message): void => {
-      if (typeof message !== "string") {
+    this.ws.onmessage = (msgEvent: WebSocket.MessageEvent): void => {
+      const data = msgEvent.data;
+      if (typeof data !== "string") {
         return;
       }
 
       if (this.config?.disablePingHeartbeat) {
-        this.messages.next(message);
+        this.messages.next(data);
       } else {
-        if (message === "pong") {
+        if (data === "pong") {
           this.lastPongReceived = Date.now();
         } else {
-          this.messages.next(message);
+          this.messages.next(data);
         }
       }
-    });
+    };
 
     this.ws.on("open", () => {
       this.updateState(WebSocketAutoConnectionState.CONNECTED);
@@ -295,6 +300,7 @@ export class WebSocketAutoConnection {
     });
 
     this.ws.on("close", (code, reason) => {
+      delete this.ws;
       this.shutdown(code, reason);
       if (this.permanentlyClosed) {
         this.updateState(WebSocketAutoConnectionState.CLOSED);

@@ -102,7 +102,7 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
           expect(server.listeningPort).not.toEqual(0);
 
           const ws = new WebSocket(
-            `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/echo/dummy`,
+            `ws://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/echo/dummy`,
           );
 
           ws.onopen = (): void => {
@@ -142,7 +142,7 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
           expect(server.listeningPort).not.toEqual(0);
 
           const wsc = new WebSocketAutoConnection(
-            `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/echo/dummy`,
+            `ws://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/echo/dummy`,
           );
 
           wsc.onError.then(error => {
@@ -191,7 +191,7 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
           expect(server.listeningPort).not.toEqual(0);
 
           const wsc = new WebSocketAutoConnection(
-            `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/echo/`,
+            `ws://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/echo/`,
           );
 
           wsc.onError.then(error => {
@@ -245,7 +245,7 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
           expect(server.listeningPort).not.toEqual(0);
 
           const ws = new WebSocket(
-            `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/reject`,
+            `ws://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/reject`,
           );
 
           ws.onclose = (e): void => {
@@ -287,7 +287,7 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
           expect(server.listeningPort).not.toEqual(0);
 
           const ws = new WebSocket(
-            `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/close`,
+            `ws://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/close`,
           );
 
           ws.onclose = (): void => {
@@ -329,7 +329,7 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
           expect(server.listeningPort).not.toEqual(0);
 
           const ws = new WebSocket(
-            `http://127.0.0.1:${server.listeningPort}${ENDLESS_STREAM_CONTROLLER_PATH}/endless`,
+            `ws://127.0.0.1:${server.listeningPort}${ENDLESS_STREAM_CONTROLLER_PATH}/endless`,
           );
 
           firstValueFrom(WebsocketEndlessStreamController.closed).then(() => {
@@ -372,7 +372,7 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
           expect(server.listeningPort).not.toEqual(0);
 
           const ws = new WebSocket(
-            `http://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/empty`,
+            `ws://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/empty`,
           );
 
           ws.onopen = (): void => {

@@ -74,7 +74,7 @@ export class MicroserviceWebsocketStream implements MicroserviceStream {
         this.close(WebSocketCloseCode.ABNORMAL, "max backpressure");
         return false;
       }
-      this.ws.send(msg);
+      this.ws.send(msg, false);
       return true;
     } catch (e) {
       return false;
