@@ -301,7 +301,7 @@ export class MicroserviceHttpServer {
           return;
         }
 
-        stream.onReceived(new TextDecoder().decode(message));
+        stream.onReceived(stringMessage);
       },
 
       close: ws => {

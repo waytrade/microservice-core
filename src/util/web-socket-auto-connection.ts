@@ -278,8 +278,6 @@ export class WebSocketAutoConnection {
       } else {
         if (message === "pong") {
           this.lastPongReceived = Date.now();
-        } else if (message === "ping") {
-          this.ws?.send("pong");
         } else {
           this.messages.next(message);
         }
@@ -346,8 +344,12 @@ export class WebSocketAutoConnection {
     const reconnectDelay =
       (this.config?.reconnectDelay ?? DEFAULT_RECONNECT_DELEAY) * 1000;
 
-    this.reconnectTimeout = global.setTimeout(() => {
-      this.connectInternal();
+    this.reconnectTimeout = setTimeout(() => {
+      if (this.reconnectTimeout) {
+        clearTimeout(this.reconnectTimeout);
+        delete this.reconnectTimeout;
+        this.connectInternal();
+      }
     }, reconnectDelay);
   }
 }

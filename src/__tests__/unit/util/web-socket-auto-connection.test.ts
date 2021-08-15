@@ -24,6 +24,14 @@ class WebsocketEchoController {
   }
 }
 
+@controller("Controller to echo websocket messages back to sender", "/hello")
+class WebsocketHelloController {
+  @websocket("")
+  streaming(stream: MicroserviceStream): void {
+    stream.send("hello");
+  }
+}
+
 describe("Test WebSocketAutoConnection", () => {
   const context = new MicroserviceContext(
     path.resolve(__dirname, "../../../.."),
@@ -37,6 +45,11 @@ describe("Test WebSocketAutoConnection", () => {
     {
       type: WebsocketEchoController,
       instance: new WebsocketEchoController(),
+      running: true,
+    },
+    {
+      type: WebsocketHelloController,
+      instance: new WebsocketHelloController(),
       running: true,
     },
   ];
@@ -385,7 +398,7 @@ describe("Test WebSocketAutoConnection", () => {
     });
   });
 
-  test("Ping / Pong timeout", () => {
+  test("Text message ping / pong timeout", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, components, {
         disablePongMessageReply: true,
@@ -393,7 +406,7 @@ describe("Test WebSocketAutoConnection", () => {
 
       server.start().then(() => {
         const wsc = new WebSocketAutoConnection(
-          `ws://127.0.0.1:${server.listeningPort}/echo`,
+          `ws://127.0.0.1:${server.listeningPort}/hello`,
           {
             pingInterval: 1,
           },
