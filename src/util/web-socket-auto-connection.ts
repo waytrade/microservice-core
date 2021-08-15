@@ -2,6 +2,7 @@ import {
   BehaviorSubject,
   filter,
   firstValueFrom,
+  map,
   Observable,
   Subject,
 } from "rxjs";
@@ -133,45 +134,61 @@ export class WebSocketAutoConnection {
   }
 
   /** Resolves when connection to server is initialted. */
-  get onConnecting(): Promise<void> {
-    return this.waitState(WebSocketAutoConnectionState.CONNECTING);
+  get onConnecting(): Observable<void> {
+    return this.state.pipe(
+      filter(v => v === WebSocketAutoConnectionState.CONNECTING),
+      map(() => {
+        return;
+      }),
+    );
   }
 
   /** Resolves when an error during connecting occurs. */
-  get onError(): Promise<Error> {
-    return firstValueFrom(this.errorSubject);
+  get onError(): Observable<Error> {
+    return this.errorSubject;
   }
 
   /** Resolves when websocket is successfully conntected. */
-  get onConnected(): Promise<void> {
-    return this.waitState(WebSocketAutoConnectionState.CONNECTED);
+  get onConnected(): Observable<void> {
+    return this.state.pipe(
+      filter(v => v === WebSocketAutoConnectionState.CONNECTED),
+      map(() => {
+        return;
+      }),
+    );
   }
 
   /** Resolves when connection to server has been lost. */
-  get onLostConnection(): Promise<WebSocketAutoConnectionCloseReason> {
-    return (async (): Promise<WebSocketAutoConnectionCloseReason> => {
-      await this.waitState(WebSocketAutoConnectionState.CONNECTION_LOST);
-      return this.closeReason;
-    })();
+  get onLostConnection(): Observable<WebSocketAutoConnectionCloseReason> {
+    return this.state.pipe(
+      filter(v => v === WebSocketAutoConnectionState.CONNECTION_LOST),
+      map(() => {
+        return this.closeReason;
+      }),
+    );
   }
 
   /**
    * Resolves when re-connection delay timer has started.
    * Returns the number of seconds until next connection attempt will be started.
    */
-  get onWaitingReconnect(): Promise<number> {
-    return (async (): Promise<number> => {
-      await this.waitState(WebSocketAutoConnectionState.WAITING_RECONNECT);
-      return this.config?.reconnectDelay ?? DEFAULT_RECONNECT_DELEAY;
-    })();
+  get onWaitingReconnect(): Observable<number> {
+    return this.state.pipe(
+      filter(v => v === WebSocketAutoConnectionState.WAITING_RECONNECT),
+      map(() => {
+        return this.config?.reconnectDelay ?? DEFAULT_RECONNECT_DELEAY;
+      }),
+    );
   }
 
   /** Resolves when websocket is closed. */
-  get onClosed(): Promise<WebSocketAutoConnectionCloseReason> {
-    return (async (): Promise<WebSocketAutoConnectionCloseReason> => {
-      await this.waitState(WebSocketAutoConnectionState.CLOSED);
-      return this.closeReason;
-    })();
+  get onClosed(): Observable<WebSocketAutoConnectionCloseReason> {
+    return this.state.pipe(
+      filter(v => v === WebSocketAutoConnectionState.CLOSED),
+      map(() => {
+        return this.closeReason;
+      }),
+    );
   }
 
   /** Get the connection close reason, or undefined currently connected. */

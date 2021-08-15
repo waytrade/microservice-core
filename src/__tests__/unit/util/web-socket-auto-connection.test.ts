@@ -1,5 +1,5 @@
 import path from "path";
-import {Subject, takeUntil} from "rxjs";
+import {firstValueFrom, Subject, takeUntil} from "rxjs";
 import * as uWS from "uWebSockets.js";
 import {
   controller,
@@ -60,7 +60,7 @@ describe("Test WebSocketAutoConnection", () => {
       server.start().then(() => {
         const ws = new WebSocketAutoConnection(`ws://127.0.0.1:-1/echo`);
 
-        ws.onError.then(error => {
+        firstValueFrom(ws.onError).then(error => {
           expect(error).toBeDefined();
 
           ws.close();
@@ -79,7 +79,7 @@ describe("Test WebSocketAutoConnection", () => {
       server.start().then(() => {
         const ws = new WebSocketAutoConnection(`ws://127.0.0.1:0/echo`);
 
-        ws.onError.then(error => {
+        firstValueFrom(ws.onError).then(error => {
           expect(error).toBeDefined();
 
           ws.close();
@@ -100,16 +100,16 @@ describe("Test WebSocketAutoConnection", () => {
           `ws://127.0.0.1:${server.listeningPort}/echo`,
         );
 
-        wsc.onError.then(error => {
+        firstValueFrom(wsc.onError).then(error => {
           reject(error);
         });
 
-        wsc.onConnected.then(() => {
-          wsc.onClosed.then(() => {
-            wsc.onConnected.then(() => {
+        firstValueFrom(wsc.onConnected).then(() => {
+          firstValueFrom(wsc.onClosed).then(() => {
+            firstValueFrom(wsc.onConnected).then(() => {
               // must signal immediatly
-              wsc.onConnected.then(() => {
-                wsc.onClosed.then(() => {
+              firstValueFrom(wsc.onConnected).then(() => {
+                firstValueFrom(wsc.onClosed).then(() => {
                   server.stop();
                   resolve();
                 });
@@ -144,10 +144,11 @@ describe("Test WebSocketAutoConnection", () => {
             },
           );
 
-          wsc.onError.then(error => {
+          firstValueFrom(wsc.onError).then(error => {
             reject(error);
           });
-          wsc.onClosed.then(reason => {
+
+          firstValueFrom(wsc.onClosed).then(reason => {
             expect(reason.code).toEqual(CLOSE_CODE);
 
             server.stop();
@@ -177,25 +178,25 @@ describe("Test WebSocketAutoConnection", () => {
           `ws://127.0.0.1:${server.listeningPort}/echo`,
         );
 
-        ws.onError.then(error => {
+        firstValueFrom(ws.onError).then(error => {
           reject(error);
         });
 
-        ws.onConnected.then(() => {
+        firstValueFrom(ws.onConnected).then(() => {
           server.stop();
         });
 
-        ws.onLostConnection.then(reason => {
+        firstValueFrom(ws.onLostConnection).then(reason => {
           expect(reason.source).toEqual(
             WebSocketAutoConnectionCloseSource.SERVER,
           );
         });
 
-        ws.onWaitingReconnect.then(() => {
+        firstValueFrom(ws.onWaitingReconnect).then(() => {
           ws.close(CLOSE_CODE, CLOSE_REASON);
         });
 
-        ws.onClosed.then(reason => {
+        firstValueFrom(ws.onClosed).then(reason => {
           expect(reason.source).toEqual(
             WebSocketAutoConnectionCloseSource.USER,
           );
@@ -229,7 +230,7 @@ describe("Test WebSocketAutoConnection", () => {
         );
 
         let onWaitingReconnectPromiseResolved = false;
-        wsc.onWaitingReconnect.then(delay => {
+        firstValueFrom(wsc.onWaitingReconnect).then(delay => {
           expect(delay).toEqual(AUTO_RECONNECT_DELAY);
           onWaitingReconnectPromiseResolved = true;
         });
@@ -301,7 +302,7 @@ describe("Test WebSocketAutoConnection", () => {
           `ws://127.0.0.1:${server.listeningPort}/echo`,
         );
 
-        ws.onError.then(error => {
+        firstValueFrom(ws.onError).then(error => {
           reject(error);
         });
 
@@ -309,16 +310,16 @@ describe("Test WebSocketAutoConnection", () => {
           ws.currentConnectionState,
         ];
 
-        ws.onConnecting.then(() => {
+        firstValueFrom(ws.onConnecting).then(() => {
           receivedStates.push(WebSocketAutoConnectionState.CONNECTING);
         });
 
-        ws.onConnected.then(() => {
+        firstValueFrom(ws.onConnected).then(() => {
           receivedStates.push(WebSocketAutoConnectionState.CONNECTED);
           ws.close();
         });
 
-        ws.onClosed.then(() => {
+        firstValueFrom(ws.onClosed).then(() => {
           receivedStates.push(WebSocketAutoConnectionState.CLOSED);
 
           expect(receivedStates.length).toEqual(4);
@@ -357,7 +358,7 @@ describe("Test WebSocketAutoConnection", () => {
           `ws://127.0.0.1:${server.listeningPort}/echo`,
         );
 
-        ws.onError.then(error => {
+        firstValueFrom(ws.onError).then(error => {
           reject(error);
         });
 
@@ -412,11 +413,11 @@ describe("Test WebSocketAutoConnection", () => {
           },
         );
 
-        wsc.onError.then(error => {
+        firstValueFrom(wsc.onError).then(error => {
           reject(error);
         });
 
-        wsc.onLostConnection.then(reason => {
+        firstValueFrom(wsc.onLostConnection).then(reason => {
           expect(reason.source).toEqual(
             WebSocketAutoConnectionCloseSource.CLIENT,
           );
@@ -451,7 +452,7 @@ describe("Test WebSocketAutoConnection", () => {
           },
         );
 
-        wsc.onError.then(error => {
+        firstValueFrom(wsc.onError).then(error => {
           reject(error);
         });
 
@@ -462,11 +463,11 @@ describe("Test WebSocketAutoConnection", () => {
           },
         });
 
-        wsc.onConnected.then(() => {
+        firstValueFrom(wsc.onConnected).then(() => {
           wsc.send(TEST_MESSAGE);
         });
 
-        wsc.onClosed.then(() => {
+        firstValueFrom(wsc.onClosed).then(() => {
           wsc.send(TEST_MESSAGE, error => {
             expect(error?.message).toEqual("Not connected");
             server.stop();
@@ -497,7 +498,7 @@ describe("Test WebSocketAutoConnection", () => {
           },
         );
 
-        wsc.onError.then(error => {
+        firstValueFrom(wsc.onError).then(error => {
           reject(error);
         });
 
@@ -508,11 +509,11 @@ describe("Test WebSocketAutoConnection", () => {
           },
         });
 
-        wsc.onConnected.then(() => {
+        firstValueFrom(wsc.onConnected).then(() => {
           wsc.send(TEST_MESSAGE);
         });
 
-        wsc.onClosed.then(() => {
+        firstValueFrom(wsc.onClosed).then(() => {
           wsc.send(TEST_MESSAGE);
           wsc.send(TEST_MESSAGE, error => {
             expect(error?.message).toEqual("Not connected");

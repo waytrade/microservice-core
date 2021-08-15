@@ -145,20 +145,22 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
             `ws://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/echo/dummy`,
           );
 
-          wsc.onError.then(error => {
-            server.stop();
-            reject(error);
+          wsc.onError.subscribe({
+            next: error => {
+              server.stop();
+              reject(error);
+            },
           });
 
-          wsc.onConnected.then(() => {
-            wsc.send(JSON.stringify(testData));
+          wsc.onConnected.subscribe({
+            next: () => {
+              wsc.send(JSON.stringify(testData));
+            },
           });
 
-          const cancel = new Subject<void>();
           wsc.onMessage.subscribe({
             next: msg => {
               expect(JSON.parse(msg)).toEqual(testData);
-              cancel.next();
               wsc.close();
               server.stop();
               resolve();
@@ -194,13 +196,17 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
             `ws://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/echo/`,
           );
 
-          wsc.onError.then(error => {
-            server.stop();
-            reject(error);
+          wsc.onError.subscribe({
+            next: error => {
+              server.stop();
+              reject(error);
+            },
           });
 
-          wsc.onConnected.then(() => {
-            wsc.send(new ArrayBuffer(32));
+          wsc.onConnected.subscribe({
+            next: () => {
+              wsc.send(new ArrayBuffer(32));
+            },
           });
 
           const cancel = new Subject<void>();
