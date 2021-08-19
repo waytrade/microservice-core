@@ -105,7 +105,7 @@ export class MicroserviceWebsocketStream implements MicroserviceStream {
       try {
         if (
           lastPingSent &&
-          this.lastPongReceived < lastPingSent + pingInterval
+          this.lastPongReceived + pingInterval * 2 < lastPingSent
         ) {
           this.close(1002, "ping/pong timeout");
           return;

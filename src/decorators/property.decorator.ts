@@ -80,7 +80,9 @@ export function enumProperty(
 
     for (const enumMember in enumType) {
       enumModelMeta.type = typeof enumType[enumMember];
-      enumModelMeta.values.push(enumType[enumMember]);
+      if (!enumModelMeta.values.find(v => v === enumType[enumMember])) {
+        enumModelMeta.values.push(enumType[enumMember]);
+      }
     }
 
     switch (enumModelMeta.type) {

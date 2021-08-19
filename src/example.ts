@@ -19,6 +19,7 @@ import {
   websocket,
 } from ".";
 import {HttpError} from "./core/http-error";
+import {enumProperty} from "./decorators/property.decorator";
 import {requestBody} from "./decorators/request-body.decorator";
 import {MicroserviceRequest} from "./models/microservice-request";
 
@@ -63,6 +64,10 @@ class ExampleItemModel {
   arrayProp?: number[];
 }
 
+enum ExampleModelEnum {
+  ExampleModelEnumValue = "val1",
+}
+
 /**
  * This is example data model.
  *
@@ -82,6 +87,13 @@ class ExampleModel {
 
   @arrayProperty(ExampleItemModel, "A ExampleItemModel array property")
   modelArrayProp?: ExampleItemModel[];
+
+  @enumProperty(
+    "ExampleModelEnum",
+    ExampleModelEnum,
+    "A ExampleModelEnum enum property",
+  )
+  modelEnumProp?: ExampleModelEnum[];
 }
 
 /**
