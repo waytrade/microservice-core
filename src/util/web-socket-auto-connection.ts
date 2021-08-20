@@ -344,7 +344,7 @@ export class WebSocketAutoConnection {
     this.pingTimerInterval = setInterval(() => {
       const now = Date.now();
 
-      if (lastPingSent && this.lastPongReceived < now - pingInterval) {
+      if (lastPingSent && this.lastPongReceived < now - pingInterval * 2) {
         this.closeReason.source = WebSocketAutoConnectionCloseSource.CLIENT;
         this.closeReason.code = WebSocketCloseCode.HEARTBEAT_TIMEOUT;
         this.closeReason.reason = "ping/pong message timeout";
