@@ -123,10 +123,6 @@ export class OpenApi {
       builder.addPath(url, item);
     });
 
-    // collect model dependencies
-
-    this.collectModelDependencies(models);
-
     // add models
 
     models.forEach((modelMetadata, name) => {
@@ -146,20 +142,6 @@ export class OpenApi {
     // return spec
 
     return builder.getSpec();
-  }
-
-  private collectModelDependencies(models: Map<string, ModelMetadata>): void {
-    models.forEach(m => {
-      m.properties.forEach(p => {
-        if (!p.arrayItemType) {
-          return;
-        }
-        const meta = MODEL_METADATA.get(p.arrayItemType);
-        if (meta) {
-          models.set(p.arrayItemType, meta);
-        }
-      });
-    });
   }
 
   private addModelToSchemas(
@@ -194,7 +176,11 @@ export class OpenApi {
               type: prop.arrayItemType?.toLocaleLowerCase() as "string",
             },
           };
-        } else {
+        } else if (prop.arrayItemType) {
+          const nestedType = MODEL_METADATA.get(prop.arrayItemType);
+          if (nestedType) {
+            this.addModelToSchemas(builder, prop.arrayItemType, nestedType);
+          }
           properties[prop.propertyKey] = {
             description: prop.description,
             type: "array",

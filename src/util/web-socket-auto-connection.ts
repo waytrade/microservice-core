@@ -1,11 +1,4 @@
-import {
-  BehaviorSubject,
-  filter,
-  firstValueFrom,
-  map,
-  Observable,
-  Subject,
-} from "rxjs";
+import {BehaviorSubject, filter, map, Observable, Subject} from "rxjs";
 import WebSocket from "ws";
 import {WebSocketCloseCode} from "..";
 
@@ -202,14 +195,6 @@ export class WebSocketAutoConnection {
   /** Get an Observable to receive incomming messages. */
   get onMessage(): Observable<string> {
     return this.messages;
-  }
-
-  /** Wait for a given connection state. */
-  async waitState(state: WebSocketAutoConnectionState): Promise<void> {
-    if (this.state.value === state) {
-      return;
-    }
-    await firstValueFrom(this.state.pipe(filter(s => s === state)));
   }
 
   /** Open the connection to server. */
