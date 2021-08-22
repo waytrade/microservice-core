@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import path from "path";
+import {exit} from "process";
 import {
   arrayProperty,
   controller,
@@ -198,13 +199,20 @@ class ExampleController {
 }
 
 // start the microservice app
-new ExampleApp().start();
+new ExampleApp().start().catch(() => {
+  console.error("Failed to start inventory-service App");
+  exit(1);
+});
 
-// another commonly used function on run-script is:
-//  const app = new ExampleApp();
-//  app.start()
-//    .then(() => {
-//      app.exportOpenApi(path.resolve(__dirname, ".."));
-//      app.stop();
-//    })
+// another commonly used run-script is:
+// new App()
+//  .exportOpenApi(path.resolve(__dirname, ".."))
+//  .then(() => {
+//    console.info("Successfully exported openapi.json");
+//    exit();
+//  })
+//  .catch(() => {
+//    console.error("Failed to export openapi.json");
+//    exit(1);
+//  });
 // to export the openapi.json file to root folder

@@ -197,165 +197,179 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
 
   /**  Start the app. */
   async start(configOverwrites?: Partial<MicroserviceConfig>): Promise<void> {
-    if (this.running) {
-      throw new Error("App is running already.");
-    }
+    try {
+      if (this.running) {
+        throw new Error("App is running already.");
+      }
 
-    // boot the app
+      // boot the app
 
-    if (!this.params.externalContext) {
-      await this.context.boot(configOverwrites);
-    }
+      if (!this.params.externalContext) {
+        await this.context.boot(configOverwrites);
+      }
 
-    this.info("Starting App...");
+      this.info("Starting App...");
 
-    await this.boot();
+      await this.boot();
 
-    // create component instances
+      // create component instances
 
-    if (this.params.apiControllers) {
-      this.params.apiControllers.forEach(ctrl => {
-        const instance = new (<any>ctrl)();
-        this.apiControllers.push({
-          instance,
-          type: ctrl,
-          running: false,
+      if (this.params.apiControllers) {
+        this.params.apiControllers.forEach(ctrl => {
+          const instance = new (<any>ctrl)();
+          this.apiControllers.push({
+            instance,
+            type: ctrl,
+            running: false,
+          });
         });
-      });
-    }
+      }
 
-    if (this.params.callbackControllers) {
-      this.params.callbackControllers.forEach(ctrl => {
-        const instance = new (<any>ctrl)();
-        this.callbackControllers.push({
-          instance,
-          type: ctrl,
-          running: false,
+      if (this.params.callbackControllers) {
+        this.params.callbackControllers.forEach(ctrl => {
+          const instance = new (<any>ctrl)();
+          this.callbackControllers.push({
+            instance,
+            type: ctrl,
+            running: false,
+          });
         });
-      });
-    }
+      }
 
-    if (this.params.services) {
-      this.params.services.forEach(service => {
-        const instance = new (<any>service)();
-        this.services.push({
-          instance,
-          type: service,
-          running: false,
+      if (this.params.services) {
+        this.params.services.forEach(service => {
+          const instance = new (<any>service)();
+          this.services.push({
+            instance,
+            type: service,
+            running: false,
+          });
         });
-      });
-    }
-
-    // boot components
-
-    for (let i = 0; i < this.apiControllers.length; i++) {
-      const ctrl = this.apiControllers[i];
-      const metadata = CONTROLLER_METADATA.get(ctrl.type.name);
-      this.injectProperties(ctrl.type, ctrl.instance, metadata?.injectedProps);
-      if (ctrl.type.boot) {
-        await ctrl.type.boot();
       }
-      if (ctrl.instance.boot) {
-        await ctrl.instance.boot();
+
+      // boot components
+
+      for (let i = 0; i < this.apiControllers.length; i++) {
+        const ctrl = this.apiControllers[i];
+        const metadata = CONTROLLER_METADATA.get(ctrl.type.name);
+        this.injectProperties(
+          ctrl.type,
+          ctrl.instance,
+          metadata?.injectedProps,
+        );
+        if (ctrl.type.boot) {
+          await ctrl.type.boot();
+        }
+        if (ctrl.instance.boot) {
+          await ctrl.instance.boot();
+        }
       }
-    }
 
-    for (let i = 0; i < this.callbackControllers.length; i++) {
-      const ctrl = this.callbackControllers[i];
-      const metadata = CONTROLLER_METADATA.get(ctrl.type.name);
-      this.injectProperties(ctrl.type, ctrl.instance, metadata?.injectedProps);
-      if (ctrl.type.boot) {
-        await ctrl.type.boot();
+      for (let i = 0; i < this.callbackControllers.length; i++) {
+        const ctrl = this.callbackControllers[i];
+        const metadata = CONTROLLER_METADATA.get(ctrl.type.name);
+        this.injectProperties(
+          ctrl.type,
+          ctrl.instance,
+          metadata?.injectedProps,
+        );
+        if (ctrl.type.boot) {
+          await ctrl.type.boot();
+        }
+        if (ctrl.instance.boot) {
+          await ctrl.instance.boot();
+        }
       }
-      if (ctrl.instance.boot) {
-        await ctrl.instance.boot();
+
+      for (let i = 0; i < this.services.length; i++) {
+        const service = this.services[i];
+        const metadata = CONTROLLER_METADATA.get(service.type.name);
+        this.injectProperties(
+          service.type,
+          service.instance,
+          metadata?.injectedProps,
+        );
+        if (service.type.boot) {
+          await service.type.boot();
+        }
+        if (service.instance.boot) {
+          await service.instance.boot();
+        }
       }
-    }
 
-    for (let i = 0; i < this.services.length; i++) {
-      const service = this.services[i];
-      const metadata = CONTROLLER_METADATA.get(service.type.name);
-      this.injectProperties(
-        service.type,
-        service.instance,
-        metadata?.injectedProps,
-      );
-      if (service.type.boot) {
-        await service.type.boot();
-      }
-      if (service.instance.boot) {
-        await service.instance.boot();
-      }
-    }
+      // start servers
 
-    // start servers
+      const wsConfig: MicroserviceWebsocketStreamConfig = {
+        maxBackpressure: this.params.websocketMaxBackpressure,
+        pingInterval: this.params.websocketPingInterval,
+        disablePongMessageReply: this.params.disablePongMessageReply,
+        disableOpCodeHeartbeat: this.params.disableOpCodeHeartbeat,
+      };
 
-    const wsConfig: MicroserviceWebsocketStreamConfig = {
-      maxBackpressure: this.params.websocketMaxBackpressure,
-      pingInterval: this.params.websocketPingInterval,
-      disablePongMessageReply: this.params.disablePongMessageReply,
-      disableOpCodeHeartbeat: this.params.disableOpCodeHeartbeat,
-    };
-
-    this.apiServer = new MicroserviceHttpServer(
-      this.context,
-      this.apiControllers,
-      wsConfig,
-    );
-    this.openApi = new OpenApi(
-      this.context,
-      this.params.apiControllers ?? [],
-      this.apiServer,
-    );
-
-    await this.apiServer.start(this.config.SERVER_PORT);
-
-    if (this.callbackControllers.length) {
-      this.callbackServer = new MicroserviceHttpServer(
+      this.apiServer = new MicroserviceHttpServer(
         this.context,
-        this.callbackControllers,
+        this.apiControllers,
         wsConfig,
       );
-      await this.callbackServer.start(this.config.CALLBACK_PORT);
+      this.openApi = new OpenApi(
+        this.context,
+        this.params.apiControllers ?? [],
+        this.apiServer,
+      );
+
+      await this.apiServer.start(this.config.SERVER_PORT);
+
+      if (this.callbackControllers.length) {
+        this.callbackServer = new MicroserviceHttpServer(
+          this.context,
+          this.callbackControllers,
+          wsConfig,
+        );
+        await this.callbackServer.start(this.config.CALLBACK_PORT);
+      }
+
+      // start components
+
+      for (let i = 0; i < this.apiControllers.length; i++) {
+        const ctrl = this.apiControllers[i];
+        if (ctrl.type.start) {
+          await ctrl.type.start();
+        }
+        if (ctrl.instance.start) {
+          await ctrl.instance.start();
+        }
+        ctrl.running = true;
+      }
+
+      for (let i = 0; i < this.callbackControllers.length; i++) {
+        const ctrl = this.callbackControllers[i];
+        if (ctrl.type.start) {
+          await ctrl.type.start();
+        }
+        if (ctrl.instance.start) {
+          await ctrl.instance.start();
+        }
+        ctrl.running = true;
+      }
+
+      for (let i = 0; i < this.services.length; i++) {
+        const service = this.services[i];
+        if (service.type.start) {
+          await service.type.start();
+        }
+        if (service.instance.start) {
+          await service.instance.start();
+        }
+        service.running = true;
+      }
+
+      this.onStarted();
+      this.running = true;
+    } catch (e) {
+      const msg = typeof e === "string" ? e : e.message ?? e;
+      this.context.error("App start failed: " + msg);
+      throw new Error(msg);
     }
-
-    // start components
-
-    for (let i = 0; i < this.apiControllers.length; i++) {
-      const ctrl = this.apiControllers[i];
-      if (ctrl.type.start) {
-        await ctrl.type.start();
-      }
-      if (ctrl.instance.start) {
-        await ctrl.instance.start();
-      }
-      ctrl.running = true;
-    }
-
-    for (let i = 0; i < this.callbackControllers.length; i++) {
-      const ctrl = this.callbackControllers[i];
-      if (ctrl.type.start) {
-        await ctrl.type.start();
-      }
-      if (ctrl.instance.start) {
-        await ctrl.instance.start();
-      }
-      ctrl.running = true;
-    }
-
-    for (let i = 0; i < this.services.length; i++) {
-      const service = this.services[i];
-      if (service.type.start) {
-        await service.type.start();
-      }
-      if (service.instance.start) {
-        await service.instance.start();
-      }
-      service.running = true;
-    }
-
-    this.onStarted();
-    this.running = true;
   }
 
   /** Stop the app. */
