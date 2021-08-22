@@ -38,6 +38,7 @@ export {WebhookSubscriptionRequest} from "./models/webhook-subscription-request"
 export {WebSocketCloseCode} from "./models/websocket-close-code";
 export {DiffTools} from "./util/diff-tools";
 export {MapExt} from "./util/map-ext";
+export {subscribeUntil} from "./util/rxjs-helper";
 export {MicroserviceTestApp} from "./util/test-app";
 export {
   WebSocketAutoConnection,
