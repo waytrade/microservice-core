@@ -3,8 +3,8 @@
  [![Language grade: JavaScript](https://img.shields.io/lgtm/grade/javascript/g/waytrade/microservice-core.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/waytrade/microservice-core/context:javascript)
  
 [![Test and Publish NPM](https://github.com/waytrade/microservice-core/actions/workflows/publish_npm.yml/badge.svg)](https://github.com/waytrade/microservice-core/actions/workflows/publish_npm.yml)
-[![Core Coverage](https://raw.githubusercontent.com/waytrade/microservice-core/gh-pages/coverage/coverage.svg)](https://waytrade.github.io/microservice-core/coverage/lcov-report)
 [![Test Report](./assets/test-results.svg)](https://waytrade.github.io/microservice-core/jest/) 
+[![Core Coverage](https://raw.githubusercontent.com/waytrade/microservice-core/gh-pages/coverage/coverage.svg)](https://waytrade.github.io/microservice-core/coverage/lcov-report)
 
 [![Publish Docker Images](https://github.com/waytrade/microservice-core/actions/workflows/publish_docker.yml/badge.svg)](https://github.com/waytrade/microservice-core/actions/workflows/publish_docker.yml)
 
