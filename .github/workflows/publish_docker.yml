@@ -1,0 +1,59 @@
+name: "Publish Docker Images"
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "Dockerfile.build"
+      - "Dockerfile.prod"
+
+  publish-production-image:
+    name: "Publish production image"
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: production
+      VERSION: latest
+      DOCKERFILE_NAME: Dockerfile.prod
+    steps:
+      - name: "Checkout source code"
+        uses: "actions/checkout@v2"
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Login to ghcr.io
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build image
+        run: docker build . --file $DOCKERFILE_NAME --tag $IMAGE_NAME
+
+      - name: Push image
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
+
+  publish-production-image:
+    name: "Publish build image"
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: build
+      VERSION: latest
+      DOCKERFILE_NAME: Dockerfile.build
+    steps:
+      - name: "Checkout source code"
+        uses: "actions/checkout@v2"
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Login to ghcr.io
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build image
+        run: docker build . --file $DOCKERFILE_NAME --tag $IMAGE_NAME
+
+      - name: Push image
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
