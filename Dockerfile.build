@@ -10,7 +10,8 @@ RUN apt-get install --no-install-recommends --yes \
   curl \
   ca-certificates \
   openjdk-11-jre \
-  git
+  git \
+  nano
 
 # Install node.js and yarn
 RUN curl -sSL https://deb.nodesource.com/setup_14.x | bash \
