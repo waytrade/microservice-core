@@ -34,7 +34,7 @@ jobs:
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 
-  publish-production-image:
+  publish-build-image:
     name: "Publish build image"
     runs-on: ubuntu-latest
     env:
