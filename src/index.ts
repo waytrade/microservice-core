@@ -37,7 +37,10 @@ export {HttpStatusCode} from "./models/types";
 export {WebhookSubscriptionRequest} from "./models/webhook-subscription-request";
 export {WebSocketCloseCode} from "./models/websocket-close-code";
 export {DiffTools} from "./util/diff-tools";
-export {EventToStreamDispatcher} from "./util/event-to-stream-disaptcher";
+export {
+  EventStreamCommand,
+  EventToStreamDispatcher,
+} from "./util/event-to-stream-disaptcher";
 export {MapExt} from "./util/map-ext";
 export {subscribeUntil} from "./util/rxjs-helper";
 export {MicroserviceTestApp} from "./util/test-app";
