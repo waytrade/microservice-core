@@ -126,16 +126,7 @@ export class EventToStreamDispatcher<EVENT_TYPE extends string, SERVICE_TYPE> {
 
     const eventSourceStream = eventSource(this.service, args);
 
-    // re-subscribe (delayed unsubscribe on old to make sure underyling TWS
-    // subscription stays open while re-subsribe on RxJS Observable)
-
     const oldSubscription = this.subscriptions.get(key);
-    if (oldSubscription) {
-      setTimeout(() => {
-        oldSubscription?.unsubscribe();
-      }, 10);
-    }
-
     const newSubscription = eventSourceStream
       .pipe(takeUntil(this.cancelSubscriptions))
       .subscribe({
@@ -158,6 +149,15 @@ export class EventToStreamDispatcher<EVENT_TYPE extends string, SERVICE_TYPE> {
           );
         },
       });
+
+    oldSubscription?.unsubscribe();
+
+    /*
+    if (oldSubscription) {
+      setTimeout(() => {
+        oldSubscription?.unsubscribe();
+      }, 10);
+    }*/
 
     this.subscriptions.set(key, newSubscription);
   }
