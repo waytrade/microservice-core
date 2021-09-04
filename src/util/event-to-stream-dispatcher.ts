@@ -41,8 +41,12 @@ export class EventToStreamDispatcher<EVENT_TYPE extends string, SERVICE_TYPE> {
       this.closedSubject.next(true);
     });
     stream.onReceived = (message): void => {
-      if (!this.processCommand(message) && this.customCommandHandler) {
-        this.customCommandHandler(message);
+      try {
+        if (!this.processCommand(message) && this.customCommandHandler) {
+          this.customCommandHandler(message);
+        }
+      } catch (e) {
+        stream.close();
       }
     };
   }
@@ -151,13 +155,6 @@ export class EventToStreamDispatcher<EVENT_TYPE extends string, SERVICE_TYPE> {
       });
 
     oldSubscription?.unsubscribe();
-
-    /*
-    if (oldSubscription) {
-      setTimeout(() => {
-        oldSubscription?.unsubscribe();
-      }, 10);
-    }*/
 
     this.subscriptions.set(key, newSubscription);
   }

@@ -40,7 +40,7 @@ export {DiffTools} from "./util/diff-tools";
 export {
   EventStreamCommand,
   EventToStreamDispatcher,
-} from "./util/event-to-stream-disaptcher";
+} from "./util/event-to-stream-dispatcher";
 export {MapExt} from "./util/map-ext";
 export {subscribeUntil} from "./util/rxjs-helper";
 export {MicroserviceTestApp} from "./util/test-app";
