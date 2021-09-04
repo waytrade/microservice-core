@@ -46,6 +46,7 @@ export class EventToStreamDispatcher<EVENT_TYPE extends string, SERVICE_TYPE> {
           this.customCommandHandler(message);
         }
       } catch (e) {
+        this.sendError((e as Error).message);
         stream.close();
       }
     };
