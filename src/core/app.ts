@@ -48,6 +48,18 @@ export interface MicroserviceComponentInstance {
   running: boolean;
 }
 
+/** The default component factory. */
+export class MicroserviceComponentFactory {
+  create(type: unknown): MicroserviceComponentInstance {
+    const instance = new (<any>type)();
+    return {
+      instance,
+      type: type,
+      running: false,
+    };
+  }
+}
+
 /**
  * Base-class for Microservice App implementations.
  */
@@ -60,6 +72,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
   constructor(
     private projectRootFolder: string,
     private readonly params: MicroserviceAppParams,
+    private readonly componentFactory: MicroserviceComponentFactory = new MicroserviceComponentFactory(),
   ) {
     this.context =
       params.externalContext ?? new MicroserviceContext(this.projectRootFolder);
@@ -216,34 +229,19 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
 
       if (this.params.apiControllers) {
         this.params.apiControllers.forEach(ctrl => {
-          const instance = new (<any>ctrl)();
-          this.apiControllers.push({
-            instance,
-            type: ctrl,
-            running: false,
-          });
+          this.apiControllers.push(this.componentFactory.create(ctrl));
         });
       }
 
       if (this.params.callbackControllers) {
         this.params.callbackControllers.forEach(ctrl => {
-          const instance = new (<any>ctrl)();
-          this.callbackControllers.push({
-            instance,
-            type: ctrl,
-            running: false,
-          });
+          this.callbackControllers.push(this.componentFactory.create(ctrl));
         });
       }
 
       if (this.params.services) {
         this.params.services.forEach(service => {
-          const instance = new (<any>service)();
-          this.services.push({
-            instance,
-            type: service,
-            running: false,
-          });
+          this.services.push(this.componentFactory.create(service));
         });
       }
 
@@ -366,7 +364,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
       this.onStarted();
       this.running = true;
     } catch (e) {
-      const msg = typeof e === "string" ? e : e.message ?? e;
+      const msg = typeof e === "string" ? e : (e as Error).message ?? e;
       this.context.error("App start failed: " + msg);
       throw new Error(msg);
     }

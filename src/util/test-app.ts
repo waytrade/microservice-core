@@ -1,5 +1,5 @@
 import {MicroserviceApp, MicroserviceConfig} from "..";
-import {MicroserviceAppParams} from "../core/app";
+import {MicroserviceAppParams, MicroserviceComponentFactory} from "../core/app";
 
 /**
  * Base-class for service test applications.
@@ -7,8 +7,12 @@ import {MicroserviceAppParams} from "../core/app";
 export class MicroserviceTestApp<
   CONFIG_TYPE extends MicroserviceConfig,
 > extends MicroserviceApp<CONFIG_TYPE> {
-  constructor(projectRootFolder: string, params: MicroserviceAppParams) {
-    super(projectRootFolder, params);
+  constructor(
+    projectRootFolder: string,
+    params: MicroserviceAppParams,
+    componentFactory: MicroserviceComponentFactory = new MicroserviceComponentFactory(),
+  ) {
+    super(projectRootFolder, params, componentFactory);
   }
 
   protected async boot(): Promise<void> {

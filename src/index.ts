@@ -1,6 +1,10 @@
 import HttpStatus from "./models/http-status";
 
-export {MicroserviceApp, MicroserviceAppParams} from "./core/app";
+export {
+  MicroserviceApp,
+  MicroserviceAppParams,
+  MicroserviceComponentFactory,
+} from "./core/app";
 export {MicroserviceConfig} from "./core/config";
 export {MicroserviceContext} from "./core/context";
 export {HttpError} from "./core/http-error";
