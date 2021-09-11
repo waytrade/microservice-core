@@ -2,12 +2,11 @@ import path from "path";
 import {Subject} from "rxjs";
 import {
   controller,
-  MicroserviceComponentFactory,
   MicroserviceConfig,
   MicroserviceTestApp,
   service,
 } from "../../..";
-import {MicroserviceComponentInstance} from "../../../core/app";
+import {DefaultMicroserviceComponentFactory} from "../../../core/app";
 
 @controller("Test Controller")
 class TestController {
@@ -39,21 +38,13 @@ class TestServiceMock {
   }
 }
 
-class MockComponentFactory extends MicroserviceComponentFactory {
-  override create(type: unknown): MicroserviceComponentInstance {
+class MockComponentFactory extends DefaultMicroserviceComponentFactory {
+  override create(type: unknown): unknown {
     switch (typeof type) {
       case typeof TestController:
-        return {
-          type,
-          instance: new TestControllerMock(),
-          running: false,
-        };
+        return new TestControllerMock();
       case typeof TestService:
-        return {
-          type,
-          instance: new TestServiceMock(),
-          running: false,
-        };
+        return new TestServiceMock();
     }
     return super.create(type);
   }

@@ -16,7 +16,7 @@ import {requestBody} from "../../../decorators/request-body.decorator";
 const TEST_CONTROLLER_PATH = "/api";
 @controller(
   "Controller to echo websocket messages back to sender",
-  undefined /* '/api' */,
+  TEST_CONTROLLER_PATH,
 )
 class WebsocketTestController {
   @websocket("/echo")

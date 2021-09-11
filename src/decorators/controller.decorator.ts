@@ -10,8 +10,8 @@ export function controller(endpointName: string, baseUrl?: string) {
     );
 
     meta.endpointName = endpointName;
-    meta.baseUrl = baseUrl ?? "/api";
-    if (!meta.baseUrl.startsWith("/")) {
+    meta.baseUrl = baseUrl ?? "";
+    if (meta.baseUrl.length && !meta.baseUrl.startsWith("/")) {
       meta.baseUrl = "/" + meta.baseUrl;
     }
 

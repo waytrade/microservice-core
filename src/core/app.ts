@@ -48,15 +48,17 @@ export interface MicroserviceComponentInstance {
   running: boolean;
 }
 
+/** The component factory. */
+export interface MicroserviceComponentFactory {
+  create(type: unknown): unknown;
+}
+
 /** The default component factory. */
-export class MicroserviceComponentFactory {
-  create(type: unknown): MicroserviceComponentInstance {
-    const instance = new (<any>type)();
-    return {
-      instance,
-      type: type,
-      running: false,
-    };
+export class DefaultMicroserviceComponentFactory
+  implements MicroserviceComponentFactory
+{
+  create(type: unknown): unknown {
+    return new (<any>type)();
   }
 }
 
@@ -72,7 +74,7 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
   constructor(
     private projectRootFolder: string,
     private readonly params: MicroserviceAppParams,
-    private readonly componentFactory: MicroserviceComponentFactory = new MicroserviceComponentFactory(),
+    private readonly componentFactory: MicroserviceComponentFactory = new DefaultMicroserviceComponentFactory(),
   ) {
     this.context =
       params.externalContext ?? new MicroserviceContext(this.projectRootFolder);
@@ -229,19 +231,31 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
 
       if (this.params.apiControllers) {
         this.params.apiControllers.forEach(ctrl => {
-          this.apiControllers.push(this.componentFactory.create(ctrl));
+          this.apiControllers.push({
+            type: ctrl,
+            instance: this.componentFactory.create(ctrl),
+            running: false,
+          });
         });
       }
 
       if (this.params.callbackControllers) {
         this.params.callbackControllers.forEach(ctrl => {
-          this.callbackControllers.push(this.componentFactory.create(ctrl));
+          this.callbackControllers.push({
+            type: ctrl,
+            instance: this.componentFactory.create(ctrl),
+            running: false,
+          });
         });
       }
 
       if (this.params.services) {
         this.params.services.forEach(service => {
-          this.services.push(this.componentFactory.create(service));
+          this.services.push({
+            type: service,
+            instance: this.componentFactory.create(service),
+            running: false,
+          });
         });
       }
 

@@ -20,8 +20,8 @@ const ROOT_FOLDER = path.resolve(__dirname, "../../..");
 /** TestController response object */
 const TEST_RESPONSE: CustomAppResponse = {val: Math.random()};
 
-/** A test controller that replies with TEST_RESPONSE on /api */
-@controller("A Controller that responses a predefined object")
+/** A test controller that replies with TEST_RESPONSE */
+@controller("A Controller that responses a predefined object", "/api")
 class CustomAppController {
   @get("/")
   static get(): unknown {

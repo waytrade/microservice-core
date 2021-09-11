@@ -42,6 +42,7 @@ export class MethodMetadata {
   readonly callbackRefs = new MapExt<string, string>();
   bearerAuthScopes?: string[];
   websocket?: boolean;
+  readonly vendorExtensions = new MapExt<string, string>();
 }
 
 /**

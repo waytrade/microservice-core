@@ -34,6 +34,10 @@ export {responseBody} from "./decorators/response-body.decorator";
 export {response} from "./decorators/response.decorator";
 export {service} from "./decorators/service.decorator";
 export {summary} from "./decorators/summary.decorator";
+export {
+  pathVendorExtension,
+  VENDOR_EXTENSION_WAYTRADE_EXPOSE_WITH_PERMISSIONS,
+} from "./decorators/vendor-extensions.decorator";
 export {websocket} from "./decorators/websocket.decorator";
 export {MicroserviceRequest} from "./models/microservice-request";
 export {MicroserviceStream} from "./models/microservice-stream";
