@@ -1,6 +1,7 @@
 import HttpStatus from "./models/http-status";
 
 export {
+  DefaultMicroserviceComponentFactory,
   MicroserviceApp,
   MicroserviceAppParams,
   MicroserviceComponentFactory,
