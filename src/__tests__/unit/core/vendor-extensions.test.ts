@@ -8,27 +8,21 @@ import {
   MicroserviceConfig,
   MicroserviceTestApp,
   pathVendorExtension,
-  VENDOR_EXTENSION_WAYTRADE_EXPOSE_WITH_PERMISSIONS,
 } from "../../..";
 
+const EXTENSION_NAME = "my-extension";
 const EXTENSION_VALUE = "testValue";
 
 @controller("Test Controller")
 class TestController {
   @get("/foo")
-  @pathVendorExtension(
-    VENDOR_EXTENSION_WAYTRADE_EXPOSE_WITH_PERMISSIONS,
-    EXTENSION_VALUE,
-  )
+  @pathVendorExtension(EXTENSION_NAME, EXTENSION_VALUE)
   foo(): string {
     return "foo";
   }
 
   @get("/staticFoo")
-  @pathVendorExtension(
-    VENDOR_EXTENSION_WAYTRADE_EXPOSE_WITH_PERMISSIONS,
-    EXTENSION_VALUE,
-  )
+  @pathVendorExtension(EXTENSION_NAME, EXTENSION_VALUE)
   static staticFoo(): string {
     return "staticFoo";
   }
@@ -62,20 +56,16 @@ describe("Test OpenAPI vendor extensions", () => {
       const fooPath = response.data.paths["/foo"] as PathItemObject;
       expect(fooPath.get).toBeDefined();
       if (fooPath.get) {
-        expect(
-          fooPath.get["x-" + VENDOR_EXTENSION_WAYTRADE_EXPOSE_WITH_PERMISSIONS],
-        ).toEqual(EXTENSION_VALUE);
+        expect(fooPath.get["x-" + EXTENSION_NAME]).toEqual(EXTENSION_VALUE);
       }
 
       expect(response.data.paths["/staticFoo"]).toBeDefined();
       const staticFooPath = response.data.paths["/staticFoo"] as PathItemObject;
       expect(staticFooPath.get).toBeDefined();
       if (staticFooPath.get) {
-        expect(
-          staticFooPath.get[
-            "x-" + VENDOR_EXTENSION_WAYTRADE_EXPOSE_WITH_PERMISSIONS
-          ],
-        ).toEqual(EXTENSION_VALUE);
+        expect(staticFooPath.get["x-" + EXTENSION_NAME]).toEqual(
+          EXTENSION_VALUE,
+        );
       }
     }
   });
