@@ -220,13 +220,7 @@ export class OpenApi {
           this.addModelToSchemas(builder, type, nestedType);
         } else {
           const enumModelMeta = ENUM_MODEL_METADATA.get(type);
-          if (enumModelMeta) {
-            properties[prop.propertyKey] = this.addEnumModelToSchemas(
-              builder,
-              prop.type,
-              enumModelMeta,
-            );
-          } else {
+          if (!enumModelMeta) {
             properties[prop.propertyKey] = {
               description: prop.description,
               type: "object",
