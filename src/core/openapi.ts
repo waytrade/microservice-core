@@ -23,6 +23,7 @@ import {
   CONTROLLER_METADATA,
   EnumModelMetadata,
   ENUM_MODEL_METADATA,
+  MethodMetadata,
   ModelMetadata,
   MODEL_METADATA
 } from "./metadata";
@@ -68,35 +69,25 @@ export class OpenApi {
       running: true,
     };
 
-    server?.registerGetRoute(component, "getHtml", false, "/", "text/html");
-    server?.registerGetRoute(
-      component,
-      "getSwaggerUiCss",
-      false,
-      SWAGGER_UI_CSS_URL,
-      "text/css",
-    );
-    server?.registerGetRoute(
-      component,
-      "getSwaggerUiBundleJs",
-      false,
-      SWAGGER_UI_BUNDLE_JS_URL,
-      "text/javascript",
-    );
-    server?.registerGetRoute(
-      component,
-      "getSwaggerUiStandalonePresetJs",
-      false,
-      SWAGGER_UI_STANDALONE_PRESET_JS_URL,
-      "text/javascript",
-    );
-    server?.registerGetRoute(
-      component,
-      "getOpenApiModel",
-      false,
-      OPENAPI_JSON_URL,
-      "application/json",
-    );
+    let method = new MethodMetadata("getHtml", false);
+    method.contentType = "text/html";
+    server?.registerGetRoute(component, method, "/");
+
+    method = new MethodMetadata("getSwaggerUiCss", false);
+    method.contentType = "text/html";
+    server?.registerGetRoute(component, method, SWAGGER_UI_CSS_URL);
+
+    method = new MethodMetadata("getSwaggerUiBundleJs", false);
+    method.contentType = "text/javascript";
+    server?.registerGetRoute( component, method, SWAGGER_UI_BUNDLE_JS_URL);
+
+    method = new MethodMetadata("getSwaggerUiStandalonePresetJs", false);
+    method.contentType = "text/javascript";
+    server?.registerGetRoute(component, method, SWAGGER_UI_STANDALONE_PRESET_JS_URL);
+
+    method = new MethodMetadata("getOpenApiModel", false);
+    method.contentType = "application/json";
+    server?.registerGetRoute(component, method, OPENAPI_JSON_URL);
   }
 
   /** Build the OpenApi model. */
@@ -225,7 +216,7 @@ export class OpenApi {
               description: prop.description,
               $ref: `#/components/schemas/${type}`,
             };
-            this.addEnumModelToSchemas(builder, type, enumModelMeta)
+            this.addEnumModelToSchemas(builder, type, enumModelMeta);
           } else {
             properties[prop.propertyKey] = {
               description: prop.description,

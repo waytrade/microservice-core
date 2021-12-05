@@ -121,7 +121,12 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
   /** Called when the microservice has been stopped. */
   protected onStopped(): void {
     this.info("App stopped.");
+    delete this.openApi;
   }
+
+  /** Verfiy a bearer auth token. */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected onVerifyBearerAuth?: (token: string, scopes: string[]) => boolean;
 
   /** Get the service configuration */
   get config(): CONFIG_TYPE {
@@ -322,6 +327,15 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
         this.context,
         this.apiControllers,
         wsConfig,
+        (token, scopes) => {
+          if (this.onVerifyBearerAuth) {
+            return this.onVerifyBearerAuth(token, scopes);
+          }
+          this.error(
+            "onVerifyBearerAuth not implement, rejecting request."
+          );
+          return false;
+        }
       );
       this.openApi = new OpenApi(
         this.context,
@@ -336,6 +350,15 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
           this.context,
           this.callbackControllers,
           wsConfig,
+          (token, scopes) => {
+            if (this.onVerifyBearerAuth) {
+              return this.onVerifyBearerAuth(token, scopes);
+            }
+            this.error(
+              "onVerifyBearerAuth not implement, rejecting request."
+            );
+            return false;
+          }
         );
         await this.callbackServer.start(this.config.CALLBACK_PORT);
       }

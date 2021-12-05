@@ -8,7 +8,7 @@ import {
   MicroserviceContext,
   patch,
   post,
-  put,
+  put
 } from "../../../";
 import {MicroserviceComponentInstance} from "../../../core/app";
 import {MicroserviceHttpServer} from "../../../core/http-server";
@@ -70,7 +70,7 @@ describe("Test MicroserviceHttpServer class", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, component);
+      const server = new MicroserviceHttpServer(context, component, undefined, () => true);
       expect(server.listeningPort).toBeUndefined();
       server
         .start()
@@ -96,7 +96,7 @@ describe("Test MicroserviceHttpServer class", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, component);
+      const server = new MicroserviceHttpServer(context, component, undefined, () => true);
       server
         .start(FIXED_PORT)
         .then(() => {
@@ -121,7 +121,7 @@ describe("Test MicroserviceHttpServer class", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, component);
+      const server = new MicroserviceHttpServer(context, component, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -158,7 +158,7 @@ describe("Test MicroserviceHttpServer class", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, component);
+      const server = new MicroserviceHttpServer(context, component, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -196,7 +196,7 @@ describe("Test MicroserviceHttpServer class", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, component);
+      const server = new MicroserviceHttpServer(context, component, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -237,7 +237,7 @@ describe("Test MicroserviceHttpServer class", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, component);
+      const server = new MicroserviceHttpServer(context, component, undefined, () => true);
       server
         .start()
         .then(() => {

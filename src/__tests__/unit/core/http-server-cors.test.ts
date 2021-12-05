@@ -32,7 +32,7 @@ describe("Test MicroserviceHttpServer class", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, component);
+      const server = new MicroserviceHttpServer(context, component, undefined, () => true);
       expect(server.listeningPort).toBeUndefined();
       server
         .start()

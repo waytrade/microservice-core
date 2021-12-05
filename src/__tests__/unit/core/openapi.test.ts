@@ -3,7 +3,7 @@ import {
   OpenAPIObject,
   ParameterObject,
   PathItemObject,
-  SchemaObject,
+  SchemaObject
 } from "openapi3-ts";
 import path from "path";
 import {
@@ -28,7 +28,7 @@ import {
   response,
   responseBody,
   summary,
-  webhookCallback,
+  webhookCallback
 } from "../../..";
 import {MicroserviceComponentInstance} from "../../../core/app";
 import {MicroserviceHttpServer} from "../../../core/http-server";
@@ -349,7 +349,7 @@ describe("Test decorators and OpenAPI", () => {
         },
       ];
 
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       const openApiGenerator = new OpenApi(context, controllers, server);
 
       server
@@ -390,7 +390,7 @@ describe("Test decorators and OpenAPI", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       const openApiGenerator = new OpenApi(context, controllers, server);
 
       server
@@ -576,7 +576,7 @@ describe("Test decorators and OpenAPI", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       const openApiGenerator = new OpenApi(context, controllers, server);
 
       server
@@ -771,7 +771,7 @@ describe("Test decorators and OpenAPI", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       const openApiGenerator = new OpenApi(context, controllers, server);
 
       server
@@ -808,7 +808,7 @@ describe("Test decorators and OpenAPI", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       const openApiGenerator = new OpenApi(context, controllers, server);
 
       server
@@ -847,7 +847,7 @@ describe("Test decorators and OpenAPI", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       const openApiGenerator = new OpenApi(context, controllers, server);
 
       server
@@ -886,7 +886,7 @@ describe("Test decorators and OpenAPI", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       const openApiGenerator = new OpenApi(context, controllers, server);
 
       server

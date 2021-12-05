@@ -7,7 +7,7 @@ import {
   MicroserviceStream,
   WebhookSubscriptionRequest,
   websocket,
-  WebSocketAutoConnection,
+  WebSocketAutoConnection
 } from "../../..";
 import {MicroserviceComponentInstance} from "../../../core/app";
 import {MicroserviceHttpServer} from "../../../core/http-server";
@@ -95,7 +95,7 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
         },
       ];
 
-      const server = new MicroserviceHttpServer(context, components);
+      const server = new MicroserviceHttpServer(context, components, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -135,7 +135,7 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
         },
       ];
 
-      const server = new MicroserviceHttpServer(context, components);
+      const server = new MicroserviceHttpServer(context, components, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -186,7 +186,7 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
         },
       ];
 
-      const server = new MicroserviceHttpServer(context, components);
+      const server = new MicroserviceHttpServer(context, components, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -244,7 +244,7 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
         },
       ];
 
-      const server = new MicroserviceHttpServer(context, components);
+      const server = new MicroserviceHttpServer(context, components, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -286,7 +286,7 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
         },
       ];
 
-      const server = new MicroserviceHttpServer(context, components);
+      const server = new MicroserviceHttpServer(context, components, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -328,7 +328,7 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
         },
       ];
 
-      const server = new MicroserviceHttpServer(context, components);
+      const server = new MicroserviceHttpServer(context, components, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -371,7 +371,7 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
         },
       ];
 
-      const server = new MicroserviceHttpServer(context, components);
+      const server = new MicroserviceHttpServer(context, components, undefined, () => true);
       server
         .start()
         .then(() => {

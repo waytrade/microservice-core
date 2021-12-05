@@ -10,7 +10,7 @@ import {
   MicroserviceRequest,
   patch,
   post,
-  put,
+  put
 } from "../../..";
 import {MicroserviceComponentInstance} from "../../../core/app";
 import {HttpError} from "../../../core/http-error";
@@ -110,7 +110,7 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -156,7 +156,7 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -193,7 +193,7 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -243,7 +243,7 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -280,7 +280,7 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -330,7 +330,7 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -367,7 +367,7 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -417,7 +417,7 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -454,7 +454,7 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       server
         .start()
         .then(() => {
@@ -500,7 +500,7 @@ describe("Test MicroserviceHttpServer blocking handlers", () => {
           running: true,
         },
       ];
-      const server = new MicroserviceHttpServer(context, controllers);
+      const server = new MicroserviceHttpServer(context, controllers, undefined, () => true);
       server
         .start()
         .then(() => {

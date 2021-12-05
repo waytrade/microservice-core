@@ -9,7 +9,7 @@ import {
   WebSocketAutoConnection,
   WebSocketAutoConnectionCloseSource,
   WebSocketAutoConnectionState,
-  WebSocketCloseCode,
+  WebSocketCloseCode
 } from "../../..";
 import {MicroserviceComponentInstance} from "../../../core/app";
 import {MicroserviceHttpServer} from "../../../core/http-server";
@@ -56,7 +56,7 @@ describe("Test WebSocketAutoConnection", () => {
 
   test("Connect to invalid URL", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, components);
+      const server = new MicroserviceHttpServer(context, components, undefined, () => true);
       server.start().then(() => {
         const ws = new WebSocketAutoConnection(`ws://127.0.0.1:-1/echo`);
 
@@ -75,7 +75,7 @@ describe("Test WebSocketAutoConnection", () => {
 
   test("Connect to invalid host", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, components);
+      const server = new MicroserviceHttpServer(context, components, undefined, () => true);
       server.start().then(() => {
         const ws = new WebSocketAutoConnection(`ws://127.0.0.1:0/echo`);
 
@@ -94,7 +94,7 @@ describe("Test WebSocketAutoConnection", () => {
 
   test("Multiple connect/close", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, components);
+      const server = new MicroserviceHttpServer(context, components, undefined, () => true);
       server.start().then(() => {
         const wsc = new WebSocketAutoConnection(
           `ws://127.0.0.1:${server.listeningPort}/echo`,
@@ -134,7 +134,7 @@ describe("Test WebSocketAutoConnection", () => {
       return new Promise<void>((resolve, reject) => {
         const server = new MicroserviceHttpServer(context, components, {
           pingInterval: PING_INTERVAL,
-        });
+        }, () => true);
         server.start().then(() => {
           const CLOSE_CODE = WebSocketCloseCode.FIRST_CUSTOM;
           const wsc = new WebSocketAutoConnection(
@@ -169,7 +169,7 @@ describe("Test WebSocketAutoConnection", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, components, {
         disableOpCodeHeartbeat: true, // for testing this code-path
-      });
+      }, () => true);
       server.start().then(() => {
         const CLOSE_CODE = WebSocketCloseCode.FIRST_CUSTOM + 1;
         const CLOSE_REASON = "test close reason";
@@ -213,7 +213,7 @@ describe("Test WebSocketAutoConnection", () => {
 
   test("Auto-reconnect after server restart", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, components);
+      const server = new MicroserviceHttpServer(context, components, undefined, () => true);
       server.start().then(() => {
         const AUTO_RECONNECT_DELAY = 1;
 
@@ -293,7 +293,7 @@ describe("Test WebSocketAutoConnection", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, components, {
         disablePongMessageReply: true,
-      });
+      }, () => true);
 
       server.start().then(() => {
         expect(server.listeningPort).toBeGreaterThan(0);
@@ -349,7 +349,7 @@ describe("Test WebSocketAutoConnection", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, components, {
         disablePongMessageReply: true,
-      });
+      }, () => true);
 
       server.start().then(() => {
         expect(server.listeningPort).toBeGreaterThan(0);
@@ -403,7 +403,7 @@ describe("Test WebSocketAutoConnection", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, components, {
         disablePongMessageReply: true,
-      });
+      }, () => true);
 
       server.start().then(() => {
         const wsc = new WebSocketAutoConnection(
@@ -438,7 +438,7 @@ describe("Test WebSocketAutoConnection", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, components, {
         disablePongMessageReply: true,
-      });
+      }, () => true);
 
       server.start().then(() => {
         expect(server.listeningPort).not.toEqual(0);
@@ -484,7 +484,7 @@ describe("Test WebSocketAutoConnection", () => {
     return new Promise<void>((resolve, reject) => {
       const server = new MicroserviceHttpServer(context, components, {
         disablePongMessageReply: false,
-      });
+      }, () => true);
 
       server.start().then(() => {
         expect(server.listeningPort).not.toEqual(0);
@@ -529,7 +529,7 @@ describe("Test WebSocketAutoConnection", () => {
 
   test("Auto re-connection (state sequence)", () => {
     return new Promise<void>((resolve, reject) => {
-      const server = new MicroserviceHttpServer(context, components);
+      const server = new MicroserviceHttpServer(context, components, undefined, () => true);
       server.start().then(() => {
         const AUTO_RECONNECT_DELAY = 1;
 
