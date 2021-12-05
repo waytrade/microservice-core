@@ -9,7 +9,7 @@ import {
   PathItemObject,
   RequestBodyObject,
   ResponsesObject,
-  SchemaObject,
+  SchemaObject
 } from "openapi3-ts";
 import path from "path";
 import SwaggerUI from "swagger-ui-dist";
@@ -24,7 +24,7 @@ import {
   EnumModelMetadata,
   ENUM_MODEL_METADATA,
   ModelMetadata,
-  MODEL_METADATA,
+  MODEL_METADATA
 } from "./metadata";
 
 const SWAGGER_UI_CSS_URL = "/swagger-ui.css";
@@ -220,7 +220,13 @@ export class OpenApi {
           this.addModelToSchemas(builder, type, nestedType);
         } else {
           const enumModelMeta = ENUM_MODEL_METADATA.get(type);
-          if (!enumModelMeta) {
+          if (enumModelMeta) {
+            properties[prop.propertyKey] = {
+              description: prop.description,
+              $ref: `#/components/schemas/${type}`,
+            };
+            this.addEnumModelToSchemas(builder, type, enumModelMeta)
+          } else {
             properties[prop.propertyKey] = {
               description: prop.description,
               type: "object",
