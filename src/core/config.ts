@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as dotenv from "dotenv";
 import {readFileSync} from "fs";
 import * as path from "path";
@@ -65,8 +66,8 @@ function readJson(readPath: string): unknown {
     return JSON.parse(data);
   } catch (error) {
     if (
-      error.code !== "ENOENT" ||
-      (error.errno !== -4058 && error.errno !== -2)
+      (<any>error).code !== "ENOENT" ||
+      ((<any>error).errno !== -4058 && (<any>error).errno !== -2)
     ) {
       throw error;
     }

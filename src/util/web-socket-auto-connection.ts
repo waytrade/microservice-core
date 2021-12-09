@@ -270,7 +270,7 @@ export class WebSocketAutoConnection {
     try {
       this.ws = new WebSocket(this.url);
     } catch (e) {
-      this.errorSubject.next(e);
+      this.errorSubject.next(<Error>e);
       return;
     }
 
@@ -303,13 +303,13 @@ export class WebSocketAutoConnection {
 
     this.ws.on("close", (code, reason) => {
       delete this.ws;
-      this.shutdown(code, reason);
+      this.shutdown(code, reason.toString());
       if (this.permanentlyClosed) {
         this.updateState(WebSocketAutoConnectionState.CLOSED);
       } else {
         this.closeReason.source = WebSocketAutoConnectionCloseSource.SERVER;
         this.closeReason.code = code;
-        this.closeReason.reason = reason;
+        this.closeReason.reason = reason.toString();
         this.updateState(WebSocketAutoConnectionState.CONNECTION_LOST);
         this.reconnectDelayed();
       }

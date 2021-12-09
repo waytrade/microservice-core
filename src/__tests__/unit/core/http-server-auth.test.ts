@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 import Cookie from "cookie";
 import path from "path";
 import {bearerAuth, controller, get, HttpStatus, MicroserviceConfig, MicroserviceTestApp} from "../../..";
@@ -104,7 +104,7 @@ describe("Test MicroserviceHttpServer class", () => {
       )
       throw "This must fail"
     } catch(e) {
-      expect(e.response.status).toBe(HttpStatus.UNAUTHORIZED);
+      expect((<AxiosError>e).response?.status).toBe(HttpStatus.UNAUTHORIZED);
     }
   });
 
@@ -118,7 +118,7 @@ describe("Test MicroserviceHttpServer class", () => {
       )
       throw "This must fail"
     } catch(e) {
-      expect(e.response.status).toBe(HttpStatus.UNAUTHORIZED);
+      expect((<AxiosError>e).response?.status).toBe(HttpStatus.UNAUTHORIZED);
     }
   });
 
@@ -134,7 +134,7 @@ describe("Test MicroserviceHttpServer class", () => {
       )
       throw "This must fail"
     } catch(e) {
-      expect(e.response.status).toBe(HttpStatus.UNAUTHORIZED);
+      expect((<AxiosError>e).response?.status).toBe(HttpStatus.UNAUTHORIZED);
     }
   });
 
@@ -182,7 +182,7 @@ describe("Test MicroserviceHttpServer class", () => {
       )
       throw "This must fail"
     } catch(e) {
-      expect(e.response.status).toBe(HttpStatus.UNAUTHORIZED);
+      expect((<AxiosError>e).response?.status).toBe(HttpStatus.UNAUTHORIZED);
     }
   });
 
@@ -196,7 +196,7 @@ describe("Test MicroserviceHttpServer class", () => {
       )
       throw "This must fail"
     } catch(e) {
-      expect(e.response.status).toBe(HttpStatus.UNAUTHORIZED);
+      expect((<AxiosError>e).response?.status).toBe(HttpStatus.UNAUTHORIZED);
     }
   });
 
@@ -212,7 +212,7 @@ describe("Test MicroserviceHttpServer class", () => {
       )
       throw "This must fail"
     } catch(e) {
-      expect(e.response.status).toBe(HttpStatus.UNAUTHORIZED);
+      expect((<AxiosError>e).response?.status).toBe(HttpStatus.UNAUTHORIZED);
     }
   });
 });

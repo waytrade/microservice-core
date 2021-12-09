@@ -5,7 +5,7 @@ describe("Test RxJS helper", () => {
   test("subscribeUntil (with Subject<unknown>)", () => {
     return new Promise<void>((resolve, reject) => {
       const cancelSignal = new Subject();
-      const observable = new Subject<boolean>();
+      const observable = new Subject<unknown>();
 
       subscribeUntil(cancelSignal, observable, {
         next: val => {
@@ -13,12 +13,12 @@ describe("Test RxJS helper", () => {
           cancelSignal.next(true);
         },
         complete: () => {
-          resolve();
+          reject();
         },
         error: err => {
           reject(err);
         },
-      });
+      }).then(() => resolve());
 
       observable.next(true);
     });
@@ -27,22 +27,21 @@ describe("Test RxJS helper", () => {
   test("subscribeUntil (with Subject<void>)", () => {
     return new Promise<void>((resolve, reject) => {
       const cancelSignal = new Subject<void>();
-      const observable = new Subject<boolean>();
+      const observable = new Subject<void>();
 
       subscribeUntil(cancelSignal, observable, {
-        next: val => {
-          expect(val).toBeTruthy();
+        next: () => {
           cancelSignal.next();
         },
         complete: () => {
-          resolve();
+          reject();
         },
         error: err => {
           reject(err);
         },
-      });
+      }).then(() => resolve());
 
-      observable.next(true);
+      observable.next();
     });
   });
 });

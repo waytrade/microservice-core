@@ -2,7 +2,7 @@
 # Docker image for production
 #
 
-FROM node:14-alpine
+FROM node:16-alpine
 RUN apk update && apk add --no-cache libc6-compat nano
 
 # ld-linux-x86-64 is required by uWebsocket
