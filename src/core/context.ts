@@ -67,7 +67,7 @@ export class MicroserviceContext {
 
     if (config.LOG_TO_CONSOLE) {
       this.registerLogObserver(
-        new PinoConsoleLogger(config.NAME, this.logLevel),
+        new PinoConsoleLogger(config.NAME, this.logLevel, !config.isProduction),
       );
     }
 

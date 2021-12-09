@@ -152,9 +152,9 @@ export async function readConfiguration(
   config.VERSION = pkg?.version;
   config.DESCRIPTION = pkg?.description;
 
-  config.isProduction = nodeEnvironment === "production";
-  config.isDevelopment = nodeEnvironment === "development" || !nodeEnvironment;
+  config.isDevelopment = nodeEnvironment === "development";
   config.isTest = nodeEnvironment === "test";
+  config.isProduction = !config.isDevelopment && !config.isTest;
 
   // overwrite
 

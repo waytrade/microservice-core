@@ -17,7 +17,7 @@ import {
   responseBody,
   service,
   summary,
-  websocket,
+  websocket
 } from ".";
 import {HttpError} from "./core/http-error";
 import {enumProperty} from "./decorators/property.decorator";
@@ -199,8 +199,8 @@ class ExampleController {
 }
 
 // start the microservice app
-new ExampleApp().start().catch(() => {
-  console.error("Failed to start inventory-service App");
+new ExampleApp().start().catch((e) => {
+  console.error("Failed to start App" + e);
   exit(1);
 });
 
