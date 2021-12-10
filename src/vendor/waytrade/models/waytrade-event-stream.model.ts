@@ -32,6 +32,7 @@ export class WaytradeEventMessage {
   /** The message type. 'publish' if not specified. */
   @enumProperty(
     "WaytradeEventMessageType",
+    WaytradeEventMessageType,
     "The message type. 'publish' if not specified and error is undefined.",
   )
   type?: WaytradeEventMessageType;

@@ -23,6 +23,7 @@ import {HttpError} from "./core/http-error";
 import {enumProperty} from "./decorators/property.decorator";
 import {requestBody} from "./decorators/request-body.decorator";
 import {MicroserviceRequest} from "./models/microservice-request";
+import {WaytradeEventMessageType} from "./vendor/waytrade";
 
 /**
  * This is an example microservice application.
@@ -94,7 +95,14 @@ class ExampleModel {
     ExampleModelEnum,
     "A ExampleModelEnum enum property",
   )
-  modelEnumProp?: ExampleModelEnum[];
+  modelEnumProp?: ExampleModelEnum;
+
+  @enumProperty(
+    "WaytradeEventMessageType",
+    WaytradeEventMessageType,
+    "A WaytradeEventMessageType enum property",
+  )
+  modelEnumProp2?: WaytradeEventMessageType;
 }
 
 /**
