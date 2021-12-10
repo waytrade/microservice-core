@@ -11,6 +11,9 @@
         "--trace-warnings"
       ],
       "program": "${workspaceFolder}/dist/example.js",
+      "env": {
+        "NODE_ENV": "development"
+      },
       "outputCapture": "std",
       "resolveSourceMapLocations": [
         "${workspaceFolder}/**",

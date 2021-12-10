@@ -74,7 +74,7 @@ export class OpenApi {
     server?.registerGetRoute(component, method, "/");
 
     method = new MethodMetadata("getSwaggerUiCss", false);
-    method.contentType = "text/html";
+    method.contentType = "text/css";
     server?.registerGetRoute(component, method, SWAGGER_UI_CSS_URL);
 
     method = new MethodMetadata("getSwaggerUiBundleJs", false);
@@ -246,7 +246,7 @@ export class OpenApi {
   }
 
   /** Get the index.html contents. */
-  getHtml(): string {
+  async getHtml(): Promise<string> {
     return SWAGGER_INDEX_HTML;
   }
 
