@@ -417,11 +417,13 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
     // stop the api controllers
 
     for (let i = 0; i < this.apiControllers.length; i++) {
-      if (this.apiControllers[i].instance.stop) {
-        this.apiControllers[i].instance.stop();
-      }
-      if (this.apiControllers[i].type.stop) {
-        this.apiControllers[i].type.stop();
+      if (this.apiControllers[i].running) {
+        if (this.apiControllers[i].instance.stop) {
+          this.apiControllers[i].instance.stop();
+        }
+        if (this.apiControllers[i].type.stop) {
+          this.apiControllers[i].type.stop();
+        }
       }
     }
 
@@ -430,11 +432,13 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
     // stop the callback controllers
 
     for (let i = 0; i < this.callbackControllers.length; i++) {
-      if (this.callbackControllers[i].instance.stop) {
-        this.callbackControllers[i].instance.stop();
-      }
-      if (this.callbackControllers[i].type.stop) {
-        this.callbackControllers[i].type.stop();
+      if (this.callbackControllers[i].running) {
+        if (this.callbackControllers[i].instance.stop) {
+          this.callbackControllers[i].instance.stop();
+        }
+        if (this.callbackControllers[i].type.stop) {
+          this.callbackControllers[i].type.stop();
+        }
       }
     }
 
@@ -443,11 +447,13 @@ export abstract class MicroserviceApp<CONFIG_TYPE extends MicroserviceConfig> {
     // stop the services
 
     for (let i = 0; i < this.services.length; i++) {
-      if (this.services[i].instance.stop) {
-        this.services[i].instance.stop();
-      }
-      if (this.services[i].type.stop) {
-        this.services[i].type.stop();
+      if (this.services[i].running) {
+        if (this.services[i].instance.stop) {
+          this.services[i].instance.stop();
+        }
+        if (this.services[i].type.stop) {
+          this.services[i].type.stop();
+        }
       }
     }
 
