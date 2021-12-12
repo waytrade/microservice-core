@@ -4,7 +4,7 @@ export {
   DefaultMicroserviceComponentFactory,
   MicroserviceApp,
   MicroserviceAppParams,
-  MicroserviceComponentFactory,
+  MicroserviceComponentFactory
 } from "./core/app";
 export {MicroserviceConfig} from "./core/config";
 export {MicroserviceContext} from "./core/context";
@@ -21,14 +21,14 @@ export {
   patch,
   post,
   put,
-  webhookCallback,
+  webhookCallback
 } from "./decorators/operation.decorator";
 export {pathParameter} from "./decorators/path-parameter.decorator";
 export {pathVendorExtension} from "./decorators/path-vendor-extensions.decorator";
 export {
   arrayProperty,
   enumProperty,
-  property,
+  property
 } from "./decorators/property.decorator";
 export {queryParameter} from "./decorators/query-parameter.decorator";
 export {requestBody} from "./decorators/request-body.decorator";
@@ -46,12 +46,6 @@ export {DiffTools} from "./util/diff-tools";
 export {MapExt} from "./util/map-ext";
 export {subscribeUntil} from "./util/rxjs-helper";
 export {MicroserviceTestApp} from "./util/test-app";
-export {
-  WebSocketAutoConnection,
-  WebSocketAutoConnectionCloseReason,
-  WebSocketAutoConnectionCloseSource,
-  WebSocketAutoConnectionConfig,
-  WebSocketAutoConnectionState,
-} from "./util/web-socket-auto-connection";
 export {WebhookCallbackRegistry} from "./util/webhook-callback-registry";
 export {HttpStatus};
+

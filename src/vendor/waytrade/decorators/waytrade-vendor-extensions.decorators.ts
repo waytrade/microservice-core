@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import {addPathVendorExtension} from "../../../decorators/path-vendor-extensions.decorator";
-import {WaytradeEventMessageTopicDescriptor} from "../models/waytrade-event-stream.model";
+import {WaytradeEventMessageTopicDescriptor} from "../models/waytrade-event-message.model";
 import {WaytradeGatewayPermission} from "../models/waytrade-gateway-permission.model";
 
 export const VENDOR_EXTENSION_WAYTRADE_GATEWAY_EXPOSE_ALWAYS =
