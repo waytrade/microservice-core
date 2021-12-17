@@ -3,15 +3,15 @@
 <html lang="en">
 
 <head>
-    <title>Code coverage report for src/util/web-socket-auto-connection.ts</title>
+    <title>Code coverage report for src/vendor/waytrade/util/waytrade-event-stream.ts</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="../../prettify.css" />
-    <link rel="stylesheet" href="../../base.css" />
-    <link rel="shortcut icon" type="image/x-icon" href="../../favicon.png" />
+    <link rel="stylesheet" href="../../../../prettify.css" />
+    <link rel="stylesheet" href="../../../../base.css" />
+    <link rel="shortcut icon" type="image/x-icon" href="../../../../favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style type='text/css'>
         .coverage-summary .sorter {
-            background-image: url(../../sort-arrow-sprite.png);
+            background-image: url(../../../../sort-arrow-sprite.png);
         }
     </style>
 </head>
@@ -19,34 +19,34 @@
 <body>
 <div class='wrapper'>
     <div class='pad1'>
-        <h1><a href="../../index.html">All files</a> / <a href="index.html">src/util</a> web-socket-auto-connection.ts</h1>
+        <h1><a href="../../../../index.html">All files</a> / <a href="index.html">src/vendor/waytrade/util</a> waytrade-event-stream.ts</h1>
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>129/129</span>
+                <span class='fraction'>116/116</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.92% </span>
+                <span class="strong">92.31% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>47/48</span>
+                <span class='fraction'>48/52</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>37/37</span>
+                <span class='fraction'>23/23</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>129/129</span>
+                <span class='fraction'>115/115</span>
             </div>
         
             
@@ -379,181 +379,79 @@
 <a name='L320'></a><a href='#L320'>320</a>
 <a name='L321'></a><a href='#L321'>321</a>
 <a name='L322'></a><a href='#L322'>322</a>
-<a name='L323'></a><a href='#L323'>323</a>
-<a name='L324'></a><a href='#L324'>324</a>
-<a name='L325'></a><a href='#L325'>325</a>
-<a name='L326'></a><a href='#L326'>326</a>
-<a name='L327'></a><a href='#L327'>327</a>
-<a name='L328'></a><a href='#L328'>328</a>
-<a name='L329'></a><a href='#L329'>329</a>
-<a name='L330'></a><a href='#L330'>330</a>
-<a name='L331'></a><a href='#L331'>331</a>
-<a name='L332'></a><a href='#L332'>332</a>
-<a name='L333'></a><a href='#L333'>333</a>
-<a name='L334'></a><a href='#L334'>334</a>
-<a name='L335'></a><a href='#L335'>335</a>
-<a name='L336'></a><a href='#L336'>336</a>
-<a name='L337'></a><a href='#L337'>337</a>
-<a name='L338'></a><a href='#L338'>338</a>
-<a name='L339'></a><a href='#L339'>339</a>
-<a name='L340'></a><a href='#L340'>340</a>
-<a name='L341'></a><a href='#L341'>341</a>
-<a name='L342'></a><a href='#L342'>342</a>
-<a name='L343'></a><a href='#L343'>343</a>
-<a name='L344'></a><a href='#L344'>344</a>
-<a name='L345'></a><a href='#L345'>345</a>
-<a name='L346'></a><a href='#L346'>346</a>
-<a name='L347'></a><a href='#L347'>347</a>
-<a name='L348'></a><a href='#L348'>348</a>
-<a name='L349'></a><a href='#L349'>349</a>
-<a name='L350'></a><a href='#L350'>350</a>
-<a name='L351'></a><a href='#L351'>351</a>
-<a name='L352'></a><a href='#L352'>352</a>
-<a name='L353'></a><a href='#L353'>353</a>
-<a name='L354'></a><a href='#L354'>354</a>
-<a name='L355'></a><a href='#L355'>355</a>
-<a name='L356'></a><a href='#L356'>356</a>
-<a name='L357'></a><a href='#L357'>357</a>
-<a name='L358'></a><a href='#L358'>358</a>
-<a name='L359'></a><a href='#L359'>359</a>
-<a name='L360'></a><a href='#L360'>360</a>
-<a name='L361'></a><a href='#L361'>361</a>
-<a name='L362'></a><a href='#L362'>362</a>
-<a name='L363'></a><a href='#L363'>363</a>
-<a name='L364'></a><a href='#L364'>364</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">25x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<a name='L323'></a><a href='#L323'>323</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -563,200 +461,186 @@
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">10x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">26x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">5x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">66x</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">55x</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">55x</span>
 <span class="cline-any cline-yes">12x</span>
-<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">43x</span>
-<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-yes">20x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">14x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-yes">17x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">19x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-yes">3x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">19x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">13x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">36x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">15x</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -769,23 +653,57 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
+<span class="cline-any cline-yes">29x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">3x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import {BehaviorSubject, filter, map, Observable, Subject} from "rxjs";
-import WebSocket from "ws";
-import {WebSocketCloseCode} from "..";
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import WebSocket from "ws";
+import {WaytradeEventMessage, WaytradeEventMessageType} from "..";
+import {WebSocketCloseCode} from "../../../models/websocket-close-code";
 &nbsp;
 /** Default ping / pong interval on the websocket. */
 const DEFAULT_PING_INTERVAL = 5; // sec
@@ -793,27 +711,24 @@ const DEFAULT_PING_INTERVAL = 5; // sec
 /** Default time to wait between re-connection attempts. */
 const DEFAULT_RECONNECT_DELEAY = 10; // sec
 &nbsp;
-export interface WebSocketAutoConnectionConfig {
+/** Configuraton of a [WaytradeEventStream]. */
+export interface WaytradeEventStreamConfig {
   /** If set to true, text message based ping-pong hearbeart check is disabled. */
   disablePingHeartbeat?: boolean;
 &nbsp;
-  /**
-   * The ping sending interval in seconds (default is 5s).
-   */
+  /** The ping sending interval in seconds (default is 5s). */
   pingInterval?: number;
 &nbsp;
   /** If set to true, auto re-connect will be disabled. */
   disableAutoReconnect?: boolean;
 &nbsp;
-  /**
-   * Time delay between re-connection attempts in seconds (default is 10s).
-   */
+  /** Time delay between re-connection attempts in seconds (default is 10s). */
   reconnectDelay?: number;
 }
 &nbsp;
-/** Connection state of a [WebSocketAutoConnection] */
-export enum WebSocketAutoConnectionState {
-  /** [WebSocketAutoConnection.connect] has not been called yet. */
+/** Connection state of a [WaytradeEventStream] */
+export enum WaytradeEventStreamConnectionState {
+  /** Not connected. */
   DISCONNECTED = "DISCONNECTED",
 &nbsp;
   /** The websocket is currently connecting to server. */
@@ -822,21 +737,13 @@ export enum WebSocketAutoConnectionState {
   /** The websocket is successfully connected. */
   CONNECTED = "CONNECTED",
 &nbsp;
-  /**
-   * Connection to the websocket sever has been lost.
-   * State will change to WAITING_RECONNECT or CLOSED immediatly after this one.
-   */
-  CONNECTION_LOST = "CONNECTION_LOST",
-&nbsp;
-  /** The websocket is currently disconnected, waiting for re-connection. */
-  WAITING_RECONNECT = "WAITING_RECONNECT",
-&nbsp;
-  /** The websocket connection has been permanently closed. */
+  /** The websocket connection has been manually closed. */
   CLOSED = "CLOSED",
 }
 &nbsp;
+&nbsp;
 /** Triggers for the connection closing. */
-export enum WebSocketAutoConnectionCloseSource {
+export enum WaytradeEventStreamCloseSource {
   /**
    * User has permanently closed the connection by calling
    * [WebSocketAutoConnection.close()].
@@ -854,24 +761,29 @@ export enum WebSocketAutoConnectionCloseSource {
 }
 &nbsp;
 /** Connection close reason. */
-export interface WebSocketAutoConnectionCloseReason {
-  source: WebSocketAutoConnectionCloseSource;
+export interface WaytradeEventStreamCloseReason {
+  source: WaytradeEventStreamCloseSource;
   code?: number | WebSocketCloseCode;
   reason?: string;
 }
 &nbsp;
-/**
- * A WebSocket that automatically re-connects if the connection got lost,
- * on the peer stopped replaying to pings.
- */
-export class WebSocketAutoConnection {
+/** A websocket connection to send/receive [WaytradeEventMessage]'s  */
+export class WaytradeEventStream {
   constructor(
     public url: string,
-    private config?: WebSocketAutoConnectionConfig,
-  ) {}
+    private config?: WaytradeEventStreamConfig,
+  ) {
+    setImmediate(() =&gt; this.connect());
+  }
 &nbsp;
   /** The underlying websocket instance. */
   private ws?: WebSocket;
+&nbsp;
+  /** The current connection state. */
+  private connectionState = WaytradeEventStreamConnectionState.DISCONNECTED;
+&nbsp;
+  /** Timestamp of the last received pong. */
+  private lastPongReceived = 0;
 &nbsp;
   /** Timeout for re-connection after connection loss. */
   private reconnectTimeout?: NodeJS.Timeout;
@@ -879,150 +791,205 @@ export class WebSocketAutoConnection {
   /** Timeout for re-connection after connection loss. */
   private pingTimerInterval?: NodeJS.Timeout;
 &nbsp;
-  /** Timestamp of the last received pong. */
-  private lastPongReceived = 0;
-&nbsp;
   /** True if the connection has benn permanently closed, false otherwise. */
   private permanentlyClosed = false;
 &nbsp;
+  /** True if client watchdog has closed the connection, false otherwise. */
+  private clientClosed = false;
+&nbsp;
   /** Code and description send on the close. */
-  private closeReason: WebSocketAutoConnectionCloseReason = {
-    source: WebSocketAutoConnectionCloseSource.USER,
+  private closeReason: WaytradeEventStreamCloseReason = {
+    source: WaytradeEventStreamCloseSource.USER,
   };
 &nbsp;
-  /** The error dispatcher subjsct. */
-  private errorSubject = new Subject&lt;Error&gt;();
-&nbsp;
-  /** The ingress message dispatch subject. */
-  private readonly messages = new Subject&lt;string&gt;();
-&nbsp;
-  /** The current connection state. */
-  private readonly state = new BehaviorSubject&lt;WebSocketAutoConnectionState&gt;(
-    WebSocketAutoConnectionState.DISCONNECTED,
-  );
-&nbsp;
-  /** Get the current connection state. */
-  get currentConnectionState(): WebSocketAutoConnectionState {
-    return this.state.value;
-  }
-&nbsp;
-  /** Get and Observable to observe connection state changes. */
-  get connectionState(): Observable&lt;WebSocketAutoConnectionState&gt; {
-    return this.state;
-  }
-&nbsp;
-  /** Resolves when connection to server is initialted. */
-  get onConnecting(): Observable&lt;void&gt; {
-    return this.state.pipe(
-      filter(v =&gt; v === WebSocketAutoConnectionState.CONNECTING),
-      map(() =&gt; {
-        return;
-      }),
-    );
-  }
-&nbsp;
-  /** Resolves when an error during connecting occurs. */
-  get onError(): Observable&lt;Error&gt; {
-    return this.errorSubject;
-  }
-&nbsp;
-  /** Resolves when websocket is successfully conntected. */
-  get onConnected(): Observable&lt;void&gt; {
-    return this.state.pipe(
-      filter(v =&gt; v === WebSocketAutoConnectionState.CONNECTED),
-      map(() =&gt; {
-        return;
-      }),
-    );
-  }
-&nbsp;
-  /** Resolves when connection to server has been lost. */
-  get onLostConnection(): Observable&lt;WebSocketAutoConnectionCloseReason&gt; {
-    return this.state.pipe(
-      filter(v =&gt; v === WebSocketAutoConnectionState.CONNECTION_LOST),
-      map(() =&gt; {
-        return this.closeReason;
-      }),
-    );
-  }
-&nbsp;
-  /**
-   * Resolves when re-connection delay timer has started.
-   * Returns the number of seconds until next connection attempt will be started.
-   */
-  get onWaitingReconnect(): Observable&lt;number&gt; {
-    return this.state.pipe(
-      filter(v =&gt; v === WebSocketAutoConnectionState.WAITING_RECONNECT),
-      map(() =&gt; {
-        return this.config?.reconnectDelay ?? DEFAULT_RECONNECT_DELEAY;
-      }),
-    );
-  }
-&nbsp;
-  /** Resolves when websocket is closed. */
-  get onClosed(): Observable&lt;WebSocketAutoConnectionCloseReason&gt; {
-    return this.state.pipe(
-      filter(v =&gt; v === WebSocketAutoConnectionState.CLOSED),
-      map(() =&gt; {
-        return this.closeReason;
-      }),
-    );
-  }
+  /** Set of all subscribed message topcis. */
+  private subscribedTopcis = new Set&lt;string&gt;();
 &nbsp;
   /** Get the connection close reason, or undefined currently connected. */
-  get connectionCloseReason(): WebSocketAutoConnectionCloseReason | undefined {
-    if (this.state.value === WebSocketAutoConnectionState.CONNECTED) {
+  get connectionCloseReason(): WaytradeEventStreamCloseReason | undefined {
+    if (this.connectionState === WaytradeEventStreamConnectionState.CONNECTED) {
       return undefined;
     }
     return this.closeReason;
   }
 &nbsp;
-  /** Get an Observable to receive incomming messages. */
-  get onMessage(): Observable&lt;string&gt; {
-    return this.messages;
+  /** Connection error callback. */
+  onError?: (error: Error) =&gt; void;
+&nbsp;
+  /** Connection state change callback. */
+  onConnectionState?: (state: WaytradeEventStreamConnectionState) =&gt; void;
+&nbsp;
+  /** Incomming message callback. */
+  onMessage?: (event: WaytradeEventMessage) =&gt; void;
+&nbsp;
+  /** Subscribe on a message topic */
+  subscribe(topic: string): void {
+    this.subscribedTopcis.add(topic);
+    this.send(JSON.stringify({
+      topic,
+      type: WaytradeEventMessageType.Subscribe
+    } as WaytradeEventMessage));
   }
 &nbsp;
-  /** Open the connection to server. */
-  connect(): WebSocketAutoConnection {
-    if (
-      this.state.value === WebSocketAutoConnectionState.DISCONNECTED ||
-      this.state.value === WebSocketAutoConnectionState.CLOSED
-    ) {
-      this.permanentlyClosed = false;
-      this.connectInternal();
-    }
-    return this;
+  /** Unsubscribe from a message topic */
+  unsubscribe(topic: string): void {
+    this.subscribedTopcis.delete(topic);
+    this.send(JSON.stringify({
+      topic,
+      type: WaytradeEventMessageType.Unsubscribe
+    } as WaytradeEventMessage));
   }
 &nbsp;
-  /** Close the connection to server. */
+  /** Publish a message. */
+  publish(topic: string, data: unknown): void {
+    this.send(JSON.stringify({
+      topic,
+      data
+    } as WaytradeEventMessage));
+  }
+&nbsp;
+  /** Unpublish a message. */
+  unpublish(topic: string): void {
+    this.send(JSON.stringify({
+      topic,
+      type: WaytradeEventMessageType.Unpublish,
+    } as WaytradeEventMessage));
+  }
+&nbsp;
+  /** Permaneltly close the connection. */
   close(closeCode?: WebSocketCloseCode | number, closeReason?: string): void {
     this.permanentlyClosed = true;
-    this.closeReason.source = WebSocketAutoConnectionCloseSource.USER;
-    this.closeReason.code = closeCode;
-    this.closeReason.reason = closeReason;
     this.shutdown(closeCode, closeReason);
   }
 &nbsp;
-  /** Send a message */
-  send(data: unknown, cb?: (err?: Error) =&gt; void): void {
-    if (!this.ws) {
-      if (cb) {
-        cb(new Error("Not connected"));
+  /** Connect the websocket. */
+  private connect(): void {
+    this.clientClosed = false;
+    this.updateState(WaytradeEventStreamConnectionState.CONNECTING);
+&nbsp;
+    try {
+      this.ws = new WebSocket(this.url);
+    } catch (e) {
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (this.onError) {
+        this.onError(&lt;Error&gt;e);
       }
-    } else {
-      this.ws.send(data, cb);
+      return;
+    }
+&nbsp;
+    this.ws.onmessage = (msgEvent: WebSocket.MessageEvent): void =&gt; {
+      const data = msgEvent.data;
+      if (typeof data !== "string") {
+        return;
+      }
+&nbsp;
+      if (this.config?.disablePingHeartbeat) {
+        try {
+          <span class="missing-if-branch" title="else path not taken" >E</span>if (this.onMessage) {
+            this.onMessage(JSON.parse(data));
+          }
+        } catch(e) {}
+      } else {
+        if (data === "pong") {
+          this.lastPongReceived = Date.now();
+        } else {
+          try {
+            if (this.onMessage) {
+              this.onMessage(JSON.parse(data));
+            }
+          } catch(e) {}
+        }
+      }
+    };
+&nbsp;
+    this.ws.on("open", () =&gt; {
+      this.subscribedTopcis.forEach(topic =&gt; {
+        this.send(JSON.stringify({
+          topic,
+          type: WaytradeEventMessageType.Subscribe
+        } as WaytradeEventMessage));
+      });
+      this.updateState(WaytradeEventStreamConnectionState.CONNECTED);
+      this.runPingPongWatchdog();
+    });
+&nbsp;
+    this.ws.on("error", error =&gt; {
+      if (this.onError) {
+        this.onError(error);
+      }
+      this.reconnectDelayed();
+    });
+&nbsp;
+    this.ws.on("close", (code, reason) =&gt; {
+      delete this.ws;
+      this.shutdown(code, reason.toString());
+      if (!this.permanentlyClosed) {
+        this.reconnectDelayed();
+      }
+    });
+  }
+&nbsp;
+  /** Send a message */
+  private send(data: unknown): void {
+    if (this.ws) {
+      this.ws.send(data);
     }
   }
 &nbsp;
   /** Update the connection state */
-  private updateState(state: WebSocketAutoConnectionState): void {
-    if (this.state.value !== state) {
-      this.state.next(state);
+  private updateState(state: WaytradeEventStreamConnectionState): void {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (this.connectionState !== state) {
+      this.connectionState = state;
+      if (this.onConnectionState) {
+        this.onConnectionState(state);
+      }
     }
   }
 &nbsp;
+  /** Run the ping/pong heartbeat watchdog. */
+  private runPingPongWatchdog(): void {
+    if (this.config?.disablePingHeartbeat) {
+      return;
+    }
+&nbsp;
+    let lastPingSent = 0;
+    const pingInterval =
+      (this.config?.pingInterval ?? DEFAULT_PING_INTERVAL) * 1000;
+&nbsp;
+    this.pingTimerInterval = setInterval(() =&gt; {
+      const now = Date.now();
+&nbsp;
+      if (lastPingSent &amp;&amp; this.lastPongReceived &lt; now - pingInterval * 2) {
+        this.clientClosed = true;
+        this.shutdown(
+          WebSocketCloseCode.HEARTBEAT_TIMEOUT,
+          "ping/pong message timeout");
+        this.reconnectDelayed();
+      }
+&nbsp;
+      try {
+        this.ws?.send("ping");
+      } catch (e) {}
+      lastPingSent = now;
+    }, pingInterval);
+  }
+&nbsp;
+  /** Re-connect to websocket after the configured time delay. */
+  private reconnectDelayed(): void {
+    const reconnectDelay =
+      (this.config?.reconnectDelay ?? DEFAULT_RECONNECT_DELEAY) * 1000;
+    this.reconnectTimeout = setTimeout(() =&gt; {
+      <span class="missing-if-branch" title="else path not taken" >E</span>if (this.reconnectTimeout) {
+        clearTimeout(this.reconnectTimeout);
+        delete this.reconnectTimeout;
+        this.connect();
+      }
+    }, reconnectDelay);
+  }
+&nbsp;
   /** Close connection and cleanup all resources. */
-  private shutdown(closeCode?: number, closeReason?: string): void {
+  private shutdown(
+    closeCode?: number,
+    closeReason?: string): void {
     if (this.reconnectTimeout) {
       clearTimeout(this.reconnectTimeout);
       delete this.reconnectTimeout;
@@ -1041,109 +1008,19 @@ export class WebSocketAutoConnection {
       }
       delete this.ws;
     } else {
+      this.closeReason.code = closeCode;
+      this.closeReason.reason = closeReason;
       if (this.permanentlyClosed) {
-        this.state.next(WebSocketAutoConnectionState.CLOSED);
-      }
-    }
-  }
-&nbsp;
-  /** Connect the websocket. */
-  private connectInternal(): void {
-    this.shutdown();
-    this.updateState(WebSocketAutoConnectionState.CONNECTING);
-&nbsp;
-    try {
-      this.ws = new WebSocket(this.url);
-    } catch (e) {
-      this.errorSubject.next(&lt;Error&gt;e);
-      return;
-    }
-&nbsp;
-    this.ws.onmessage = (msgEvent: WebSocket.MessageEvent): void =&gt; {
-      const data = msgEvent.data;
-      if (typeof data !== "string") {
-        return;
-      }
-&nbsp;
-      if (this.config?.disablePingHeartbeat) {
-        this.messages.next(data);
+        this.closeReason.source = WaytradeEventStreamCloseSource.USER;
+        this.updateState(WaytradeEventStreamConnectionState.CLOSED);
+      } else if (this.clientClosed) {
+        this.closeReason.source = WaytradeEventStreamCloseSource.CLIENT;
+        this.updateState(WaytradeEventStreamConnectionState.DISCONNECTED);
       } else {
-        if (data === "pong") {
-          this.lastPongReceived = Date.now();
-        } else {
-          this.messages.next(data);
-        }
+        this.closeReason.source = WaytradeEventStreamCloseSource.SERVER;
+        this.updateState(WaytradeEventStreamConnectionState.DISCONNECTED);
       }
-    };
-&nbsp;
-    this.ws.on("open", () =&gt; {
-      this.updateState(WebSocketAutoConnectionState.CONNECTED);
-      this.runPingPongWatchdog();
-    });
-&nbsp;
-    this.ws.on("error", error =&gt; {
-      this.errorSubject.next(error);
-      this.reconnectDelayed();
-    });
-&nbsp;
-    this.ws.on("close", (code, reason) =&gt; {
-      delete this.ws;
-      this.shutdown(code, reason.toString());
-      if (this.permanentlyClosed) {
-        this.updateState(WebSocketAutoConnectionState.CLOSED);
-      } else {
-        this.closeReason.source = WebSocketAutoConnectionCloseSource.SERVER;
-        this.closeReason.code = code;
-        this.closeReason.reason = reason.toString();
-        this.updateState(WebSocketAutoConnectionState.CONNECTION_LOST);
-        this.reconnectDelayed();
-      }
-    });
-  }
-&nbsp;
-  /** Run the ping/pong heartbeat watchdog. */
-  private runPingPongWatchdog(): void {
-    if (this.config?.disablePingHeartbeat) {
-      return;
     }
-&nbsp;
-    let lastPingSent = 0;
-    const pingInterval =
-      (this.config?.pingInterval ?? DEFAULT_PING_INTERVAL) * 1000;
-&nbsp;
-    this.pingTimerInterval = setInterval(() =&gt; {
-      const now = Date.now();
-&nbsp;
-      if (lastPingSent &amp;&amp; this.lastPongReceived &lt; now - pingInterval * 2) {
-        this.closeReason.source = WebSocketAutoConnectionCloseSource.CLIENT;
-        this.closeReason.code = WebSocketCloseCode.HEARTBEAT_TIMEOUT;
-        this.closeReason.reason = "ping/pong message timeout";
-        this.updateState(WebSocketAutoConnectionState.CONNECTION_LOST);
-        this.shutdown(this.closeReason.code, this.closeReason.reason);
-        this.reconnectDelayed();
-      }
-&nbsp;
-      try {
-        this.ws?.send("ping");
-      } catch (e) {}
-      lastPingSent = now;
-    }, pingInterval);
-  }
-&nbsp;
-  /** Re-connect to websocket after the configured time delay. */
-  private reconnectDelayed(): void {
-    this.updateState(WebSocketAutoConnectionState.WAITING_RECONNECT);
-&nbsp;
-    const reconnectDelay =
-      (this.config?.reconnectDelay ?? DEFAULT_RECONNECT_DELEAY) * 1000;
-&nbsp;
-    this.reconnectTimeout = setTimeout(() =&gt; {
-      <span class="missing-if-branch" title="else path not taken" >E</span>if (this.reconnectTimeout) {
-        clearTimeout(this.reconnectTimeout);
-        delete this.reconnectTimeout;
-        this.connectInternal();
-      }
-    }, reconnectDelay);
   }
 }
 &nbsp;</pre></td></tr></table></pre>
@@ -1153,17 +1030,17 @@ export class WebSocketAutoConnection {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Fri Dec 10 2021 20:54:39 GMT+0000 (Coordinated Universal Time)
+                at Fri Dec 17 2021 10:37:12 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
-        <script src="../../prettify.js"></script>
+        <script src="../../../../prettify.js"></script>
         <script>
             window.onload = function () {
                 prettyPrint();
             };
         </script>
-        <script src="../../sorter.js"></script>
-        <script src="../../block-navigation.js"></script>
+        <script src="../../../../sorter.js"></script>
+        <script src="../../../../block-navigation.js"></script>
     </body>
 </html>
     
