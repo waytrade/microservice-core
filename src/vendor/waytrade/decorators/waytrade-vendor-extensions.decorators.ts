@@ -17,7 +17,7 @@ export const VENDOR_EXTENSION_WAYTRADE_GATEWAY_PUBLISHED_TOPICS =
  * When this extension is added, waytrade gateway will expose the decorated
  * function without checking for authentication or granted permissions.
  */
-export function pathVendorExtension_WaytradeGatewayExposeAlways() {
+export function waytradeGateway_ExposeAlways() {
   return function (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     target: any,
@@ -38,7 +38,7 @@ export function pathVendorExtension_WaytradeGatewayExposeAlways() {
  * When this extension is added, waytrade gateway only allow access to
  * users that are authenticated and own one of the listed permission grants.
  */
-export function pathVendorExtension_WaytradeGatewayExposeWithPermission(
+export function waytradeGateway_ExposeWithPermission(
   permissions: WaytradeGatewayPermission[],
 ) {
   return function (
@@ -62,7 +62,7 @@ export function pathVendorExtension_WaytradeGatewayExposeWithPermission(
  * event-stream, that shall be published to donwstream clients via the waytrade
  * gateway.
  */
-export function pathVendorExtension_WaytradeGatewayPublishedTopcis(
+export function waytradeGateway_PublishedTopcis(
   descriptors: WaytradeEventMessageTopicDescriptor[],
 ) {
   return function (

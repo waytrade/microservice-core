@@ -2,11 +2,11 @@ import path from "path";
 import {Subject} from "rxjs";
 import {
   controller,
+  DefaultMicroserviceComponentFactory,
   MicroserviceConfig,
   MicroserviceTestApp,
-  service,
+  service
 } from "../../..";
-import {DefaultMicroserviceComponentFactory} from "../../../core/app";
 
 @controller("Test Controller")
 class TestController {

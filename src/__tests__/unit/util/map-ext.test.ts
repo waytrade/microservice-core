@@ -1,4 +1,4 @@
-import {MapExt} from "../../../util/map-ext";
+import {MapExt} from '../../..';
 
 describe("Test MapExt class", () => {
   test("getOrAdd", () => {

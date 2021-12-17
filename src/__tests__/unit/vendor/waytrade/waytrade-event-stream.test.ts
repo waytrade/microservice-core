@@ -6,16 +6,16 @@ import {
   MicroserviceStream,
   websocket,
   WebSocketCloseCode
-} from "../../..";
-import {MicroserviceComponentInstance} from "../../../core/app";
-import {MicroserviceHttpServer} from "../../../core/http-server";
+} from "../../../..";
+import {MicroserviceComponentInstance} from "../../../../core/app";
+import {MicroserviceHttpServer} from "../../../../core/http-server";
 import {
   WaytradeEventMessage,
   WaytradeEventMessageType,
   WaytradeEventStream,
   WaytradeEventStreamCloseSource,
   WaytradeEventStreamConnectionState
-} from '../../../vendor/waytrade';
+} from '../../../../vendor/waytrade';
 
 @controller("Controller to echo websocket messages back to sender", "/echo")
 class WebsocketEchoController {
@@ -39,6 +39,9 @@ class WebsocketHelloController {
 }
 
 describe("Test WebSocketAutoConnection", () => {
+  const TEST_MESSAGE = new WaytradeEventMessage();
+  TEST_MESSAGE.topic = "test/topic";
+
   const context = new MicroserviceContext(
     path.resolve(__dirname, "../../../.."),
   );

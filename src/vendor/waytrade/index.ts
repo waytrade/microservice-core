@@ -1,10 +1,10 @@
 export {
-  pathVendorExtension_WaytradeGatewayExposeAlways,
-  pathVendorExtension_WaytradeGatewayExposeWithPermission,
-  pathVendorExtension_WaytradeGatewayPublishedTopcis,
   VENDOR_EXTENSION_WAYTRADE_GATEWAY_EXPOSE_ALWAYS,
   VENDOR_EXTENSION_WAYTRADE_GATEWAY_EXPOSE_WITH_PERMISSIONS,
-  VENDOR_EXTENSION_WAYTRADE_GATEWAY_PUBLISHED_TOPICS
+  VENDOR_EXTENSION_WAYTRADE_GATEWAY_PUBLISHED_TOPICS,
+  waytradeGateway_ExposeAlways,
+  waytradeGateway_ExposeWithPermission,
+  waytradeGateway_PublishedTopcis
 } from "./decorators/waytrade-vendor-extensions.decorators";
 export {
   WaytradeEventMessage,
