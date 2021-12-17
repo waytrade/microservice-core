@@ -6,8 +6,7 @@ import {
   MicroserviceContext,
   MicroserviceStream,
   WebhookSubscriptionRequest,
-  websocket,
-  WebSocketAutoConnection
+  websocket
 } from "../../..";
 import {MicroserviceComponentInstance} from "../../../core/app";
 import {MicroserviceHttpServer} from "../../../core/http-server";
@@ -141,33 +140,25 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
         .then(() => {
           expect(server.listeningPort).not.toEqual(0);
 
-          const wsc = new WebSocketAutoConnection(
+          const ws = new WebSocket(
             `ws://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/echo/dummy`,
           );
 
-          wsc.onError.subscribe({
-            next: error => {
-              server.stop();
-              reject(error);
-            },
-          });
+          ws.onerror = (error) => {
+            server.stop();
+            reject(error);
+          }
 
-          wsc.onConnected.subscribe({
-            next: () => {
-              wsc.send(JSON.stringify(testData));
-            },
-          });
+          ws.onopen = () => {
+            ws.send(JSON.stringify(testData));
+          }
 
-          wsc.onMessage.subscribe({
-            next: msg => {
-              expect(JSON.parse(msg)).toEqual(testData);
-              wsc.close();
-              server.stop();
-              resolve();
-            },
-          });
-
-          wsc.connect();
+          ws.onmessage = (msg) => {
+            expect(JSON.parse(msg.data.toString())).toEqual(testData);
+            ws.close();
+            server.stop();
+            resolve();
+          }
         })
         .catch(error => {
           server.stop();
@@ -192,37 +183,27 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
         .then(() => {
           expect(server.listeningPort).not.toEqual(0);
 
-          const wsc = new WebSocketAutoConnection(
+          const ws = new WebSocket(
             `ws://127.0.0.1:${server.listeningPort}${TEST_CONTROLLER_PATH}/echo/`,
           );
 
-          wsc.onError.subscribe({
-            next: error => {
-              server.stop();
-              reject(error);
-            },
-          });
+          ws.onerror = (error) => {
+            server.stop();
+            reject(error);
+          }
 
-          wsc.onConnected.subscribe({
-            next: () => {
-              wsc.send(new ArrayBuffer(32));
-            },
-          });
+          ws.onopen = () => {
+            ws.send(new ArrayBuffer(32));
+          }
 
-          const cancel = new Subject<void>();
-          wsc.onMessage.subscribe({
-            next: () => {
-              cancel.next();
-              wsc.close();
-              server.stop();
-              reject();
-            },
-          });
-
-          wsc.connect();
+          ws.onmessage = () => {
+            ws.close();
+            server.stop();
+            reject();
+          }
 
           setTimeout(() => {
-            wsc.close();
+            ws.close();
             server.stop();
             resolve();
           }, 1000);
@@ -302,7 +283,7 @@ describe("Test MicroserviceHttpServer websocket streaming", () => {
             server.stop();
             resolve();
           };
-          ws.onmessage = (event: any): void => {
+          ws.onmessage = (): void => {
             server.stop();
             reject();
           };
