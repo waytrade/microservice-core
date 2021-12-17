@@ -37,21 +37,6 @@ function isNativeType(type?: string): boolean {
   return type === "number" || type === "string" || type === "boolean";
 }
 
-function escapeSpecialChars(str: string): string {
-  return (
-    str
-      .replace(/\\n/g, "\\n")
-      .replace(/\\'/g, "\\'")
-      // eslint-disable-next-line quotes
-      .replace(/\\"/g, '\\"')
-      .replace(/\\&/g, "\\&")
-      .replace(/\\r/g, "\\r")
-      .replace(/\\t/g, "\\t")
-      .replace(/\\b/g, "\\b")
-      .replace(/\\f/g, "\\f")
-  );
-}
-
 /**
  * OpenAPI helper class.
  */
@@ -417,7 +402,7 @@ export class OpenApi {
       item["operationId"] = method.propertyKey;
 
       method.vendorExtensions.forEach((v, k) => {
-        item["x-" + k] = escapeSpecialChars(v);
+        item["x-" + k] = v;
       });
 
       if (method.summary) {
