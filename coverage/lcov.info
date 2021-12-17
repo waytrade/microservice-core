@@ -1458,7 +1458,7 @@ FNDA:134636,(anonymous_3)
 FNDA:16,(anonymous_4)
 FNDA:35,(anonymous_5)
 FNDA:18,(anonymous_6)
-FNDA:10,(anonymous_7)
+FNDA:9,(anonymous_7)
 FNDA:35,(anonymous_8)
 DA:1,27
 DA:4,27
@@ -1492,12 +1492,12 @@ DA:95,35
 DA:101,18
 DA:103,18
 DA:104,18
-DA:105,10
-DA:106,10
+DA:105,9
+DA:106,9
 DA:110,0
 DA:111,0
-DA:113,10
-DA:114,10
+DA:113,9
+DA:114,9
 DA:121,35
 DA:122,18
 DA:123,18
@@ -1512,9 +1512,9 @@ BRDA:73,2,1,134634
 BRDA:101,3,0,18
 BRDA:101,3,1,17
 BRDA:106,4,0,0
-BRDA:106,4,1,10
-BRDA:107,5,0,10
-BRDA:107,5,1,9
+BRDA:106,4,1,9
+BRDA:107,5,0,9
+BRDA:107,5,1,8
 BRDA:121,6,0,18
 BRDA:121,6,1,17
 BRF:14
@@ -2544,7 +2544,7 @@ FN:20,waytradeGateway_ExposeAlways
 FN:21,(anonymous_1)
 FN:41,waytradeGateway_ExposeWithPermission
 FN:44,(anonymous_3)
-FN:65,waytradeGateway_PublishedTopcis
+FN:65,waytradeGateway_PublishedTopics
 FN:68,(anonymous_5)
 FNF:6
 FNH:6
@@ -2552,7 +2552,7 @@ FNDA:1,waytradeGateway_ExposeAlways
 FNDA:1,(anonymous_1)
 FNDA:1,waytradeGateway_ExposeWithPermission
 FNDA:1,(anonymous_3)
-FNDA:1,waytradeGateway_PublishedTopcis
+FNDA:1,waytradeGateway_PublishedTopics
 FNDA:1,(anonymous_5)
 DA:3,2
 DA:7,2
