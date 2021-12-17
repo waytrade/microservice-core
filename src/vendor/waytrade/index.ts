@@ -4,7 +4,7 @@ export {
   VENDOR_EXTENSION_WAYTRADE_GATEWAY_PUBLISHED_TOPICS,
   waytradeGateway_ExposeAlways,
   waytradeGateway_ExposeWithPermission,
-  waytradeGateway_PublishedTopcis
+  waytradeGateway_PublishedTopics
 } from "./decorators/waytrade-vendor-extensions.decorators";
 export {
   WaytradeEventMessage,

@@ -62,7 +62,7 @@ export function waytradeGateway_ExposeWithPermission(
  * event-stream, that shall be published to donwstream clients via the waytrade
  * gateway.
  */
-export function waytradeGateway_PublishedTopcis(
+export function waytradeGateway_PublishedTopics(
   descriptors: WaytradeEventMessageTopicDescriptor[],
 ) {
   return function (

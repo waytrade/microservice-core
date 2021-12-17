@@ -10,7 +10,7 @@ import {
   WaytradeGatewayPermissionType,
   waytradeGateway_ExposeAlways,
   waytradeGateway_ExposeWithPermission,
-  waytradeGateway_PublishedTopcis
+  waytradeGateway_PublishedTopics
 } from '../../../../vendor/waytrade';
 
 /** The app root folder. */
@@ -60,7 +60,7 @@ class TestAppController {
   }
 
   @websocket("/publishedTopcis")
-  @waytradeGateway_PublishedTopcis(TEST_TOPICS)
+  @waytradeGateway_PublishedTopics(TEST_TOPICS)
   static publishedTopcis(): unknown {
     return TEST_RESPONSE;
   }
