@@ -25,28 +25,28 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>116/116</span>
+                <span class='fraction'>119/119</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">92.31% </span>
+                <span class="strong">92.86% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>48/52</span>
+                <span class='fraction'>52/56</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>23/23</span>
+                <span class='fraction'>24/24</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>115/115</span>
+                <span class='fraction'>118/118</span>
             </div>
         
             
@@ -379,7 +379,16 @@
 <a name='L320'></a><a href='#L320'>320</a>
 <a name='L321'></a><a href='#L321'>321</a>
 <a name='L322'></a><a href='#L322'>322</a>
-<a name='L323'></a><a href='#L323'>323</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
+<a name='L323'></a><a href='#L323'>323</a>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a>
+<a name='L329'></a><a href='#L329'>329</a>
+<a name='L330'></a><a href='#L330'>330</a>
+<a name='L331'></a><a href='#L331'>331</a>
+<a name='L332'></a><a href='#L332'>332</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -503,7 +512,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -511,7 +519,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -532,6 +539,17 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -608,7 +626,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">7x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -824,36 +842,45 @@ export class WaytradeEventStream {
 &nbsp;
   /** Subscribe on a message topic */
   subscribe(topic: string): void {
-    this.subscribedTopcis.add(topic);
-    this.send(JSON.stringify({
+    this.sendMessage({
       topic,
       type: WaytradeEventMessageType.Subscribe
-    } as WaytradeEventMessage));
+    });
   }
 &nbsp;
   /** Unsubscribe from a message topic */
   unsubscribe(topic: string): void {
-    this.subscribedTopcis.delete(topic);
-    this.send(JSON.stringify({
+    this.sendMessage({
       topic,
       type: WaytradeEventMessageType.Unsubscribe
-    } as WaytradeEventMessage));
+    });
   }
 &nbsp;
   /** Publish a message. */
   publish(topic: string, data: unknown): void {
-    this.send(JSON.stringify({
+    this.sendMessage({
       topic,
       data
-    } as WaytradeEventMessage));
+    });
   }
 &nbsp;
   /** Unpublish a message. */
   unpublish(topic: string): void {
-    this.send(JSON.stringify({
+    this.sendMessage({
       topic,
       type: WaytradeEventMessageType.Unpublish,
-    } as WaytradeEventMessage));
+    } as WaytradeEventMessage);
+  }
+&nbsp;
+  /** Send a message */
+  sendMessage(msg: WaytradeEventMessage): void {
+    if (msg.type === WaytradeEventMessageType.Subscribe) {
+      this.subscribedTopcis.add(msg.topic);
+    }
+    if (msg.type === WaytradeEventMessageType.Unsubscribe) {
+      this.subscribedTopcis.delete(msg.topic);
+    }
+    this.send(JSON.stringify(msg));
   }
 &nbsp;
   /** Permaneltly close the connection. */
@@ -1030,7 +1057,7 @@ export class WaytradeEventStream {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Sat Dec 18 2021 13:56:19 GMT+0000 (Coordinated Universal Time)
+                at Mon Dec 20 2021 15:37:24 GMT+0000 (Coordinated Universal Time)
             </div>
         </div>
         <script src="../../../../prettify.js"></script>
