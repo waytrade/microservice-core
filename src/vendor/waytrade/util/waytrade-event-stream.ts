@@ -121,36 +121,45 @@ export class WaytradeEventStream {
 
   /** Subscribe on a message topic */
   subscribe(topic: string): void {
-    this.subscribedTopcis.add(topic);
-    this.send(JSON.stringify({
+    this.sendMessage({
       topic,
       type: WaytradeEventMessageType.Subscribe
-    } as WaytradeEventMessage));
+    });
   }
 
   /** Unsubscribe from a message topic */
   unsubscribe(topic: string): void {
-    this.subscribedTopcis.delete(topic);
-    this.send(JSON.stringify({
+    this.sendMessage({
       topic,
       type: WaytradeEventMessageType.Unsubscribe
-    } as WaytradeEventMessage));
+    });
   }
 
   /** Publish a message. */
   publish(topic: string, data: unknown): void {
-    this.send(JSON.stringify({
+    this.sendMessage({
       topic,
       data
-    } as WaytradeEventMessage));
+    });
   }
 
   /** Unpublish a message. */
   unpublish(topic: string): void {
-    this.send(JSON.stringify({
+    this.sendMessage({
       topic,
       type: WaytradeEventMessageType.Unpublish,
-    } as WaytradeEventMessage));
+    } as WaytradeEventMessage);
+  }
+
+  /** Send a message */
+  sendMessage(msg: WaytradeEventMessage): void {
+    if (msg.type === WaytradeEventMessageType.Subscribe) {
+      this.subscribedTopcis.add(msg.topic);
+    }
+    if (msg.type === WaytradeEventMessageType.Unsubscribe) {
+      this.subscribedTopcis.delete(msg.topic);
+    }
+    this.send(JSON.stringify(msg));
   }
 
   /** Permaneltly close the connection. */
