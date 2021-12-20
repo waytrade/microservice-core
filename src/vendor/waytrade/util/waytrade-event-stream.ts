@@ -102,6 +102,9 @@ export class WaytradeEventStream {
   /** Set of all subscribed message topcis. */
   private subscribedTopcis = new Set<string>();
 
+  /** Queue of messages to sent after connection has been establed. */
+  private connectionSendQueue: WaytradeEventMessage[] = [];
+
   /** Get the connection close reason, or undefined currently connected. */
   get connectionCloseReason(): WaytradeEventStreamCloseReason | undefined {
     if (this.connectionState === WaytradeEventStreamConnectionState.CONNECTED) {
@@ -152,14 +155,21 @@ export class WaytradeEventStream {
   }
 
   /** Send a message */
-  sendMessage(msg: WaytradeEventMessage): void {
+  private sendMessage(msg: WaytradeEventMessage): void {
     if (msg.type === WaytradeEventMessageType.Subscribe) {
       this.subscribedTopcis.add(msg.topic);
     }
     if (msg.type === WaytradeEventMessageType.Unsubscribe) {
       this.subscribedTopcis.delete(msg.topic);
     }
-    this.send(JSON.stringify(msg));
+    if (this.ws && this.ws.readyState == WebSocket.OPEN) {
+      this.ws.send(JSON.stringify(msg));
+    } else {
+      if (msg.type === WaytradeEventMessageType.Publish ||
+          msg.type === WaytradeEventMessageType.Unpublish) {
+        this.connectionSendQueue.push(msg);
+      }
+    }
   }
 
   /** Permaneltly close the connection. */
@@ -209,10 +219,13 @@ export class WaytradeEventStream {
 
     this.ws.on("open", () => {
       this.subscribedTopcis.forEach(topic => {
-        this.send(JSON.stringify({
+        this.ws?.send(JSON.stringify({
           topic,
           type: WaytradeEventMessageType.Subscribe
         } as WaytradeEventMessage));
+      });
+      this.connectionSendQueue.forEach(msg => {
+        this.ws?.send(JSON.stringify(msg));
       });
       this.updateState(WaytradeEventStreamConnectionState.CONNECTED);
       this.runPingPongWatchdog();
@@ -234,12 +247,6 @@ export class WaytradeEventStream {
     });
   }
 
-  /** Send a message */
-  private send(data: unknown): void {
-    if (this.ws) {
-      this.ws.send(data);
-    }
-  }
 
   /** Update the connection state */
   private updateState(state: WaytradeEventStreamConnectionState): void {
