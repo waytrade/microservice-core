@@ -205,7 +205,13 @@ describe("Test WebSocketAutoConnection", () => {
             disablePingHeartbeat: true
           }
         );
+
         ws.subscribe("testTopic");
+
+        ws.sendMessage({
+          type: WaytradeEventMessageType.Subscribe,
+          topic: "testTopic"
+        });
 
         let subscribeMessageCount = 0;
 
