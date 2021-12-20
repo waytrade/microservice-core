@@ -162,7 +162,7 @@ export class WaytradeEventStream {
     if (msg.type === WaytradeEventMessageType.Unsubscribe) {
       this.subscribedTopcis.delete(msg.topic);
     }
-    if (this.ws && this.ws.readyState == WebSocket.OPEN) {
+    if (this.ws && this.ws.readyState === WebSocket.OPEN) {
       this.ws.send(JSON.stringify(msg));
     } else {
       if (msg.type === WaytradeEventMessageType.Publish ||

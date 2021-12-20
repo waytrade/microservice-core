@@ -207,11 +207,7 @@ describe("Test WebSocketAutoConnection", () => {
         );
 
         ws.subscribe("testTopic");
-
-        ws.sendMessage({
-          type: WaytradeEventMessageType.Subscribe,
-          topic: "testTopic"
-        });
+        ws.publish("testTopic", {});
 
         let subscribeMessageCount = 0;
 
