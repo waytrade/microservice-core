@@ -174,6 +174,8 @@ export class WaytradeEventStream {
 
   /** Permaneltly close the connection. */
   close(closeCode?: WebSocketCloseCode | number, closeReason?: string): void {
+    this.subscribedTopcis.clear();
+    this.connectionSendQueue = [];
     this.permanentlyClosed = true;
     this.shutdown(closeCode, closeReason);
   }
@@ -227,6 +229,7 @@ export class WaytradeEventStream {
       this.connectionSendQueue.forEach(msg => {
         this.ws?.send(JSON.stringify(msg));
       });
+      this.connectionSendQueue = [];
       this.updateState(WaytradeEventStreamConnectionState.CONNECTED);
       this.runPingPongWatchdog();
     });

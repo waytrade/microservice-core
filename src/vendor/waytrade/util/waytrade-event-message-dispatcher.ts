@@ -103,7 +103,6 @@ export class WaytradeEventMessageDispatcher {
                 topicTokenized
               ));
             }
-
           } else {
             if (this.onReSubscribed) {
               const syncMsgs = this.onReSubscribed(msg.topic, topicTokenized);
