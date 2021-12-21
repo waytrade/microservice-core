@@ -66,9 +66,8 @@ export class MicroserviceContext {
     // init logging
 
     if (config.LOG_TO_CONSOLE) {
-      const printPretty = config.LOG_PRETTY || !config.isProduction;
       this.registerLogObserver(
-        new PinoConsoleLogger(config.NAME, this.logLevel, printPretty),
+        new PinoConsoleLogger(config.NAME, this.logLevel, !config.isProduction),
       );
     }
 
