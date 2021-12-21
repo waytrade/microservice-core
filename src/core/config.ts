@@ -40,9 +40,6 @@ export interface MicroserviceConfig {
    */
   LOG_TO_CONSOLE?: boolean;
 
-  /** Pretty-print log output to console. Default is false. */
-  LOG_PRETTY: boolean;
-
   /** The path for storing the log files.  */
   LOG_FILE_FOLDER_PATH?: string;
 
