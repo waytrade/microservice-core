@@ -8,9 +8,9 @@ const DEFAULT_PING_INTERVAL = 5; // sec
 /** Default time to wait between re-connection attempts. */
 const DEFAULT_RECONNECT_DELEAY = 10; // sec
 
-/** Configuraton of a [WaytradeEventStream]. */
+/** Configuration of a [WaytradeEventStream]. */
 export interface WaytradeEventStreamConfig {
-  /** If set to true, text message based ping-pong hearbeart check is disabled. */
+  /** If set to true, text message based ping-pong heartbeat check is disabled. */
   disablePingHeartbeat?: boolean;
 
   /** The ping sending interval in seconds (default is 5s). */
@@ -37,7 +37,6 @@ export enum WaytradeEventStreamConnectionState {
   /** The websocket connection has been manually closed. */
   CLOSED = "CLOSED",
 }
-
 
 /** Triggers for the connection closing. */
 export enum WaytradeEventStreamCloseSource {
@@ -66,10 +65,7 @@ export interface WaytradeEventStreamCloseReason {
 
 /** A websocket connection to send/receive [WaytradeEventMessage]'s  */
 export class WaytradeEventStream {
-  constructor(
-    public url: string,
-    private config?: WaytradeEventStreamConfig,
-  ) {
+  constructor(public url: string, private config?: WaytradeEventStreamConfig) {
     setImmediate(() => this.connect());
   }
 
@@ -88,7 +84,7 @@ export class WaytradeEventStream {
   /** Timeout for re-connection after connection loss. */
   private pingTimerInterval?: NodeJS.Timeout;
 
-  /** True if the connection has benn permanently closed, false otherwise. */
+  /** True if the connection has been permanently closed, false otherwise. */
   private permanentlyClosed = false;
 
   /** True if client watchdog has closed the connection, false otherwise. */
@@ -99,10 +95,10 @@ export class WaytradeEventStream {
     source: WaytradeEventStreamCloseSource.USER,
   };
 
-  /** Set of all subscribed message topcis. */
-  private subscribedTopcis = new Set<string>();
+  /** Set of all subscribed message topics. */
+  private subscribedTopics = new Set<string>();
 
-  /** Queue of messages to sent after connection has been establed. */
+  /** Queue of messages to sent after connection has been established. */
   private connectionSendQueue: WaytradeEventMessage[] = [];
 
   /** Get the connection close reason, or undefined currently connected. */
@@ -119,14 +115,14 @@ export class WaytradeEventStream {
   /** Connection state change callback. */
   onConnectionState?: (state: WaytradeEventStreamConnectionState) => void;
 
-  /** Incomming message callback. */
+  /** Incoming message callback. */
   onMessage?: (event: WaytradeEventMessage) => void;
 
   /** Subscribe on a message topic */
   subscribe(topic: string): void {
     this.sendMessage({
       topic,
-      type: WaytradeEventMessageType.Subscribe
+      type: WaytradeEventMessageType.Subscribe,
     });
   }
 
@@ -134,7 +130,7 @@ export class WaytradeEventStream {
   unsubscribe(topic: string): void {
     this.sendMessage({
       topic,
-      type: WaytradeEventMessageType.Unsubscribe
+      type: WaytradeEventMessageType.Unsubscribe,
     });
   }
 
@@ -142,7 +138,7 @@ export class WaytradeEventStream {
   publish(topic: string, data: unknown): void {
     this.sendMessage({
       topic,
-      data
+      data,
     });
   }
 
@@ -157,24 +153,26 @@ export class WaytradeEventStream {
   /** Send a message */
   private sendMessage(msg: WaytradeEventMessage): void {
     if (msg.type === WaytradeEventMessageType.Subscribe) {
-      this.subscribedTopcis.add(msg.topic);
+      this.subscribedTopics.add(msg.topic);
     }
     if (msg.type === WaytradeEventMessageType.Unsubscribe) {
-      this.subscribedTopcis.delete(msg.topic);
+      this.subscribedTopics.delete(msg.topic);
     }
     if (this.ws && this.ws.readyState === WebSocket.OPEN) {
       this.ws.send(JSON.stringify(msg));
     } else {
-      if (msg.type === WaytradeEventMessageType.Publish ||
-          msg.type === WaytradeEventMessageType.Unpublish) {
+      if (
+        msg.type === WaytradeEventMessageType.Publish ||
+        msg.type === WaytradeEventMessageType.Unpublish
+      ) {
         this.connectionSendQueue.push(msg);
       }
     }
   }
 
-  /** Permaneltly close the connection. */
+  /** Permanently close the connection. */
   close(closeCode?: WebSocketCloseCode | number, closeReason?: string): void {
-    this.subscribedTopcis.clear();
+    this.subscribedTopics.clear();
     this.connectionSendQueue = [];
     this.permanentlyClosed = true;
     this.shutdown(closeCode, closeReason);
@@ -205,7 +203,7 @@ export class WaytradeEventStream {
           if (this.onMessage) {
             this.onMessage(JSON.parse(data));
           }
-        } catch(e) {}
+        } catch (e) {}
       } else {
         if (data === "pong") {
           this.lastPongReceived = Date.now();
@@ -214,17 +212,19 @@ export class WaytradeEventStream {
             if (this.onMessage) {
               this.onMessage(JSON.parse(data));
             }
-          } catch(e) {}
+          } catch (e) {}
         }
       }
     };
 
     this.ws.on("open", () => {
-      this.subscribedTopcis.forEach(topic => {
-        this.ws?.send(JSON.stringify({
-          topic,
-          type: WaytradeEventMessageType.Subscribe
-        } as WaytradeEventMessage));
+      this.subscribedTopics.forEach(topic => {
+        this.ws?.send(
+          JSON.stringify({
+            topic,
+            type: WaytradeEventMessageType.Subscribe,
+          } as WaytradeEventMessage),
+        );
       });
       this.connectionSendQueue.forEach(msg => {
         this.ws?.send(JSON.stringify(msg));
@@ -249,7 +249,6 @@ export class WaytradeEventStream {
       }
     });
   }
-
 
   /** Update the connection state */
   private updateState(state: WaytradeEventStreamConnectionState): void {
@@ -278,7 +277,8 @@ export class WaytradeEventStream {
         this.clientClosed = true;
         this.shutdown(
           WebSocketCloseCode.HEARTBEAT_TIMEOUT,
-          "ping/pong message timeout");
+          "ping/pong message timeout",
+        );
         this.reconnectDelayed();
       }
 
@@ -303,9 +303,7 @@ export class WaytradeEventStream {
   }
 
   /** Close connection and cleanup all resources. */
-  private shutdown(
-    closeCode?: number,
-    closeReason?: string): void {
+  private shutdown(closeCode?: number, closeReason?: string): void {
     if (this.reconnectTimeout) {
       clearTimeout(this.reconnectTimeout);
       delete this.reconnectTimeout;
