@@ -7,7 +7,6 @@ export enum WaytradeEventMessageType {
   Subscribe = "sub",
   SubscribeAck = "subAck",
   Unsubscribe = "unsub",
-  UnsubscribeAck = "unsubAck",
   Publish = "pub",
   Unpublish = "unpub",
 }
