@@ -35,3 +35,4 @@ Provides:
 update:
 
     $ yarn upgrade @waytrade/microservice-core@^
+    
