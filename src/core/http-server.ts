@@ -12,11 +12,11 @@ import {HttpError} from "./http-error";
 import {
   ControllerMetadata,
   CONTROLLER_METADATA,
-  MethodMetadata
+  MethodMetadata,
 } from "./metadata";
 import {
   MicroserviceWebsocketStream,
-  MicroserviceWebsocketStreamConfig
+  MicroserviceWebsocketStreamConfig,
 } from "./websocket-stream";
 
 /** URL query parameters. */
@@ -73,8 +73,13 @@ export class MicroserviceHttpServer {
   constructor(
     private readonly context: MicroserviceContext,
     private readonly controllers: MicroserviceComponentInstance[],
-    private readonly websocketConig: MicroserviceWebsocketStreamConfig | undefined,
-    private readonly verifyBearerToken: (token: string, scopes: string[]) => boolean
+    private readonly websocketConig:
+      | MicroserviceWebsocketStreamConfig
+      | undefined,
+    private readonly verifyBearerToken: (
+      token: string,
+      scopes: string[],
+    ) => boolean,
   ) {}
 
   /** The uWebSocket App. */
@@ -107,12 +112,7 @@ export class MicroserviceHttpServer {
       path = path.substr(0, i) + "*";
     }
     this.wsApp.post(path, (res, req) => {
-      this.handleRequest(
-        component,
-        method,
-        res,
-        req,
-      );
+      this.handleRequest(component, method, res, req);
     });
   }
 
@@ -127,12 +127,7 @@ export class MicroserviceHttpServer {
       path = path.substr(0, i) + "*";
     }
     this.wsApp.put(path, (res, req) => {
-      this.handleRequest(
-        component,
-        method,
-        res,
-        req,
-      );
+      this.handleRequest(component, method, res, req);
     });
   }
 
@@ -147,12 +142,7 @@ export class MicroserviceHttpServer {
       path = path.substr(0, i) + "*";
     }
     this.wsApp.get(path, (res, req) => {
-      this.handleRequest(
-        component,
-        method,
-        res,
-        req,
-      );
+      this.handleRequest(component, method, res, req);
     });
   }
 
@@ -167,12 +157,7 @@ export class MicroserviceHttpServer {
       path = path.substr(0, i) + "*";
     }
     this.wsApp.patch(path, (res, req) => {
-      this.handleRequest(
-        component,
-        method,
-        res,
-        req,
-      );
+      this.handleRequest(component, method, res, req);
     });
   }
 
@@ -187,12 +172,7 @@ export class MicroserviceHttpServer {
       path = path.substr(0, i) + "*";
     }
     this.wsApp.del(path, (res, req) => {
-      this.handleRequest(
-        component,
-        method,
-        res,
-        req,
-      );
+      this.handleRequest(component, method, res, req);
     });
   }
 
@@ -312,8 +292,12 @@ export class MicroserviceHttpServer {
       this.wsApp.options(
         "/*",
         (res: uWS.HttpResponse, req: uWS.HttpRequest) => {
+          const origin = req.getHeader("origin");
           res.writeStatus("204 No Content");
-          res.writeHeader("Access-Control-Allow-Origin", "*");
+          res.writeHeader(
+            "Access-Control-Allow-Origin",
+            origin == "" ? "*" : origin,
+          );
           res.writeHeader(
             "Access-Control-Allow-Methods",
             "GET, PUT, PATCH, POST, DELETE",
@@ -379,46 +363,22 @@ export class MicroserviceHttpServer {
     switch (method.method?.toLowerCase()) {
       case "get":
         if (method.websocket) {
-          this.registerWsRoute(
-            component,
-            method,
-            url,
-          );
+          this.registerWsRoute(component, method, url);
         } else {
-          this.registerGetRoute(
-            component,
-            method,
-            url,
-          );
+          this.registerGetRoute(component, method, url);
         }
         break;
       case "put":
-        this.registerPutRoute(
-          component,
-          method,
-          url,
-        );
+        this.registerPutRoute(component, method, url);
         break;
       case "post":
-        this.registerPostRoute(
-          component,
-          method,
-          url,
-        );
+        this.registerPostRoute(component, method, url);
         break;
       case "patch":
-        this.registerPatchRoute(
-          component,
-          method,
-          url,
-        );
+        this.registerPatchRoute(component, method, url);
         break;
       case "delete":
-        this.registerDeleteRoute(
-          component,
-          method,
-          url,
-        );
+        this.registerDeleteRoute(component, method, url);
         break;
     }
   }
