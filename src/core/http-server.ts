@@ -294,14 +294,17 @@ export class MicroserviceHttpServer {
         (res: uWS.HttpResponse, req: uWS.HttpRequest) => {
           const origin = req.getHeader("origin");
           res.writeStatus("204 No Content");
-          res.writeHeader(
-            "Access-Control-Allow-Origin",
-            origin == "" ? "*" : origin,
-          );
+          if (origin) {
+            res.writeHeader("Access-Control-Allow-Credentials", "true");
+            res.writeHeader("Access-Control-Allow-Origin", origin);
+          } else {
+            res.writeHeader("Access-Control-Allow-Origin", "*");
+          }
           res.writeHeader(
             "Access-Control-Allow-Methods",
             "GET, PUT, PATCH, POST, DELETE",
           );
+
           res.writeHeader(
             "Access-Control-Allow-Headers",
             req.getHeader("access-control-request-headers"),
